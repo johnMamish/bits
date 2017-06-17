@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+ #!/usr/bin/python3
 
 # This python script curates gifs of cute animals from reddit and displays them
 # in a constant rotation.
@@ -30,34 +30,56 @@
 # pip install --user pygame
 
 import praw
-import urlparse
+import urllib
 import math
 import os
-import urllib2
 import urllib
-
+import pickle
 
 ################################################################
 ###                      parameters                          ###
 ################################################################
 #subreddits = ['aww', 'Awwducational', 'AnimalsBeingBros', 'babyelephantgifs', 'corgi', 'CorgiGifs', 'raccoongifs']
-subreddits = ['aww', 'AnimalsBeingBros', 'babyelephantgifs', 'corgi', 'CorgiGifs', 'raccoongifs']
+#subreddits = ['aww', 'AnimalsBeingBros', 'babyelephantgifs', 'corgi', 'CorgiGifs', 'raccoongifs']
+
+subreddits = ['aww', 'AnimalsBeingBros', 'babyelephantgifs']
 
 #mean_words = ['kill', 'killing', 'die', 'dead', 'death', 'mortality', 'worst']
 
 trawl_size = 10
 seconds_between_trawls = 60 * 60
 
-
 reddit = praw.Reddit(client_id='p7QMzeqyCCyeUw',
                      client_secret='hkagKzQIJTV2w_4Ab5cJwKyytCU',
                      user_agent='ubuntu:cute-gif-box:v0')
 
+################################################################
+###                      "typedefs"                          ###
+################################################################
+class gif_metadata:
+    def __init__(self):
+        self.submission = None
+
+################################################################
+###                      functions                           ###
+################################################################
 def get_score(submission):
     return submission.score
 
+def get_indexed_filename(directory, i):
+    result = ""
+    for f in os.listdir(directory):
+        #check to make sure that it's a file and it's a gif
+        if(os.path.isfile(os.path.join(directory, f)) and (f.rsplit(".", 1)[-1] == "gif")):
+            if(int(f[0:4]) == i):
+                if(result == ""):
+                    result = f.rsplit(".", 1)[0]
+                else:
+                    print("[ERROR] - file with index %i exists twice"%i)
+    return os.path.join(directory, result)
+
 def is_it_an_imgur_gif(submission):
-    o = urlparse.urlparse(submission.url)
+    o = urllib.parse.urlparse(submission.url)
     try:
         host = o.netloc.split(".", 1)[-1].split(".", 1)[0]
         ext = o.path.split(".", 1)[-1]
@@ -86,9 +108,9 @@ def get_top_gifs(subreddits):
 def get_gif_size(url):
     if(url.rsplit(".", 1)[1] == "gifv"):
         url = url[:-1]
-    f = urllib.urlopen(url)
+    f = urllib.request.urlopen(url)
     meta = f.info()
-    content_length = meta.getheaders("Content-Length")[0]
+    content_length = meta.get("Content-Length")[0]
     return int(content_length)
 
 def cull_existing(d, candidates):
@@ -96,11 +118,11 @@ def cull_existing(d, candidates):
     extant = [f for f in os.listdir(d) if (os.path.isfile(os.path.join(d, f)) and (f.rsplit(".", 1))[-1] == "gif")]
     extant_hashes = []
     for e in extant:
-        extant_hashes.append(e.rsplit(".", 1)[0])
+        extant_hashes.append(e.rsplit(".", 1)[0].split("-", 1)[1])
 
     new_ones = []
     for c in candidates:
-        imgur_hash_c = urlparse.urlparse(c.url).path
+        imgur_hash_c = urllib.parse.urlparse(c.url).path
         imgur_hash_c = imgur_hash_c.rsplit(".", 1)[0].rsplit("/", 1)[1]
         already_there = False
         for e in extant_hashes:
@@ -121,18 +143,56 @@ def cull_too_big(maxsize, candidates, maxresults):
             break
     return new_ones
 
-def get_new(d, subreddits):
+#make sure to set cb_head = return value of this function
+def get_new(d, subreddits, cb_head, number):
     #find candidates, sort, reject existing, and ones that are too big
     candidates = get_top_gifs(subreddits)
     candidates = sorted(candidates, key=get_score, reverse=True)
     candidates = cull_existing(d, candidates);
-    candidates = cull_too_big(50000000, candidates, 20)
+    candidates = cull_too_big(50000000, candidates, number)
+#    for c in candidates:
+#        s = c.title
+#        print("%s - url = %s,  %i upvotes, %s bytes"%(s, c.url, c.score, get_gif_size(c.url)))
+
+    #download all of the specified files into directory d and construct and
+    #serialize metadata
     for c in candidates:
-        s = c.title
-        print("%s - url = %s,  %i upvotes, %s bytes"%(s, c.url, c.score, get_gif_size(c.url)))
+        gif_url = c.url
+        if(gif_url.rsplit(".", 1)[1] == "gifv"):
+            gif_url = gif_url[:-1]
+        if(gif_url.rsplit(".", 1)[1] != "gif"):
+            print("url %s, title %s not a gif"%(gif_url, c.title))
+            continue
 
-    #xxx todo get file size before download
+        gif_name = gif_url.rsplit("/", 1)[1]
+        gif_name = os.path.join(d, str(cb_head).zfill(4) + "-" + gif_name)
+        print("downloading url %s, title \"%s\" to %s"%(gif_url, c.title, gif_name))
+        try:
+            oldname = get_indexed_filename(d, cb_head)
+            urllib.request.urlretrieve(gif_url, gif_name)
 
+            #if we successfully got a new file, we should delete the old gif in
+            #"slot" number cb_head and increment cb_head
+            if(oldname != ""):
+                print("deleting gif %s"%oldname)
+                os.remove(oldname + ".gif")
+                os.remove(oldname + ".pickle")
+
+            #make a new pickle file
+            met = gif_metadata()
+            met.submission = c
+            pickle.dump(met, open(gif_name.rsplit(".", 1)[0] + ".pickle", "wb"))
+            cb_head = cb_head + 1
+
+        except IOError:
+            print("failed to get gif url %s, title %s"%(gif_url, c.title))
+
+    return cb_head
+
+################################################################
+###                      main                                ###
+################################################################
 
 if __name__ == "__main__":
-    get_new(".", subreddits)
+    cb_head = 10
+    get_new("/home/johnmamish/Documents/bits/box_of_cute/gifdir", subreddits, cb_head, 10)
