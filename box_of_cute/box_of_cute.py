@@ -28,6 +28,10 @@
 # requires praw and pygame
 # pip install --user praw
 # pip install --user pygame
+#
+# sudo apt install python-imaging
+
+# also need gifsicleX
 
 import praw
 import urllib
@@ -35,6 +39,9 @@ import math
 import os
 import urllib
 import pickle
+import threading
+import subprocess
+import traceback
 
 ################################################################
 ###                      parameters                          ###
@@ -53,12 +60,17 @@ reddit = praw.Reddit(client_id='p7QMzeqyCCyeUw',
                      client_secret='hkagKzQIJTV2w_4Ab5cJwKyytCU',
                      user_agent='ubuntu:cute-gif-box:v0')
 
+directory = "/home/johnmamish/Documents/bits/box_of_cute/gifdir"
+total_gifs = 100
+max_size = 40000000
+
 ################################################################
 ###                      "typedefs"                          ###
 ################################################################
 class gif_metadata:
     def __init__(self):
         self.submission = None
+
 
 ################################################################
 ###                      functions                           ###
@@ -110,7 +122,7 @@ def get_gif_size(url):
         url = url[:-1]
     f = urllib.request.urlopen(url)
     meta = f.info()
-    content_length = meta.get("Content-Length")[0]
+    content_length = f.getheader("Content-length")
     return int(content_length)
 
 def cull_existing(d, candidates):
@@ -137,10 +149,15 @@ def cull_existing(d, candidates):
 def cull_too_big(maxsize, candidates, maxresults):
     new_ones = []
     for c in candidates:
-        if(get_gif_size(c.url) <= maxsize):
-            new_ones.append(c)
-        if(len(new_ones) > maxresults):
-            break
+        try:
+            s = get_gif_size(c.url)
+            print("url: %s, title: \"%s\", size:%i"%(c.url.ljust(40), c.title.ljust(70), s))
+            if(get_gif_size(c.url) <= maxsize):
+                new_ones.append(c)
+            if(len(new_ones) > maxresults):
+                break
+        except:
+            pass
     return new_ones
 
 #make sure to set cb_head = return value of this function
@@ -150,9 +167,6 @@ def get_new(d, subreddits, cb_head, number):
     candidates = sorted(candidates, key=get_score, reverse=True)
     candidates = cull_existing(d, candidates);
     candidates = cull_too_big(50000000, candidates, number)
-#    for c in candidates:
-#        s = c.title
-#        print("%s - url = %s,  %i upvotes, %s bytes"%(s, c.url, c.score, get_gif_size(c.url)))
 
     #download all of the specified files into directory d and construct and
     #serialize metadata
@@ -170,13 +184,17 @@ def get_new(d, subreddits, cb_head, number):
         try:
             oldname = get_indexed_filename(d, cb_head)
             urllib.request.urlretrieve(gif_url, gif_name)
+            #subprocess.call("gifsicle --loopcount=1 --batch " + gif_name)
 
             #if we successfully got a new file, we should delete the old gif in
             #"slot" number cb_head and increment cb_head
-            if(oldname != ""):
-                print("deleting gif %s"%oldname)
-                os.remove(oldname + ".gif")
-                os.remove(oldname + ".pickle")
+            try:
+                if(oldname != ""):
+                    print("deleting gif %s"%oldname)
+                    os.remove(oldname + ".gif")
+                    os.remove(oldname + ".pickle")
+            except FileNotFoundError:
+                pass
 
             #make a new pickle file
             met = gif_metadata()
@@ -186,6 +204,7 @@ def get_new(d, subreddits, cb_head, number):
 
         except IOError:
             print("failed to get gif url %s, title %s"%(gif_url, c.title))
+            traceback.print_exc()
 
     return cb_head
 
@@ -195,4 +214,4 @@ def get_new(d, subreddits, cb_head, number):
 
 if __name__ == "__main__":
     cb_head = 10
-    get_new("/home/johnmamish/Documents/bits/box_of_cute/gifdir", subreddits, cb_head, 10)
+    get_new(directory, subreddits, cb_head, 10)
