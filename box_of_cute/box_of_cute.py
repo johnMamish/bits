@@ -30,7 +30,7 @@
 #
 # sudo apt install python-imaging
 
-# also need gifsicleX
+# also need gifsicle.  sudo apt install gifsicle
 
 import praw
 import urllib
@@ -69,7 +69,7 @@ max_size = 40000000
 class gif_metadata:
     def __init__(self):
         self.submission = None
-
+        self.title = ""
 
 ################################################################
 ###                      functions                           ###
@@ -164,7 +164,7 @@ def get_new(d, subreddits, cb_head, number):
     #find candidates, sort, reject existing, and ones that are too big
     candidates = get_top_gifs(subreddits)
     candidates = sorted(candidates, key=get_score, reverse=True)
-    candidates = cull_existing(d, candidates);
+    #candidates = cull_existing(d, candidates);
     candidates = cull_too_big(50000000, candidates, number)
 
     #download all of the specified files into directory d and construct and
@@ -198,6 +198,7 @@ def get_new(d, subreddits, cb_head, number):
             #make a new pickle file
             met = gif_metadata()
             met.submission = c
+            met.title = c.title
             pickle.dump(met, open(gif_name.rsplit(".", 1)[0] + ".pickle", "wb"))
             cb_head = cb_head + 1
 
