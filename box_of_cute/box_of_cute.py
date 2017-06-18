@@ -27,7 +27,6 @@
 #
 # requires praw and pygame
 # pip install --user praw
-# pip install --user pygame
 #
 # sudo apt install python-imaging
 
@@ -61,7 +60,7 @@ reddit = praw.Reddit(client_id='p7QMzeqyCCyeUw',
                      user_agent='ubuntu:cute-gif-box:v0')
 
 directory = "/home/johnmamish/Documents/bits/box_of_cute/gifdir"
-total_gifs = 100
+total_gifs = 10
 max_size = 40000000
 
 ################################################################
@@ -184,7 +183,7 @@ def get_new(d, subreddits, cb_head, number):
         try:
             oldname = get_indexed_filename(d, cb_head)
             urllib.request.urlretrieve(gif_url, gif_name)
-            #subprocess.call("gifsicle --loopcount=1 --batch " + gif_name)
+            subprocess.call(["gifsicle", "--loopcount=1", "--batch", gif_name])
 
             #if we successfully got a new file, we should delete the old gif in
             #"slot" number cb_head and increment cb_head
