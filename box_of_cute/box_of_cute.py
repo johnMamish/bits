@@ -145,12 +145,23 @@ def cull_existing(d, candidates):
 
     return new_ones
 
+def gif_already_downloaded(d):
+    #strip unique imgur hash from path
+    foo = path.rsplit(".", 1)[0].rsplit("-", 1)[1]
+    extant = [f for f in os.listdir(d) if (os.path.isfile(os.path.join(d, f)) and (f.rsplit(".", 1))[-1] == "gif")]
+    for e in extant:
+        h = e.rsplit(".", 1)[0].split("-", 1)[1]
+        if(foo == h):
+            return True
+    return False
+
+
 def cull_too_big(maxsize, candidates, maxresults):
     new_ones = []
     for c in candidates:
         try:
             s = get_gif_size(c.url)
-            print("url: %s, title: \"%s\", size:%i"%(c.url.ljust(40), c.title.ljust(70), s))
+            print("url: %s, title: \"%s\", size:%i, upvotes:%i"%(c.url.ljust(40), c.title.ljust(70), s, c.score))
             if(get_gif_size(c.url) <= maxsize):
                 new_ones.append(c)
             if(len(new_ones) > maxresults):
@@ -179,18 +190,22 @@ def get_new(d, subreddits, cb_head, number):
 
         gif_name = gif_url.rsplit("/", 1)[1]
         gif_name = os.path.join(d, str(cb_head).zfill(4) + "-" + gif_name)
-        print("downloading url %s, title \"%s\" to %s"%(gif_url, c.title, gif_name))
+
         try:
+            print("Downloading %s to %s"%(c.title, gif_name))
             oldname = get_indexed_filename(d, cb_head)
             urllib.request.urlretrieve(gif_url, gif_name)
+            mp4_name = gif_name.rsplit(".", 1)[0] + ".mp4"
             subprocess.call(["gifsicle", "--loopcount=1", "--batch", gif_name])
+            subprocess.call(["ffmpeg", "-f", "gif", "-y", "-i", gif_name, mp4_name])
+            os.remove(gif_name)
 
             #if we successfully got a new file, we should delete the old gif in
             #"slot" number cb_head and increment cb_head
             try:
-                if(oldname != ""):
-                    print("deleting gif %s"%oldname)
-                    os.remove(oldname + ".gif")
+                if((oldname != "") and (oldname != gif_name.rsplit(".", 1)[0])):
+                    print("deleting gif %s"%(oldname + ".mp4"))
+                    os.remove(oldname + ".mp4")
                     os.remove(oldname + ".pickle")
             except FileNotFoundError:
                 pass

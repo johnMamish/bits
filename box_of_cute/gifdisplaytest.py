@@ -17,6 +17,14 @@ import os
 import box_of_cute
 import datetime
 import pickle
+import re
+
+non_decimal = re.compile(r'[^\d.]+')
+
+def get_image_dims(f):
+    s = subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "stream=width,height", "-of", "default=noprint_wrappers=1", f])
+    s = s.splitlines()
+    return (int(non_decimal.sub('', str(s[0]))), int(non_decimal.sub('', str(s[1]))))
 
 def scale(original, constraint):
     scalefactor = 1
@@ -40,12 +48,12 @@ def scale(original, constraint):
 
     return (float(original[0]) * scalefactor, float(original[1]) * scalefactor)
 
-def grab_random_gif(d):
-    extant = [f for f in os.listdir(d) if (os.path.isfile(os.path.join(d, f)) and (f.rsplit(".", 1))[-1] == "gif")]
+def grab_random_mp4(d):
+    extant = [f for f in os.listdir(d) if (os.path.isfile(os.path.join(d, f)) and (f.rsplit(".", 1))[-1] == "mp4")]
     t = random.randint(0, len(extant) - 1)
-    gifpath = os.path.join(d, extant[t])
+    mp4path = os.path.join(d, extant[t])
     picklepath = os.path.join(d, (extant[t].rsplit(".", 1)[0] + ".pickle"))
-    return (gifpath, picklepath)
+    return (mp4path, picklepath)
 
 class cssden(QMainWindow):
     def __init__(self):
@@ -63,7 +71,10 @@ class cssden(QMainWindow):
         self.setFixedSize(self.TOTAL_WIDTH, self.TOTAL_HEIGHT)
         self.center()
 
-        #initialize qlabel for gif
+        self.lasttime = datetime.datetime.now()
+        self.i = 0
+
+        #initialize qlabel for mp4
         self.moviee = QLabel(self)
 
         #initialize qlabel for title
@@ -73,25 +84,23 @@ class cssden(QMainWindow):
         self.title.setGeometry(50, 420, 700, 60)
         self.title.show()
 
-        #load first gif
-        self.load_new_random_gif()
+        #load first mp4
+        self.load_new_random_mp4()
 
         self.show()
-        self.lasttime = datetime.datetime.now()
-        self.i = 0
 
 
-    def handle_gif_over(self):
+    def handle_mp4_over(self):
         self.i = self.i + 1
-        if(self.i > 10):
+        if(self.i > 2):
             self.title.setText("Please wait... loading more adorable gifs")
             box_of_cute.get_new(box_of_cute.directory, box_of_cute.subreddits, 0, box_of_cute.total_gifs)
             self.i = 0
-            #if(self.time_to_reload_gifs()):
+            #if(self.time_to_reload_mp4s()):
         #    box_of_cute.get_new(box_of_cute.directory, box_of_cute.subreddits, 0, box_of_cute.total_gifs)
         #    self.lasttime = datetime.datetime.now()
 
-        self.load_new_random_gif()
+        self.load_new_random_mp4()
 
     #center of the screen
     def center(self):
@@ -100,30 +109,30 @@ class cssden(QMainWindow):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
-    def time_to_reload_gifs(self):
+    def time_to_reload_mp4s(self):
         dtnow = datetime.datetime.now()
         tomorrow = self.lasttime + datetime.timedelta(days=1)
         return ((dtnow.year == tomorrow.year) and
                 (dtnow.month == tomorrow.month) and
                 (dtnow.day == tomorrow.day) and (dtnow.hour > 3))
 
-    def load_new_random_gif(self):
-        (f, metap) = grab_random_gif(box_of_cute.directory)
+    def load_new_random_mp4(self):
+        (f, metap) = grab_random_mp4(box_of_cute.directory)
         meta = pickle.load(open(metap, "rb"))
-        im = Image.open(f)
-        size = im.size
-        tsize = scale(im.size, (self.V_WIDTH, self.V_HEIGHT))
+        size = get_image_dims(f)
+        tsize = scale(size, (self.V_WIDTH, self.V_HEIGHT))
         self.movie = QtGui.QMovie(f)
         self.moviee.setMovie(self.movie)
         self.moviee.setGeometry((self.V_WIDTH - (tsize[0])) / 2.0, (self.V_HEIGHT - tsize[1]) / 2.0, tsize[0], tsize[1])
-        self.movie.finished.connect(self.handle_gif_over)
+        self.movie.finished.connect(self.handle_mp4_over)
         qs = QSize()
         qs.setHeight(tsize[1])
         qs.setWidth(tsize[0])
         self.movie.setScaledSize(qs)
-        print("size = %u, %u, scaled = %u, %u, loops = %i"%(im.size[0], im.size[1], tsize[0], tsize[1], self.movie.loopCount()))
+        print("size = %u, %u, scaled = %u, %u, loops = %i"%(size[0], size[1], tsize[0], tsize[1], self.movie.loopCount()))
         self.movie.start()
         self.title.setText("<span style=\" font-size:16pt; font-weight:600; color:#a0a0a0;\">" + meta.title + "</span>")
+        print("started movie")
 
 
 
