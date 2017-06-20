@@ -26,6 +26,6 @@ typedef struct usb_qualifier
     char* manu_descriptor;
 } usb_qualifier_t;
 
-int matchup_usb(usb_qualifier_t*, int, char**);
+int matchup_usb(usb_qualifier_t*, int, char***);
 
 #endif
