@@ -62,7 +62,7 @@ int str_to_matfun(matfun_t* mat, const char* str)
                 if(dptr == mat->cap)
                 {
                     mat->cap *= 2;
-                    realloc(mat->mat, mat->cap);
+                    mat->mat = realloc(mat->mat, mat->cap * sizeof(double));
                 }
             }
 
@@ -71,7 +71,7 @@ int str_to_matfun(matfun_t* mat, const char* str)
             {
                 mat->rows++;
                 if(mat->cols == -1)
-                    mat->cols = colcount;
+                     mat->cols = colcount;
                 else
                 {
                     if(mat->cols != colcount)

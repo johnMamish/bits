@@ -1,5 +1,6 @@
 #include "utils.h"
 #include <stdlib.h>
+#include <string.h>
 
 matfun_t* matfun_alloc(int rows, int cols, matfun_error_t* error)
 {
@@ -25,6 +26,16 @@ void matfun_destroy(matfun_t* m)
 {
     free(m->mat);
     free(m);
+}
+
+matfun_t* matfun_dup(const matfun_t* in, matfun_error_t* error)
+{
+    matfun_t* dup = matfun_alloc(in->rows, in->cols, error);
+    if(error->ecode != MATFUN_ERROR_NO_ERROR)
+        return NULL;
+
+    memcpy(dup->mat, in->mat, sizeof(double) * in->rows * in->cols);
+    return dup;
 }
 
 /**

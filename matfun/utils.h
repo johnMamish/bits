@@ -15,6 +15,10 @@
 
 #define MATFUN_ACCESS(m, i, j) ((m)->mat[((i)*(m)->cols) + (j)])
 
+matfun_t* matfun_alloc(int, int, matfun_error_t*);
+void matfun_destroy(matfun_t*);
+matfun_t* matfun_dup(const matfun_t*, matfun_error_t*);
+
 double matfun_trace(const matfun_t*, matfun_error_t*);
 matfun_t* matfun_multiply_and_dup(const matfun_t*, const matfun_t*, matfun_error_t*);
 

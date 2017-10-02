@@ -22,5 +22,9 @@ int main(int argc, char** argv)
     printf("multiplied:\r\n");
     print_matfun(mul);
 
+    printf("accessing multiplied[2, 2] gives %lf\r\n"
+           "accessing multiplied[0, 2] gives %lf\r\n",
+           MATFUN_ACCESS(mul, 2, 2), MATFUN_ACCESS(mul, 0, 2));
+
     return 0;
 }
