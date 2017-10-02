@@ -9,6 +9,11 @@ static int is_part_of_num(char c)
 
 /**
  * assumes that "mat" is not initialized.
+ *
+ * [[1 2 3] [4 5 6]] gives the matrix
+ *
+ * [ 1  2  3 ]
+ * [ 4  5  6 ]
  */
 int str_to_matfun(matfun_t* mat, const char* str)
 {

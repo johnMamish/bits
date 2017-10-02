@@ -3,6 +3,7 @@
 #include "echelon.h"
 #include "matfun.h"
 
+#if 0
 typedef struct arg_fp
 {
     const char* arg;
@@ -15,10 +16,11 @@ arg_fp_t options[] =
     {"eigen", NULL},
     {"echelon", echelon_process_string}
 };
+#endif
 
 int main(int argc, char** argv)
 {
-    #if 1
+    #if 0
     int match = 0;
     for(int i = 0; (i < (sizeof(options) / sizeof(options[0]))) && !match; i++)
     {
