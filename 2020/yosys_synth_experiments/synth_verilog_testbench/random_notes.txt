@@ -1,0 +1,7 @@
+I think that (* force_downto *) is an attribute that's related to the bit-direction ("upto / downto") of the following logical element
+
+e.g.
+  wire [3:0] counter_SB_DFFSR_Q_D_SB_LUT4_O_I0;
+  (* force_downto = 32'd1 *)
+  (* src = "counter.v:24.28-24.42|/usr/local/bin/../share/yosys/ice40/arith_map.v:51.21-51.22" *)
+  wire [7:0] counter_SB_DFFSR_Q_D_SB_LUT4_O_I3;

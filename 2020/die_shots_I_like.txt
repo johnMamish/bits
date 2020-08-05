@@ -1,0 +1,20 @@
+https://s.zeptobars.com/A4821EB-top-HD.jpg
+This one is a die shot from a late 70s handheld blackjack game. The individual transistors are hard to make out, but it's real pretty, and some of the connections can be easily followed.
+
+https://s.zeptobars.com/MN3102-HD.jpg?2
+Oscillator
+
+http://visual6502.org/images/RP2C02/NES_RP2C02_G_8F1_1B_20x_6500w.jpg
+NES PPU. Note that this has visual6502 watermark on bottom, so it's not appropriate to print as a picture.
+
+https://www.qmtpro.com/~nes/chipimages/images/vrc7_check.jpg
+Beutiful NES CPU die shot, but with purple marker on it.
+
+https://s.zeptobars.com/UMC-UA6538-3-HD.jpg
+NES PPU clone
+
+http://www.visual6502.org/images/6502/6502_top_op10x_BF_4677.png
+6502
+
+Bunch of cool shit in here from MIT VLSI classes that Lynn Conway taught
+    https://ai.eecs.umich.edu/people/conway/VLSI/

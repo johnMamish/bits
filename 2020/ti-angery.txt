@@ -1,0 +1,20 @@
+/**
+ * I wrote this letter to TI when I found out that they had removed support from their calculators for assembly language programming.
+ */
+
+Hi,
+
+A of couple years ago I started my PhD in computer engineering. My area of specialization is embedded systems and computer architecture, so I find myself using TI chips in my projects. In the past, I've designed commercial products that use TI parts, and in the future I'll probably design more commercial products that use TI parts.
+
+All of this is to say that your decision to remove support for assembly language programs on your TI calculators will severely hurt computer science education for many. When I was in high school, programming my TI-84 in assembly language was a critical step for me in my computer engineering education. It introduced me to basic topics in computer architecture and challenged me in unique ways. If it weren't for assembly language programming on my TI-84, it is likely I would probably be in a different career.
+
+TI has some self-interest in this as well. It's been years since I was involved in that particular hobbyist community, but it set me on a path that has put me in a position to design consumer electronics that are mass-produced. I often use TI parts because of the quality of your datasheets and your history in semiconductor innovation. By removing assembly language functionality from your calculators, you're disrupting a part of the engineering education pipeline that supplies engineers that go on to use your semiconductor projects to make life-changing products.
+
+I know TI has said that they want to double-down on Python support in lieu of assembly language support, but programming calculators in Python is unrelated to the computer architecture topics that assembly language programming teaches. There is a complete overload of good Python self-teaching materials, but basically none for self-teaching computer architecture and assembly language.
+
+TI is taking away an important tool that kids have been using to teach themselves a difficult to learn concept. I urge your organization to rethink this decision.
+
+Thanks for your consideration. I look forward to hearing back from you.
+
+Best,
+John

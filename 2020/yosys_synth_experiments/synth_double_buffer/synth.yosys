@@ -1,0 +1,5 @@
+read_verilog ice40_ebr.v self_convolve.v
+
+synth_ice40 -top self_convolve
+
+write_verilog self_convolve_synth.v

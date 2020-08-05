@@ -1,0 +1,7 @@
+read_verilog counter.v
+
+synth_ice40 -top counter
+
+rename -top counter_synth
+
+write_verilog counter_synth.v
