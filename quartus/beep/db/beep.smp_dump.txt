@@ -1,0 +1,42 @@
+
+State Machine - |beep|wm_setter_upper:init|i2c_master:i2c_master|phy_state_reg
+Name phy_state_reg.PHY_STATE_STOP_3 phy_state_reg.PHY_STATE_STOP_2 phy_state_reg.PHY_STATE_STOP_1 phy_state_reg.PHY_STATE_READ_BIT_4 phy_state_reg.PHY_STATE_READ_BIT_3 phy_state_reg.PHY_STATE_READ_BIT_2 phy_state_reg.PHY_STATE_READ_BIT_1 phy_state_reg.PHY_STATE_WRITE_BIT_3 phy_state_reg.PHY_STATE_WRITE_BIT_2 phy_state_reg.PHY_STATE_WRITE_BIT_1 phy_state_reg.PHY_STATE_START_2 phy_state_reg.PHY_STATE_START_1 phy_state_reg.PHY_STATE_REPEATED_START_2 phy_state_reg.PHY_STATE_REPEATED_START_1 phy_state_reg.PHY_STATE_ACTIVE phy_state_reg.PHY_STATE_IDLE 
+phy_state_reg.PHY_STATE_IDLE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+phy_state_reg.PHY_STATE_ACTIVE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+phy_state_reg.PHY_STATE_REPEATED_START_1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+phy_state_reg.PHY_STATE_REPEATED_START_2 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+phy_state_reg.PHY_STATE_START_1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+phy_state_reg.PHY_STATE_START_2 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+phy_state_reg.PHY_STATE_WRITE_BIT_1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+phy_state_reg.PHY_STATE_WRITE_BIT_2 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+phy_state_reg.PHY_STATE_WRITE_BIT_3 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+phy_state_reg.PHY_STATE_READ_BIT_1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+phy_state_reg.PHY_STATE_READ_BIT_2 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+phy_state_reg.PHY_STATE_READ_BIT_3 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+phy_state_reg.PHY_STATE_READ_BIT_4 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+phy_state_reg.PHY_STATE_STOP_1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+phy_state_reg.PHY_STATE_STOP_2 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+phy_state_reg.PHY_STATE_STOP_3 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |beep|wm_setter_upper:init|i2c_master:i2c_master|state_reg
+Name state_reg.STATE_STOP state_reg.STATE_READ state_reg.STATE_WRITE_3 state_reg.STATE_WRITE_2 state_reg.STATE_WRITE_1 state_reg.STATE_ADDRESS_2 state_reg.STATE_ADDRESS_1 state_reg.STATE_START state_reg.STATE_START_WAIT state_reg.STATE_ACTIVE_READ state_reg.STATE_ACTIVE_WRITE state_reg.STATE_IDLE 
+state_reg.STATE_IDLE 0 0 0 0 0 0 0 0 0 0 0 0 
+state_reg.STATE_ACTIVE_WRITE 0 0 0 0 0 0 0 0 0 0 1 1 
+state_reg.STATE_ACTIVE_READ 0 0 0 0 0 0 0 0 0 1 0 1 
+state_reg.STATE_START_WAIT 0 0 0 0 0 0 0 0 1 0 0 1 
+state_reg.STATE_START 0 0 0 0 0 0 0 1 0 0 0 1 
+state_reg.STATE_ADDRESS_1 0 0 0 0 0 0 1 0 0 0 0 1 
+state_reg.STATE_ADDRESS_2 0 0 0 0 0 1 0 0 0 0 0 1 
+state_reg.STATE_WRITE_1 0 0 0 0 1 0 0 0 0 0 0 1 
+state_reg.STATE_WRITE_2 0 0 0 1 0 0 0 0 0 0 0 1 
+state_reg.STATE_WRITE_3 0 0 1 0 0 0 0 0 0 0 0 1 
+state_reg.STATE_READ 0 1 0 0 0 0 0 0 0 0 0 1 
+state_reg.STATE_STOP 1 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |beep|wm_setter_upper:init|i2c_init:i2c_init|state_reg
+Name state_reg.STATE_TABLE_2 state_reg.STATE_TABLE_1 state_reg.STATE_RUN state_reg.STATE_IDLE state_reg.STATE_TABLE_3 
+state_reg.STATE_IDLE 0 0 0 0 0 
+state_reg.STATE_RUN 0 0 1 1 0 
+state_reg.STATE_TABLE_1 0 1 0 1 0 
+state_reg.STATE_TABLE_2 1 0 0 1 0 
+state_reg.STATE_TABLE_3 0 0 0 1 1 

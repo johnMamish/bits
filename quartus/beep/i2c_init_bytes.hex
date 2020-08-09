@@ -1,0 +1,16 @@
+// write to i2c peripheral address 0x1a, register 7'h2b, value 9'h15a (see page 46 of WM8731 datasheet)
+// 09a 157 15a 041   (0101011 1 01011010)
+
+// page 61 has a recommended power up sequence
+09a 10c 110 041    // turn off all 'powerdown' bits except "line output power down"
+
+09a 108 110 041    // Analog audio path control <= 0x010
+09a 10a 100 041    // Digital audio path control <= 0x000; turn off DAC soft mute
+//09a 10e 102 041    // Digital audio interface format <= 0x002; i2s with 16-bit numbers
+09a 112 101 041    // activate interface
+
+09a 10c 100 041    // turn off "line output power down" bit
+
+//
+
+000

@@ -1,0 +1,125 @@
+------------------------------------------------------------
+TimeQuest Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow Model Setup 'clk_12_5'
+Slack : -9.127
+TNS   : -793.815
+
+Type  : Slow Model Setup 'i2s:i2s|LRCK'
+Slack : -4.552
+TNS   : -558.377
+
+Type  : Slow Model Setup 'nes_controller_reader:reader|divide_by_n:div|counter[6]'
+Slack : -3.187
+TNS   : -59.277
+
+Type  : Slow Model Setup 'divider_25'
+Slack : 0.951
+TNS   : 0.000
+
+Type  : Slow Model Setup 'CLOCK_50'
+Slack : 1.997
+TNS   : 0.000
+
+Type  : Slow Model Hold 'clk_12_5'
+Slack : -2.033
+TNS   : -8.300
+
+Type  : Slow Model Hold 'CLOCK_50'
+Slack : -1.727
+TNS   : -1.727
+
+Type  : Slow Model Hold 'divider_25'
+Slack : -0.681
+TNS   : -0.681
+
+Type  : Slow Model Hold 'nes_controller_reader:reader|divide_by_n:div|counter[6]'
+Slack : 0.391
+TNS   : 0.000
+
+Type  : Slow Model Hold 'i2s:i2s|LRCK'
+Slack : 0.768
+TNS   : 0.000
+
+Type  : Slow Model Minimum Pulse Width 'CLOCK_50'
+Slack : -1.380
+TNS   : -2.380
+
+Type  : Slow Model Minimum Pulse Width 'i2s:i2s|LRCK'
+Slack : -0.500
+TNS   : -241.000
+
+Type  : Slow Model Minimum Pulse Width 'clk_12_5'
+Slack : -0.500
+TNS   : -218.000
+
+Type  : Slow Model Minimum Pulse Width 'nes_controller_reader:reader|divide_by_n:div|counter[6]'
+Slack : -0.500
+TNS   : -25.000
+
+Type  : Slow Model Minimum Pulse Width 'divider_25'
+Slack : -0.500
+TNS   : -1.000
+
+Type  : Fast Model Setup 'clk_12_5'
+Slack : -3.719
+TNS   : -249.576
+
+Type  : Fast Model Setup 'i2s:i2s|LRCK'
+Slack : -1.615
+TNS   : -137.753
+
+Type  : Fast Model Setup 'nes_controller_reader:reader|divide_by_n:div|counter[6]'
+Slack : -1.275
+TNS   : -21.858
+
+Type  : Fast Model Setup 'divider_25'
+Slack : 0.774
+TNS   : 0.000
+
+Type  : Fast Model Setup 'CLOCK_50'
+Slack : 1.354
+TNS   : 0.000
+
+Type  : Fast Model Hold 'clk_12_5'
+Slack : -1.279
+TNS   : -6.798
+
+Type  : Fast Model Hold 'CLOCK_50'
+Slack : -0.974
+TNS   : -0.974
+
+Type  : Fast Model Hold 'divider_25'
+Slack : -0.394
+TNS   : -0.394
+
+Type  : Fast Model Hold 'nes_controller_reader:reader|divide_by_n:div|counter[6]'
+Slack : 0.215
+TNS   : 0.000
+
+Type  : Fast Model Hold 'i2s:i2s|LRCK'
+Slack : 0.355
+TNS   : 0.000
+
+Type  : Fast Model Minimum Pulse Width 'CLOCK_50'
+Slack : -1.380
+TNS   : -2.380
+
+Type  : Fast Model Minimum Pulse Width 'i2s:i2s|LRCK'
+Slack : -0.500
+TNS   : -241.000
+
+Type  : Fast Model Minimum Pulse Width 'clk_12_5'
+Slack : -0.500
+TNS   : -218.000
+
+Type  : Fast Model Minimum Pulse Width 'nes_controller_reader:reader|divide_by_n:div|counter[6]'
+Slack : -0.500
+TNS   : -25.000
+
+Type  : Fast Model Minimum Pulse Width 'divider_25'
+Slack : -0.500
+TNS   : -1.000
+
+------------------------------------------------------------

@@ -1,0 +1,9 @@
+module blink(input    CLOCK_50,
+				 output   blink[23]);
+    reg [23:0] blink;
+	 
+	 always @(posedge CLOCK_50) begin
+	     blink <= blink + 24'h1;
+	 end
+				 
+endmodule
