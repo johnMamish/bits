@@ -1,0 +1,693 @@
+Analysis & Synthesis report for pitchshift
+Mon Aug 10 10:29:16 2020
+Quartus II 32-bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. State Machine - |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg
+  9. State Machine - |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg
+ 10. State Machine - |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg
+ 11. Registers Removed During Synthesis
+ 12. Removed Registers Triggering Further Register Optimizations
+ 13. General Register Statistics
+ 14. Inverted Register Statistics
+ 15. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 16. Parameter Settings for User Entity Instance: divide_by_n:clk_12_5_divider
+ 17. Parameter Settings for User Entity Instance: resetter:resetter
+ 18. Parameter Settings for User Entity Instance: wm_setter_upper:wm8731_init|i2c_init:i2c_init
+ 19. Parameter Settings for User Entity Instance: wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse
+ 20. Parameter Settings for User Entity Instance: nes_controller_reader:controller_reader|divide_by_n:div
+ 21. Parameter Settings for User Entity Instance: i2s:i2s|divide_by_n:div_256
+ 22. Port Connectivity Checks: "i2s:i2s"
+ 23. Port Connectivity Checks: "wm_setter_upper:wm8731_init|i2c_master:i2c_master"
+ 24. Port Connectivity Checks: "wm_setter_upper:wm8731_init|i2c_init:i2c_init"
+ 25. Elapsed Time Per Partition
+ 26. Analysis & Synthesis Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++--------------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                         ;
++------------------------------------+-------------------------------------------------+
+; Analysis & Synthesis Status        ; Successful - Mon Aug 10 10:29:16 2020           ;
+; Quartus II 32-bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
+; Revision Name                      ; pitchshift                                      ;
+; Top-level Entity Name              ; pitchshift                                      ;
+; Family                             ; Cyclone II                                      ;
+; Total logic elements               ; 439                                             ;
+;     Total combinational functions  ; 418                                             ;
+;     Dedicated logic registers      ; 204                                             ;
+; Total registers                    ; 204                                             ;
+; Total pins                         ; 63                                              ;
+; Total virtual pins                 ; 0                                               ;
+; Total memory bits                  ; 0                                               ;
+; Embedded Multiplier 9-bit elements ; 0                                               ;
+; Total PLLs                         ; 0                                               ;
++------------------------------------+-------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                                        ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                                     ; Setting            ; Default Value      ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                                     ; EP2C35F672C6       ;                    ;
+; Top-level entity name                                                      ; pitchshift         ; pitchshift         ;
+; Family name                                                                ; Cyclone II         ; Cyclone IV GX      ;
+; Use smart compilation                                                      ; Off                ; Off                ;
+; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On                 ; On                 ;
+; Enable compact report table                                                ; Off                ; Off                ;
+; Restructure Multiplexers                                                   ; Auto               ; Auto               ;
+; Create Debugging Nodes for IP Cores                                        ; Off                ; Off                ;
+; Preserve fewer node names                                                  ; On                 ; On                 ;
+; Disable OpenCore Plus hardware evaluation                                  ; Off                ; Off                ;
+; Verilog Version                                                            ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                               ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                                   ; Auto               ; Auto               ;
+; Safe State Machine                                                         ; Off                ; Off                ;
+; Extract Verilog State Machines                                             ; On                 ; On                 ;
+; Extract VHDL State Machines                                                ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                          ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                                 ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                             ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                                    ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                                  ; On                 ; On                 ;
+; Parallel Synthesis                                                         ; On                 ; On                 ;
+; DSP Block Balancing                                                        ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                                         ; On                 ; On                 ;
+; Power-Up Don't Care                                                        ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                               ; Off                ; Off                ;
+; Remove Duplicate Registers                                                 ; On                 ; On                 ;
+; Ignore CARRY Buffers                                                       ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                                     ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                                      ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                                  ; Off                ; Off                ;
+; Ignore LCELL Buffers                                                       ; Off                ; Off                ;
+; Ignore SOFT Buffers                                                        ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                             ; Off                ; Off                ;
+; Optimization Technique                                                     ; Balanced           ; Balanced           ;
+; Carry Chain Length                                                         ; 70                 ; 70                 ;
+; Auto Carry Chains                                                          ; On                 ; On                 ;
+; Auto Open-Drain Pins                                                       ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                                      ; Off                ; Off                ;
+; Auto ROM Replacement                                                       ; On                 ; On                 ;
+; Auto RAM Replacement                                                       ; On                 ; On                 ;
+; Auto Shift Register Replacement                                            ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                            ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                              ; On                 ; On                 ;
+; Strict RAM Replacement                                                     ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                          ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                                     ; Off                ; Off                ;
+; Auto RAM to Logic Cell Conversion                                          ; Off                ; Off                ;
+; Auto Resource Sharing                                                      ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                                         ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                                         ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                              ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing                        ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                          ; Off                ; Off                ;
+; Timing-Driven Synthesis                                                    ; Off                ; Off                ;
+; Report Parameter Settings                                                  ; On                 ; On                 ;
+; Report Source Assignments                                                  ; On                 ; On                 ;
+; Report Connectivity Checks                                                 ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                                         ; Off                ; Off                ;
+; Synchronization Register Chain Length                                      ; 2                  ; 2                  ;
+; PowerPlay Power Optimization                                               ; Normal compilation ; Normal compilation ;
+; HDL message level                                                          ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                            ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report                   ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report                         ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report                  ; 100                ; 100                ;
+; Clock MUX Protection                                                       ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                                ; Off                ; Off                ;
+; Block Design Naming                                                        ; Auto               ; Auto               ;
+; SDC constraint protection                                                  ; Off                ; Off                ;
+; Synthesis Effort                                                           ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal               ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                                       ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                                         ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                                ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                                     ; On                 ; On                 ;
+; Synthesis Seed                                                             ; 1                  ; 1                  ;
++----------------------------------------------------------------------------+--------------------+--------------------+
+
+
+Parallel compilation was disabled, but you have multiple processors available. Enable parallel compilation to reduce compilation time.
++-------------------------------------+
+; Parallel Compilation                ;
++----------------------------+--------+
+; Processors                 ; Number ;
++----------------------------+--------+
+; Number detected on machine ; 12     ;
+; Maximum allowed            ; 1      ;
++----------------------------+--------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                        ;
++----------------------------------+-----------------+---------------------------------------------+------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                                   ; File Name with Absolute Path                                     ; Library ;
++----------------------------------+-----------------+---------------------------------------------+------------------------------------------------------------------+---------+
+; util.v                           ; yes             ; User Verilog HDL File                       ; /home/johnmamish/bits/quartus/pitchshift/util.v                  ;         ;
+; pitchshift.v                     ; yes             ; User Verilog HDL File                       ; /home/johnmamish/bits/quartus/pitchshift/pitchshift.v            ;         ;
+; nes_controller_reader.v          ; yes             ; User Verilog HDL File                       ; /home/johnmamish/bits/quartus/pitchshift/nes_controller_reader.v ;         ;
+; i2c_master.v                     ; yes             ; User Verilog HDL File                       ; /home/johnmamish/bits/quartus/pitchshift/i2c_master.v            ;         ;
+; i2c_init.v                       ; yes             ; User Verilog HDL File                       ; /home/johnmamish/bits/quartus/pitchshift/i2c_init.v              ;         ;
+; i2c_init_bytes.hex               ; yes             ; Auto-Found Hexadecimal (Intel-Format) File  ; /home/johnmamish/bits/quartus/pitchshift/i2c_init_bytes.hex      ;         ;
++----------------------------------+-----------------+---------------------------------------------+------------------------------------------------------------------+---------+
+
+
++--------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                                    ;
++---------------------------------------------+----------------------------------+
+; Resource                                    ; Usage                            ;
++---------------------------------------------+----------------------------------+
+; Estimated Total logic elements              ; 439                              ;
+;                                             ;                                  ;
+; Total combinational functions               ; 418                              ;
+; Logic element usage by number of LUT inputs ;                                  ;
+;     -- 4 input functions                    ; 229                              ;
+;     -- 3 input functions                    ; 86                               ;
+;     -- <=2 input functions                  ; 103                              ;
+;                                             ;                                  ;
+; Logic elements by mode                      ;                                  ;
+;     -- normal mode                          ; 352                              ;
+;     -- arithmetic mode                      ; 66                               ;
+;                                             ;                                  ;
+; Total registers                             ; 204                              ;
+;     -- Dedicated logic registers            ; 204                              ;
+;     -- I/O registers                        ; 0                                ;
+;                                             ;                                  ;
+; I/O pins                                    ; 63                               ;
+; Embedded Multiplier 9-bit elements          ; 0                                ;
+; Maximum fan-out node                        ; divide_by_n:clk_12_5_divider|out ;
+; Maximum fan-out                             ; 160                              ;
+; Total fan-out                               ; 1972                             ;
+; Average fan-out                             ; 2.88                             ;
++---------------------------------------------+----------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                              ;
++----------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------+--------------+
+; Compilation Hierarchy Node                   ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                    ; Library Name ;
++----------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------+--------------+
+; |pitchshift                                  ; 418 (1)           ; 204 (0)      ; 0           ; 0            ; 0       ; 0         ; 63   ; 0            ; |pitchshift                                                            ; work         ;
+;    |divide_by_n:clk_12_5_divider|            ; 3 (3)             ; 3 (3)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pitchshift|divide_by_n:clk_12_5_divider                               ; work         ;
+;    |i2s:i2s|                                 ; 15 (12)           ; 11 (8)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pitchshift|i2s:i2s                                                    ; work         ;
+;       |divide_by_n:div_256|                  ; 3 (3)             ; 3 (3)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pitchshift|i2s:i2s|divide_by_n:div_256                                ; work         ;
+;    |nes_controller_reader:controller_reader| ; 54 (43)           ; 33 (25)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pitchshift|nes_controller_reader:controller_reader                    ; work         ;
+;       |divide_by_n:div|                      ; 11 (11)           ; 8 (8)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pitchshift|nes_controller_reader:controller_reader|divide_by_n:div    ; work         ;
+;    |resetter:resetter|                       ; 24 (24)           ; 17 (17)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pitchshift|resetter:resetter                                          ; work         ;
+;    |wm_setter_upper:wm8731_init|             ; 321 (0)           ; 140 (0)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pitchshift|wm_setter_upper:wm8731_init                                ; work         ;
+;       |i2c_init:i2c_init|                    ; 150 (150)         ; 56 (56)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init              ; work         ;
+;       |i2c_master:i2c_master|                ; 148 (148)         ; 68 (68)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master          ; work         ;
+;       |pulse_one:i2c_init_start_pulse|       ; 23 (23)           ; 16 (16)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |pitchshift|wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse ; work         ;
++----------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+------------------------------------------------------------------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
+Encoding Type:  One-Hot
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ;
++------------------------------------------+--------------------------------+--------------------------------+--------------------------------+------------------------------------+------------------------------------+------------------------------------+------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+---------------------------------+---------------------------------+------------------------------------------+------------------------------------------+--------------------------------+------------------------------+
+; Name                                     ; phy_state_reg.PHY_STATE_STOP_3 ; phy_state_reg.PHY_STATE_STOP_2 ; phy_state_reg.PHY_STATE_STOP_1 ; phy_state_reg.PHY_STATE_READ_BIT_4 ; phy_state_reg.PHY_STATE_READ_BIT_3 ; phy_state_reg.PHY_STATE_READ_BIT_2 ; phy_state_reg.PHY_STATE_READ_BIT_1 ; phy_state_reg.PHY_STATE_WRITE_BIT_3 ; phy_state_reg.PHY_STATE_WRITE_BIT_2 ; phy_state_reg.PHY_STATE_WRITE_BIT_1 ; phy_state_reg.PHY_STATE_START_2 ; phy_state_reg.PHY_STATE_START_1 ; phy_state_reg.PHY_STATE_REPEATED_START_2 ; phy_state_reg.PHY_STATE_REPEATED_START_1 ; phy_state_reg.PHY_STATE_ACTIVE ; phy_state_reg.PHY_STATE_IDLE ;
++------------------------------------------+--------------------------------+--------------------------------+--------------------------------+------------------------------------+------------------------------------+------------------------------------+------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+---------------------------------+---------------------------------+------------------------------------------+------------------------------------------+--------------------------------+------------------------------+
+; phy_state_reg.PHY_STATE_IDLE             ; 0                              ; 0                              ; 0                              ; 0                                  ; 0                                  ; 0                                  ; 0                                  ; 0                                   ; 0                                   ; 0                                   ; 0                               ; 0                               ; 0                                        ; 0                                        ; 0                              ; 0                            ;
+; phy_state_reg.PHY_STATE_ACTIVE           ; 0                              ; 0                              ; 0                              ; 0                                  ; 0                                  ; 0                                  ; 0                                  ; 0                                   ; 0                                   ; 0                                   ; 0                               ; 0                               ; 0                                        ; 0                                        ; 1                              ; 1                            ;
+; phy_state_reg.PHY_STATE_REPEATED_START_1 ; 0                              ; 0                              ; 0                              ; 0                                  ; 0                                  ; 0                                  ; 0                                  ; 0                                   ; 0                                   ; 0                                   ; 0                               ; 0                               ; 0                                        ; 1                                        ; 0                              ; 1                            ;
+; phy_state_reg.PHY_STATE_REPEATED_START_2 ; 0                              ; 0                              ; 0                              ; 0                                  ; 0                                  ; 0                                  ; 0                                  ; 0                                   ; 0                                   ; 0                                   ; 0                               ; 0                               ; 1                                        ; 0                                        ; 0                              ; 1                            ;
+; phy_state_reg.PHY_STATE_START_1          ; 0                              ; 0                              ; 0                              ; 0                                  ; 0                                  ; 0                                  ; 0                                  ; 0                                   ; 0                                   ; 0                                   ; 0                               ; 1                               ; 0                                        ; 0                                        ; 0                              ; 1                            ;
+; phy_state_reg.PHY_STATE_START_2          ; 0                              ; 0                              ; 0                              ; 0                                  ; 0                                  ; 0                                  ; 0                                  ; 0                                   ; 0                                   ; 0                                   ; 1                               ; 0                               ; 0                                        ; 0                                        ; 0                              ; 1                            ;
+; phy_state_reg.PHY_STATE_WRITE_BIT_1      ; 0                              ; 0                              ; 0                              ; 0                                  ; 0                                  ; 0                                  ; 0                                  ; 0                                   ; 0                                   ; 1                                   ; 0                               ; 0                               ; 0                                        ; 0                                        ; 0                              ; 1                            ;
+; phy_state_reg.PHY_STATE_WRITE_BIT_2      ; 0                              ; 0                              ; 0                              ; 0                                  ; 0                                  ; 0                                  ; 0                                  ; 0                                   ; 1                                   ; 0                                   ; 0                               ; 0                               ; 0                                        ; 0                                        ; 0                              ; 1                            ;
+; phy_state_reg.PHY_STATE_WRITE_BIT_3      ; 0                              ; 0                              ; 0                              ; 0                                  ; 0                                  ; 0                                  ; 0                                  ; 1                                   ; 0                                   ; 0                                   ; 0                               ; 0                               ; 0                                        ; 0                                        ; 0                              ; 1                            ;
+; phy_state_reg.PHY_STATE_READ_BIT_1       ; 0                              ; 0                              ; 0                              ; 0                                  ; 0                                  ; 0                                  ; 1                                  ; 0                                   ; 0                                   ; 0                                   ; 0                               ; 0                               ; 0                                        ; 0                                        ; 0                              ; 1                            ;
+; phy_state_reg.PHY_STATE_READ_BIT_2       ; 0                              ; 0                              ; 0                              ; 0                                  ; 0                                  ; 1                                  ; 0                                  ; 0                                   ; 0                                   ; 0                                   ; 0                               ; 0                               ; 0                                        ; 0                                        ; 0                              ; 1                            ;
+; phy_state_reg.PHY_STATE_READ_BIT_3       ; 0                              ; 0                              ; 0                              ; 0                                  ; 1                                  ; 0                                  ; 0                                  ; 0                                   ; 0                                   ; 0                                   ; 0                               ; 0                               ; 0                                        ; 0                                        ; 0                              ; 1                            ;
+; phy_state_reg.PHY_STATE_READ_BIT_4       ; 0                              ; 0                              ; 0                              ; 1                                  ; 0                                  ; 0                                  ; 0                                  ; 0                                   ; 0                                   ; 0                                   ; 0                               ; 0                               ; 0                                        ; 0                                        ; 0                              ; 1                            ;
+; phy_state_reg.PHY_STATE_STOP_1           ; 0                              ; 0                              ; 1                              ; 0                                  ; 0                                  ; 0                                  ; 0                                  ; 0                                   ; 0                                   ; 0                                   ; 0                               ; 0                               ; 0                                        ; 0                                        ; 0                              ; 1                            ;
+; phy_state_reg.PHY_STATE_STOP_2           ; 0                              ; 1                              ; 0                              ; 0                                  ; 0                                  ; 0                                  ; 0                                  ; 0                                   ; 0                                   ; 0                                   ; 0                               ; 0                               ; 0                                        ; 0                                        ; 0                              ; 1                            ;
+; phy_state_reg.PHY_STATE_STOP_3           ; 1                              ; 0                              ; 0                              ; 0                                  ; 0                                  ; 0                                  ; 0                                  ; 0                                   ; 0                                   ; 0                                   ; 0                               ; 0                               ; 0                                        ; 0                                        ; 0                              ; 1                            ;
++------------------------------------------+--------------------------------+--------------------------------+--------------------------------+------------------------------------+------------------------------------+------------------------------------+------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+---------------------------------+---------------------------------+------------------------------------------+------------------------------------------+--------------------------------+------------------------------+
+
+
+Encoding Type:  One-Hot
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg                                                                                                                                                                                                                                                                   ;
++------------------------------+----------------------+----------------------+-------------------------+-------------------------+-------------------------+---------------------------+---------------------------+-----------------------+----------------------------+-----------------------------+------------------------------+----------------------+
+; Name                         ; state_reg.STATE_STOP ; state_reg.STATE_READ ; state_reg.STATE_WRITE_3 ; state_reg.STATE_WRITE_2 ; state_reg.STATE_WRITE_1 ; state_reg.STATE_ADDRESS_2 ; state_reg.STATE_ADDRESS_1 ; state_reg.STATE_START ; state_reg.STATE_START_WAIT ; state_reg.STATE_ACTIVE_READ ; state_reg.STATE_ACTIVE_WRITE ; state_reg.STATE_IDLE ;
++------------------------------+----------------------+----------------------+-------------------------+-------------------------+-------------------------+---------------------------+---------------------------+-----------------------+----------------------------+-----------------------------+------------------------------+----------------------+
+; state_reg.STATE_IDLE         ; 0                    ; 0                    ; 0                       ; 0                       ; 0                       ; 0                         ; 0                         ; 0                     ; 0                          ; 0                           ; 0                            ; 0                    ;
+; state_reg.STATE_ACTIVE_WRITE ; 0                    ; 0                    ; 0                       ; 0                       ; 0                       ; 0                         ; 0                         ; 0                     ; 0                          ; 0                           ; 1                            ; 1                    ;
+; state_reg.STATE_ACTIVE_READ  ; 0                    ; 0                    ; 0                       ; 0                       ; 0                       ; 0                         ; 0                         ; 0                     ; 0                          ; 1                           ; 0                            ; 1                    ;
+; state_reg.STATE_START_WAIT   ; 0                    ; 0                    ; 0                       ; 0                       ; 0                       ; 0                         ; 0                         ; 0                     ; 1                          ; 0                           ; 0                            ; 1                    ;
+; state_reg.STATE_START        ; 0                    ; 0                    ; 0                       ; 0                       ; 0                       ; 0                         ; 0                         ; 1                     ; 0                          ; 0                           ; 0                            ; 1                    ;
+; state_reg.STATE_ADDRESS_1    ; 0                    ; 0                    ; 0                       ; 0                       ; 0                       ; 0                         ; 1                         ; 0                     ; 0                          ; 0                           ; 0                            ; 1                    ;
+; state_reg.STATE_ADDRESS_2    ; 0                    ; 0                    ; 0                       ; 0                       ; 0                       ; 1                         ; 0                         ; 0                     ; 0                          ; 0                           ; 0                            ; 1                    ;
+; state_reg.STATE_WRITE_1      ; 0                    ; 0                    ; 0                       ; 0                       ; 1                       ; 0                         ; 0                         ; 0                     ; 0                          ; 0                           ; 0                            ; 1                    ;
+; state_reg.STATE_WRITE_2      ; 0                    ; 0                    ; 0                       ; 1                       ; 0                       ; 0                         ; 0                         ; 0                     ; 0                          ; 0                           ; 0                            ; 1                    ;
+; state_reg.STATE_WRITE_3      ; 0                    ; 0                    ; 1                       ; 0                       ; 0                       ; 0                         ; 0                         ; 0                     ; 0                          ; 0                           ; 0                            ; 1                    ;
+; state_reg.STATE_READ         ; 0                    ; 1                    ; 0                       ; 0                       ; 0                       ; 0                         ; 0                         ; 0                     ; 0                          ; 0                           ; 0                            ; 1                    ;
+; state_reg.STATE_STOP         ; 1                    ; 0                    ; 0                       ; 0                       ; 0                       ; 0                         ; 0                         ; 0                     ; 0                          ; 0                           ; 0                            ; 1                    ;
++------------------------------+----------------------+----------------------+-------------------------+-------------------------+-------------------------+---------------------------+---------------------------+-----------------------+----------------------------+-----------------------------+------------------------------+----------------------+
+
+
+Encoding Type:  One-Hot
++----------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg                                                                ;
++-------------------------+-------------------------+-------------------------+---------------------+----------------------+-------------------------+
+; Name                    ; state_reg.STATE_TABLE_2 ; state_reg.STATE_TABLE_1 ; state_reg.STATE_RUN ; state_reg.STATE_IDLE ; state_reg.STATE_TABLE_3 ;
++-------------------------+-------------------------+-------------------------+---------------------+----------------------+-------------------------+
+; state_reg.STATE_IDLE    ; 0                       ; 0                       ; 0                   ; 0                    ; 0                       ;
+; state_reg.STATE_RUN     ; 0                       ; 0                       ; 1                   ; 1                    ; 0                       ;
+; state_reg.STATE_TABLE_1 ; 0                       ; 1                       ; 0                   ; 1                    ; 0                       ;
+; state_reg.STATE_TABLE_2 ; 1                       ; 0                       ; 0                   ; 1                    ; 0                       ;
+; state_reg.STATE_TABLE_3 ; 0                       ; 0                       ; 0                   ; 1                    ; 1                       ;
++-------------------------+-------------------------+-------------------------+---------------------+----------------------+-------------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                                                                          ;
++-------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+; Register name                                                                 ; Reason for Removal                                                          ;
++-------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|mode_write_multiple_reg     ; Merged with wm_setter_upper:wm8731_init|i2c_master:i2c_master|mode_read_reg ;
+; i2s:i2s|data_shift[0..31]                                                     ; Stuck at GND due to stuck port data_in                                      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|mode_read_reg               ; Stuck at GND due to stuck port data_in                                      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|last_reg                    ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[5]                ; Stuck at GND due to stuck port data_in                                      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[5]              ; Stuck at GND due to stuck port data_in                                      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[5]                 ; Stuck at GND due to stuck port data_in                                      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[5]              ; Stuck at GND due to stuck port data_in                                      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[5]                 ; Stuck at GND due to stuck port data_in                                      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~2             ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~3             ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~4             ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~5             ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~6             ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~2                 ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~3                 ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~4                 ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~5                 ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~6                 ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~2                     ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~3                     ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~5                     ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~6                     ; Lost fanout                                                                 ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_READ        ; Stuck at GND due to stuck port data_in                                      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_ACTIVE_READ ; Stuck at GND due to stuck port data_in                                      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_out_valid_reg          ; Stuck at GND due to stuck port data_in                                      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_START       ; Stuck at GND due to stuck port data_in                                      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_STOP        ; Stuck at GND due to stuck port data_in                                      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_sda_reg               ; Stuck at GND due to stuck port data_in                                      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[5]                 ; Stuck at GND due to stuck port data_in                                      ;
+; Total Number of Removed Registers = 61                                        ;                                                                             ;
++-------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                                                                                  ;
++------------------------------------------------------------------------+---------------------------+-------------------------------------------------------------------------+
+; Register name                                                          ; Reason for Removal        ; Registers Removed due to This Register                                  ;
++------------------------------------------------------------------------+---------------------------+-------------------------------------------------------------------------+
+; i2s:i2s|data_shift[0]                                                  ; Stuck at GND              ; i2s:i2s|data_shift[1], i2s:i2s|data_shift[2], i2s:i2s|data_shift[3],    ;
+;                                                                        ; due to stuck port data_in ; i2s:i2s|data_shift[4], i2s:i2s|data_shift[5], i2s:i2s|data_shift[6],    ;
+;                                                                        ;                           ; i2s:i2s|data_shift[7], i2s:i2s|data_shift[8], i2s:i2s|data_shift[9],    ;
+;                                                                        ;                           ; i2s:i2s|data_shift[10], i2s:i2s|data_shift[11], i2s:i2s|data_shift[12], ;
+;                                                                        ;                           ; i2s:i2s|data_shift[13], i2s:i2s|data_shift[14], i2s:i2s|data_shift[15], ;
+;                                                                        ;                           ; i2s:i2s|data_shift[16], i2s:i2s|data_shift[17], i2s:i2s|data_shift[18], ;
+;                                                                        ;                           ; i2s:i2s|data_shift[19], i2s:i2s|data_shift[20], i2s:i2s|data_shift[21], ;
+;                                                                        ;                           ; i2s:i2s|data_shift[22], i2s:i2s|data_shift[23], i2s:i2s|data_shift[24], ;
+;                                                                        ;                           ; i2s:i2s|data_shift[25], i2s:i2s|data_shift[26], i2s:i2s|data_shift[27], ;
+;                                                                        ;                           ; i2s:i2s|data_shift[28], i2s:i2s|data_shift[29], i2s:i2s|data_shift[30], ;
+;                                                                        ;                           ; i2s:i2s|data_shift[31]                                                  ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[5]         ; Stuck at GND              ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[5],       ;
+;                                                                        ; due to stuck port data_in ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[5],          ;
+;                                                                        ;                           ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[5]        ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|mode_read_reg        ; Stuck at GND              ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|last_reg,             ;
+;                                                                        ; due to stuck port data_in ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[5]           ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_READ ; Stuck at GND              ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_out_valid_reg,   ;
+;                                                                        ; due to stuck port data_in ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_STOP  ;
++------------------------------------------------------------------------+---------------------------+-------------------------------------------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 204   ;
+; Number of registers using Synchronous Clear  ; 54    ;
+; Number of registers using Synchronous Load   ; 23    ;
+; Number of registers using Asynchronous Clear ; 0     ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 83    ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++----------------------------------------------------------------------------+
+; Inverted Register Statistics                                               ;
++------------------------------------------------------------------+---------+
+; Inverted Register                                                ; Fan out ;
++------------------------------------------------------------------+---------+
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_o_reg      ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|sda_o_reg      ; 4       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_i_reg      ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|sda_i_reg      ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|last_sda_i_reg ; 1       ;
+; Total number of inverted registers = 5                           ;         ;
++------------------------------------------------------------------+---------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                                ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                      ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------------------+
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |pitchshift|nes_controller_reader:controller_reader|buttons[4]                  ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 0 LEs                ; 14 LEs                 ; Yes        ; |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[4]       ;
+; 3:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |pitchshift|wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[3] ;
+; 3:1                ; 7 bits    ; 14 LEs        ; 7 LEs                ; 7 LEs                  ; Yes        ; |pitchshift|nes_controller_reader:controller_reader|divide_by_n:div|counter[6]  ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |pitchshift|i2s:i2s|divide_by_n:div_256|counter[0]                              ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |pitchshift|divide_by_n:clk_12_5_divider|counter[0]                             ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[6]       ;
+; 4:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |pitchshift|i2s:i2s|bitcount[2]                                                 ;
+; 5:1                ; 6 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[2]    ;
+; 7:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[1]    ;
+; 7:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[6]    ;
+; 9:1                ; 7 bits    ; 42 LEs        ; 14 LEs               ; 28 LEs                 ; Yes        ; |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[6]       ;
+; 14:1               ; 17 bits   ; 153 LEs       ; 34 LEs               ; 119 LEs                ; Yes        ; |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_reg[12]     ;
+; 11:1               ; 6 bits    ; 42 LEs        ; 6 LEs                ; 36 LEs                 ; Yes        ; |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[3]       ;
+; 20:1               ; 4 bits    ; 52 LEs        ; 4 LEs                ; 48 LEs                 ; Yes        ; |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[2]  ;
+; 18:1               ; 2 bits    ; 24 LEs        ; 8 LEs                ; 16 LEs                 ; Yes        ; |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_stop_reg          ;
+; 3:1                ; 5 bits    ; 10 LEs        ; 5 LEs                ; 5 LEs                  ; No         ; |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_next        ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_next        ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_next            ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg         ;
+; 5:1                ; 3 bits    ; 9 LEs         ; 6 LEs                ; 3 LEs                  ; No         ; |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_next            ;
+; 5:1                ; 12 bits   ; 36 LEs        ; 24 LEs               ; 12 LEs                 ; No         ; |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg     ;
+; 9:1                ; 2 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; No         ; |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg             ;
+; 17:1               ; 6 bits    ; 66 LEs        ; 12 LEs               ; 54 LEs                 ; No         ; |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]  ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------------------+
+
+
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: divide_by_n:clk_12_5_divider ;
++----------------+-------+--------------------------------------------------+
+; Parameter Name ; Value ; Type                                             ;
++----------------+-------+--------------------------------------------------+
+; N              ; 4     ; Signed Integer                                   ;
++----------------+-------+--------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: resetter:resetter ;
++----------------+--------+--------------------------------------+
+; Parameter Name ; Value  ; Type                                 ;
++----------------+--------+--------------------------------------+
+; count_maxval   ; 100000 ; Signed Integer                       ;
++----------------+--------+--------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: wm_setter_upper:wm8731_init|i2c_init:i2c_init ;
++----------------+-------+-------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                              ;
++----------------+-------+-------------------------------------------------------------------+
+; AW             ; 6     ; Signed Integer                                                    ;
++----------------+-------+-------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse ;
++----------------+-------+--------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                           ;
++----------------+-------+--------------------------------------------------------------------------------+
+; pulse_delay    ; 50000 ; Signed Integer                                                                 ;
+; pulse_width    ; 4     ; Signed Integer                                                                 ;
++----------------+-------+--------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: nes_controller_reader:controller_reader|divide_by_n:div ;
++----------------+-------+-----------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                        ;
++----------------+-------+-----------------------------------------------------------------------------+
+; N              ; 128   ; Signed Integer                                                              ;
++----------------+-------+-----------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: i2s:i2s|divide_by_n:div_256 ;
++----------------+-------+-------------------------------------------------+
+; Parameter Name ; Value ; Type                                            ;
++----------------+-------+-------------------------------------------------+
+; N              ; 4     ; Signed Integer                                  ;
++----------------+-------+-------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "i2s:i2s"                                                                                                                                                                                         ;
++---------------------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port                ; Type  ; Severity ; Details                                                                                                                                                                            ;
++---------------------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; data_to_send        ; Input ; Warning  ; Input port expression (32 bits) is wider than the input port (24 bits) it drives.  The 8 most-significant bit(s) in the expression will be dangling if they have no other fanouts. ;
+; data_to_send[23..0] ; Input ; Info     ; Stuck at GND                                                                                                                                                                       ;
++---------------------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "wm_setter_upper:wm8731_init|i2c_master:i2c_master"                                                                                                      ;
++-----------------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+; Port            ; Type   ; Severity ; Details                                                                                                                                      ;
++-----------------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+; data_out        ; Output ; Info     ; Explicitly unconnected                                                                                                                       ;
+; data_out_valid  ; Output ; Info     ; Explicitly unconnected                                                                                                                       ;
+; data_out_last   ; Output ; Info     ; Explicitly unconnected                                                                                                                       ;
+; scl_t           ; Output ; Info     ; Explicitly unconnected                                                                                                                       ;
+; sda_t           ; Output ; Info     ; Explicitly unconnected                                                                                                                       ;
+; busy            ; Output ; Info     ; Explicitly unconnected                                                                                                                       ;
+; bus_control     ; Output ; Info     ; Explicitly unconnected                                                                                                                       ;
+; bus_active      ; Output ; Info     ; Explicitly unconnected                                                                                                                       ;
+; missed_ack      ; Output ; Info     ; Explicitly unconnected                                                                                                                       ;
+; prescale[15..5] ; Input  ; Info     ; Stuck at GND                                                                                                                                 ;
+; prescale[1..0]  ; Input  ; Info     ; Stuck at GND                                                                                                                                 ;
+; prescale[4]     ; Input  ; Info     ; Stuck at VCC                                                                                                                                 ;
+; prescale[3]     ; Input  ; Info     ; Stuck at GND                                                                                                                                 ;
+; prescale[2]     ; Input  ; Info     ; Stuck at VCC                                                                                                                                 ;
+; stop_on_idle    ; Input  ; Info     ; Stuck at VCC                                                                                                                                 ;
+; data_out_ready  ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
++-----------------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "wm_setter_upper:wm8731_init|i2c_init:i2c_init"                                      ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                             ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; busy ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:01     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus II 32-bit Analysis & Synthesis
+    Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+    Info: Processing started: Mon Aug 10 10:29:14 2020
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off pitchshift -c pitchshift
+Warning (20028): Parallel compilation is not licensed and has been disabled
+Info (12021): Found 3 design units, including 3 entities, in source file util.v
+    Info (12023): Found entity 1: divide_by_n
+    Info (12023): Found entity 2: resetter
+    Info (12023): Found entity 3: pulse_one
+Info (12021): Found 4 design units, including 4 entities, in source file pitchshift.v
+    Info (12023): Found entity 1: wm_setter_upper
+    Info (12023): Found entity 2: i2s
+    Info (12023): Found entity 3: i2s_ingester
+    Info (12023): Found entity 4: pitchshift
+Info (12021): Found 1 design units, including 1 entities, in source file nes_controller_reader.v
+    Info (12023): Found entity 1: nes_controller_reader
+Info (12021): Found 1 design units, including 1 entities, in source file i2c_master.v
+    Info (12023): Found entity 1: i2c_master
+Info (12021): Found 1 design units, including 1 entities, in source file i2c_init.v
+    Info (12023): Found entity 1: i2c_init
+Warning (10236): Verilog HDL Implicit Net warning at nes_controller_reader.v(13): created implicit net for "div_out"
+Info (12127): Elaborating entity "pitchshift" for the top level hierarchy
+Warning (10034): Output port "LEDR[17..8]" at pitchshift.v(159) has no driver
+Warning (10034): Output port "GPIO_0[32..6]" at pitchshift.v(160) has no driver
+Warning (10034): Output port "AUD_XCK" at pitchshift.v(150) has no driver
+Warning (10034): Output port "AUD_ADCLRCK" at pitchshift.v(155) has no driver
+Info (12128): Elaborating entity "divide_by_n" for hierarchy "divide_by_n:clk_12_5_divider"
+Warning (10230): Verilog HDL assignment warning at util.v(10): truncated value with size 32 to match size of target (2)
+Warning (10230): Verilog HDL assignment warning at util.v(14): truncated value with size 32 to match size of target (2)
+Warning (10230): Verilog HDL assignment warning at util.v(16): truncated value with size 32 to match size of target (2)
+Info (12128): Elaborating entity "resetter" for hierarchy "resetter:resetter"
+Warning (10230): Verilog HDL assignment warning at util.v(34): truncated value with size 32 to match size of target (17)
+Info (12128): Elaborating entity "wm_setter_upper" for hierarchy "wm_setter_upper:wm8731_init"
+Info (12128): Elaborating entity "i2c_init" for hierarchy "wm_setter_upper:wm8731_init|i2c_init:i2c_init"
+Warning (10850): Verilog HDL warning at i2c_init.v(141): number of words (29) in memory file does not match the number of elements in the address range [0:32]
+Warning (10230): Verilog HDL assignment warning at i2c_init_bytes.hex(5): truncated value with size 12 to match size of target (9)
+Warning (10230): Verilog HDL assignment warning at i2c_init_bytes.hex(8): truncated value with size 12 to match size of target (9)
+Warning (10230): Verilog HDL assignment warning at i2c_init_bytes.hex(9): truncated value with size 12 to match size of target (9)
+Warning (10230): Verilog HDL assignment warning at i2c_init_bytes.hex(13): truncated value with size 12 to match size of target (9)
+Warning (10230): Verilog HDL assignment warning at i2c_init_bytes.hex(16): truncated value with size 12 to match size of target (9)
+Warning (10230): Verilog HDL assignment warning at i2c_init_bytes.hex(17): truncated value with size 12 to match size of target (9)
+Warning (10230): Verilog HDL assignment warning at i2c_init_bytes.hex(19): truncated value with size 12 to match size of target (9)
+Warning (10230): Verilog HDL assignment warning at i2c_init_bytes.hex(23): truncated value with size 12 to match size of target (9)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(235): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(243): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(253): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(258): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(259): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(271): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(279): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(280): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(284): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(285): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(289): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(301): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(311): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(316): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(317): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(321): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(333): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(348): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(356): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(364): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(374): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(379): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(380): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(388): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at i2c_init.v(400): truncated value with size 32 to match size of target (6)
+Warning (10030): Net "init_data.data_a" at i2c_init.v(138) has no driver or initial value, using a default initial value '0'
+Warning (10030): Net "init_data.waddr_a" at i2c_init.v(138) has no driver or initial value, using a default initial value '0'
+Warning (10030): Net "init_data.we_a" at i2c_init.v(138) has no driver or initial value, using a default initial value '0'
+Info (12128): Elaborating entity "pulse_one" for hierarchy "wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse"
+Warning (10230): Verilog HDL assignment warning at util.v(57): truncated value with size 32 to match size of target (16)
+Info (12128): Elaborating entity "i2c_master" for hierarchy "wm_setter_upper:wm8731_init|i2c_master:i2c_master"
+Warning (10036): Verilog HDL or VHDL warning at i2c_master.v(285): object "scl_posedge" assigned a value but never read
+Warning (10036): Verilog HDL or VHDL warning at i2c_master.v(286): object "scl_negedge" assigned a value but never read
+Warning (10230): Verilog HDL assignment warning at i2c_master.v(487): truncated value with size 32 to match size of target (4)
+Warning (10230): Verilog HDL assignment warning at i2c_master.v(536): truncated value with size 32 to match size of target (4)
+Warning (10230): Verilog HDL assignment warning at i2c_master.v(567): truncated value with size 32 to match size of target (4)
+Warning (10230): Verilog HDL assignment warning at i2c_master.v(631): truncated value with size 32 to match size of target (17)
+Info (12128): Elaborating entity "nes_controller_reader" for hierarchy "nes_controller_reader:controller_reader"
+Warning (10036): Verilog HDL or VHDL warning at nes_controller_reader.v(13): object "div_out" assigned a value but never read
+Info (12128): Elaborating entity "divide_by_n" for hierarchy "nes_controller_reader:controller_reader|divide_by_n:div"
+Warning (10230): Verilog HDL assignment warning at util.v(10): truncated value with size 32 to match size of target (7)
+Warning (10230): Verilog HDL assignment warning at util.v(14): truncated value with size 32 to match size of target (7)
+Warning (10230): Verilog HDL assignment warning at util.v(16): truncated value with size 32 to match size of target (7)
+Info (12128): Elaborating entity "i2s" for hierarchy "i2s:i2s"
+Warning (10230): Verilog HDL assignment warning at pitchshift.v(96): truncated value with size 32 to match size of target (6)
+Warning (10230): Verilog HDL assignment warning at pitchshift.v(101): truncated value with size 32 to match size of target (6)
+Info (276014): Found 1 instances of uninferred RAM logic
+    Info (276004): RAM logic "wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data" is uninferred due to inappropriate RAM size
+Critical Warning (127005): Memory depth (64) in the design file differs from memory depth (33) in the Memory Initialization File "/home/johnmamish/bits/quartus/pitchshift/db/pitchshift.ram0_i2c_init_c53ac088.hdl.mif" -- setting initial value for remaining addresses to 0
+Warning (127007): Memory Initialization File or Hexadecimal (Intel-Format) File "/home/johnmamish/bits/quartus/pitchshift/db/pitchshift.ram0_i2c_init_c53ac088.hdl.mif" contains "don't care" values -- overwriting them with 0s
+Warning (12241): 2 hierarchies have connectivity warnings - see the Connectivity Checks report folder
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "AUD_XCK" is stuck at GND
+    Warning (13410): Pin "AUD_DACDAT" is stuck at GND
+    Warning (13410): Pin "AUD_ADCLRCK" is stuck at GND
+    Warning (13410): Pin "LEDR[8]" is stuck at GND
+    Warning (13410): Pin "LEDR[9]" is stuck at GND
+    Warning (13410): Pin "LEDR[10]" is stuck at GND
+    Warning (13410): Pin "LEDR[11]" is stuck at GND
+    Warning (13410): Pin "LEDR[12]" is stuck at GND
+    Warning (13410): Pin "LEDR[13]" is stuck at GND
+    Warning (13410): Pin "LEDR[14]" is stuck at GND
+    Warning (13410): Pin "LEDR[15]" is stuck at GND
+    Warning (13410): Pin "LEDR[16]" is stuck at GND
+    Warning (13410): Pin "LEDR[17]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[4]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[5]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[6]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[7]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[8]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[9]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[10]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[11]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[12]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[13]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[14]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[15]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[16]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[17]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[18]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[19]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[20]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[21]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[22]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[23]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[24]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[25]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[26]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[27]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[28]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[29]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[30]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[31]" is stuck at GND
+    Warning (13410): Pin "GPIO_0[32]" is stuck at GND
+Info (17049): 15 registers lost all their fanouts during netlist optimizations.
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Warning (21074): Design contains 1 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "AUD_ADCDAT"
+Info (21057): Implemented 509 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 3 input pins
+    Info (21059): Implemented 58 output pins
+    Info (21060): Implemented 2 bidirectional pins
+    Info (21061): Implemented 446 logic cells
+Info: Quartus II 32-bit Analysis & Synthesis was successful. 0 errors, 108 warnings
+    Info: Peak virtual memory: 352 megabytes
+    Info: Processing ended: Mon Aug 10 10:29:16 2020
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:02
+
+
