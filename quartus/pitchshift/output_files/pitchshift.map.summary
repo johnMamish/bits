@@ -1,12 +1,12 @@
-Analysis & Synthesis Status : Successful - Mon Aug 10 10:29:16 2020
+Analysis & Synthesis Status : Successful - Tue Aug 11 10:49:14 2020
 Quartus II 32-bit Version : 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition
 Revision Name : pitchshift
 Top-level Entity Name : pitchshift
 Family : Cyclone II
-Total logic elements : 439
-    Total combinational functions : 418
-    Dedicated logic registers : 204
-Total registers : 204
+Total logic elements : 529
+    Total combinational functions : 505
+    Dedicated logic registers : 270
+Total registers : 270
 Total pins : 63
 Total virtual pins : 0
 Total memory bits : 0

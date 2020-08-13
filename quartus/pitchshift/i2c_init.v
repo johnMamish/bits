@@ -134,7 +134,7 @@ write 0x11223344 to register 0x0004 on devices at 0x50, 0x51, 0x52, and 0x53
 */
 
 // init_data ROM
-localparam INIT_DATA_LEN = 8 * 4 + 1;
+localparam INIT_DATA_LEN = 16 * 4 + 1;
 reg [8:0] init_data [INIT_DATA_LEN-1:0];
 
 // it would be best if the filepath for this was a param.

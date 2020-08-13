@@ -64,6 +64,25 @@ module wm_setter_upper(input        clock,
                           .prescale(16'd20), .stop_on_idle(1'b1));
 endmodule
 
+// outputs a 2's complement triangle wave.
+module beeper_triangle(input      clock,
+                       input      reset,
+
+                       output [23:0] data);
+    // in clocks. hackety.
+    parameter real freq = 130.81;
+    parameter real fsamp = 48000;
+    localparam [31:0] maxvalue = 32'h1000_0000;
+    localparam [31:0] delta_y = (freq / fsamp) * maxvalue;
+
+    reg [31:0] count;
+    assign data = count[31:8];
+    always @(posedge clock) begin
+        count <= ((count + delta_y) >= maxvalue) ? (count + delta_y - maxvalue) : (count + delta_y);
+        //data <= (23'h01_0000 * count) / 256;
+    end
+endmodule
+
 // on every edge of LRCK, the data held at data_to_send is latched and sent.
 module i2s(input clock,
            input reset,
@@ -165,7 +184,7 @@ module pitchshift(input                CLOCK_50,
     assign I2C_SCLK = scl_o ? 1'bz : 1'b0; assign scl_in = I2C_SCLK;
 
     // debug outputs for wm8731 audio bus
-    //assign GPIO_0[5:0] = { AUD_ADCDAT, AUD_ADCLRCK, AUD_DACDAT, AUD_DACLRCK, AUD_BCLK, AUD_XCK };
+    assign GPIO_0[7:0] = { AUD_ADCDAT, AUD_ADCLRCK, AUD_DACDAT, AUD_DACLRCK, AUD_BCLK, AUD_XCK, I2C_SCLK, I2C_SDAT };
 
     // clock divider and reset circuitry
     wire reset, clk_12_5;
@@ -175,7 +194,8 @@ module pitchshift(input                CLOCK_50,
     wm_setter_upper wm8731_init(.clock(clk_12_5), .reset(reset),
                                 .scl_o(scl_o), .sda_o(sda_o), .scl_in(scl_in), .sda_in(sda_in));
 
-    assign GPIO_0[5:0] = {NES_PS, NES_CK, NES_DO, clk_12_5};
+
+    assign AUD_XCK = clk_12_5;
 
     //
     wire [7:0] buttons;
@@ -185,5 +205,8 @@ module pitchshift(input                CLOCK_50,
     assign LEDR[7:0] = buttons;
 
     // read
-    i2s i2s(.clock(clk_12_5), .reset(reset), .BCK(AUD_BCLK), .LRCK(AUD_DACLRCK), .DAT(AUD_DACDAT), .data_to_send(0));
+    wire [23:0] d;
+    beeper_triangle triangle_gen(.clock(AUD_DACLRCK), .reset(reset), .data(d));
+    i2s i2s(.clock(clk_12_5), .reset(reset), .BCK(AUD_BCLK), .LRCK(AUD_DACLRCK), .DAT(AUD_DACDAT), .data_to_send(d));
+    assign AUD_ADCLRCK = AUD_DACLRCK;
 endmodule

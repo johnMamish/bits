@@ -1,14 +1,14 @@
-Fitter Status : Successful - Mon Aug 10 10:29:24 2020
+Fitter Status : Successful - Tue Aug 11 10:49:23 2020
 Quartus II 32-bit Version : 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition
 Revision Name : pitchshift
 Top-level Entity Name : pitchshift
 Family : Cyclone II
 Device : EP2C35F672C6
 Timing Models : Final
-Total logic elements : 432 / 33,216 ( 1 % )
-    Total combinational functions : 418 / 33,216 ( 1 % )
-    Dedicated logic registers : 204 / 33,216 ( < 1 % )
-Total registers : 204
+Total logic elements : 513 / 33,216 ( 2 % )
+    Total combinational functions : 505 / 33,216 ( 2 % )
+    Dedicated logic registers : 270 / 33,216 ( < 1 % )
+Total registers : 270
 Total pins : 63 / 475 ( 13 % )
 Total virtual pins : 0
 Total memory bits : 0 / 483,840 ( 0 % )

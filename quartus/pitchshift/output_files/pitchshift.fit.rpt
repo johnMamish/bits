@@ -1,5 +1,5 @@
 Fitter report for pitchshift
-Mon Aug 10 10:29:25 2020
+Tue Aug 11 10:49:23 2020
 Quartus II 32-bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -64,17 +64,17 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Fitter Summary                                                                       ;
 +------------------------------------+-------------------------------------------------+
-; Fitter Status                      ; Successful - Mon Aug 10 10:29:24 2020           ;
+; Fitter Status                      ; Successful - Tue Aug 11 10:49:23 2020           ;
 ; Quartus II 32-bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; pitchshift                                      ;
 ; Top-level Entity Name              ; pitchshift                                      ;
 ; Family                             ; Cyclone II                                      ;
 ; Device                             ; EP2C35F672C6                                    ;
 ; Timing Models                      ; Final                                           ;
-; Total logic elements               ; 432 / 33,216 ( 1 % )                            ;
-;     Total combinational functions  ; 418 / 33,216 ( 1 % )                            ;
-;     Dedicated logic registers      ; 204 / 33,216 ( < 1 % )                          ;
-; Total registers                    ; 204                                             ;
+; Total logic elements               ; 513 / 33,216 ( 2 % )                            ;
+;     Total combinational functions  ; 505 / 33,216 ( 2 % )                            ;
+;     Dedicated logic registers      ; 270 / 33,216 ( < 1 % )                          ;
+; Total registers                    ; 270                                             ;
 ; Total pins                         ; 63 / 475 ( 13 % )                               ;
 ; Total virtual pins                 ; 0                                               ;
 ; Total memory bits                  ; 0 / 483,840 ( 0 % )                             ;
@@ -520,8 +520,8 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; Type                ; Value                  ;
 +---------------------+------------------------+
 ; Placement (by node) ;                        ;
-;     -- Requested    ; 0 / 691 ( 0.00 % )     ;
-;     -- Achieved     ; 0 / 691 ( 0.00 % )     ;
+;     -- Requested    ; 0 / 845 ( 0.00 % )     ;
+;     -- Achieved     ; 0 / 845 ( 0.00 % )     ;
 ;                     ;                        ;
 ; Routing (by net)    ;                        ;
 ;     -- Requested    ; 0 / 0 ( 0.00 % )       ;
@@ -544,7 +544,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +--------------------------------+---------+-------------------+-------------------------+-------------------+
 ; Partition Name                 ; # Nodes ; # Preserved Nodes ; Preservation Level Used ; Netlist Type Used ;
 +--------------------------------+---------+-------------------+-------------------------+-------------------+
-; Top                            ; 688     ; 0                 ; N/A                     ; Source File       ;
+; Top                            ; 842     ; 0                 ; N/A                     ; Source File       ;
 ; hard_block:auto_generated_inst ; 3       ; 0                 ; N/A                     ; Source File       ;
 +--------------------------------+---------+-------------------+-------------------------+-------------------+
 
@@ -560,46 +560,46 @@ The pin-out file can be found in /home/johnmamish/bits/quartus/pitchshift/output
 +---------------------------------------------+------------------------+
 ; Resource                                    ; Usage                  ;
 +---------------------------------------------+------------------------+
-; Total logic elements                        ; 432 / 33,216 ( 1 % )   ;
-;     -- Combinational with no register       ; 228                    ;
-;     -- Register only                        ; 14                     ;
-;     -- Combinational with a register        ; 190                    ;
+; Total logic elements                        ; 513 / 33,216 ( 2 % )   ;
+;     -- Combinational with no register       ; 243                    ;
+;     -- Register only                        ; 8                      ;
+;     -- Combinational with a register        ; 262                    ;
 ;                                             ;                        ;
 ; Logic element usage by number of LUT inputs ;                        ;
-;     -- 4 input functions                    ; 229                    ;
-;     -- 3 input functions                    ; 86                     ;
-;     -- <=2 input functions                  ; 103                    ;
-;     -- Register only                        ; 14                     ;
+;     -- 4 input functions                    ; 268                    ;
+;     -- 3 input functions                    ; 94                     ;
+;     -- <=2 input functions                  ; 143                    ;
+;     -- Register only                        ; 8                      ;
 ;                                             ;                        ;
 ; Logic elements by mode                      ;                        ;
-;     -- normal mode                          ; 352                    ;
-;     -- arithmetic mode                      ; 66                     ;
+;     -- normal mode                          ; 402                    ;
+;     -- arithmetic mode                      ; 103                    ;
 ;                                             ;                        ;
-; Total registers*                            ; 204 / 34,593 ( < 1 % ) ;
-;     -- Dedicated logic registers            ; 204 / 33,216 ( < 1 % ) ;
+; Total registers*                            ; 270 / 34,593 ( < 1 % ) ;
+;     -- Dedicated logic registers            ; 270 / 33,216 ( < 1 % ) ;
 ;     -- I/O registers                        ; 0 / 1,377 ( 0 % )      ;
 ;                                             ;                        ;
-; Total LABs:  partially or completely used   ; 31 / 2,076 ( 1 % )     ;
+; Total LABs:  partially or completely used   ; 41 / 2,076 ( 2 % )     ;
 ; Virtual pins                                ; 0                      ;
 ; I/O pins                                    ; 63 / 475 ( 13 % )      ;
 ;     -- Clock pins                           ; 1 / 8 ( 13 % )         ;
 ;                                             ;                        ;
-; Global signals                              ; 3                      ;
+; Global signals                              ; 4                      ;
 ; M4Ks                                        ; 0 / 105 ( 0 % )        ;
 ; Total block memory bits                     ; 0 / 483,840 ( 0 % )    ;
 ; Total block memory implementation bits      ; 0 / 483,840 ( 0 % )    ;
 ; Embedded Multiplier 9-bit elements          ; 0 / 70 ( 0 % )         ;
 ; PLLs                                        ; 0 / 4 ( 0 % )          ;
-; Global clocks                               ; 3 / 16 ( 19 % )        ;
+; Global clocks                               ; 4 / 16 ( 25 % )        ;
 ; JTAGs                                       ; 0 / 1 ( 0 % )          ;
 ; ASMI blocks                                 ; 0 / 1 ( 0 % )          ;
 ; CRC blocks                                  ; 0 / 1 ( 0 % )          ;
 ; Average interconnect usage (total/H/V)      ; 0% / 0% / 0%           ;
-; Peak interconnect usage (total/H/V)         ; 2% / 2% / 2%           ;
-; Maximum fan-out                             ; 159                    ;
-; Highest non-global fan-out                  ; 66                     ;
-; Total fan-out                               ; 1985                   ;
-; Average fan-out                             ; 2.83                   ;
+; Peak interconnect usage (total/H/V)         ; 3% / 3% / 3%           ;
+; Maximum fan-out                             ; 193                    ;
+; Highest non-global fan-out                  ; 83                     ;
+; Total fan-out                               ; 2434                   ;
+; Average fan-out                             ; 2.86                   ;
 +---------------------------------------------+------------------------+
 *  Register count does not include registers inside RAM blocks or DSP blocks.
 
@@ -612,32 +612,32 @@ The pin-out file can be found in /home/johnmamish/bits/quartus/pitchshift/output
 +---------------------------------------------+-----------------------+--------------------------------+
 ; Difficulty Clustering Region                ; Low                   ; Low                            ;
 ;                                             ;                       ;                                ;
-; Total logic elements                        ; 432 / 33216 ( 1 % )   ; 0 / 33216 ( 0 % )              ;
-;     -- Combinational with no register       ; 228                   ; 0                              ;
-;     -- Register only                        ; 14                    ; 0                              ;
-;     -- Combinational with a register        ; 190                   ; 0                              ;
+; Total logic elements                        ; 513 / 33216 ( 2 % )   ; 0 / 33216 ( 0 % )              ;
+;     -- Combinational with no register       ; 243                   ; 0                              ;
+;     -- Register only                        ; 8                     ; 0                              ;
+;     -- Combinational with a register        ; 262                   ; 0                              ;
 ;                                             ;                       ;                                ;
 ; Logic element usage by number of LUT inputs ;                       ;                                ;
-;     -- 4 input functions                    ; 229                   ; 0                              ;
-;     -- 3 input functions                    ; 86                    ; 0                              ;
-;     -- <=2 input functions                  ; 103                   ; 0                              ;
-;     -- Register only                        ; 14                    ; 0                              ;
+;     -- 4 input functions                    ; 268                   ; 0                              ;
+;     -- 3 input functions                    ; 94                    ; 0                              ;
+;     -- <=2 input functions                  ; 143                   ; 0                              ;
+;     -- Register only                        ; 8                     ; 0                              ;
 ;                                             ;                       ;                                ;
 ; Logic elements by mode                      ;                       ;                                ;
-;     -- normal mode                          ; 352                   ; 0                              ;
-;     -- arithmetic mode                      ; 66                    ; 0                              ;
+;     -- normal mode                          ; 402                   ; 0                              ;
+;     -- arithmetic mode                      ; 103                   ; 0                              ;
 ;                                             ;                       ;                                ;
-; Total registers                             ; 204                   ; 0                              ;
-;     -- Dedicated logic registers            ; 204 / 33216 ( < 1 % ) ; 0 / 33216 ( 0 % )              ;
+; Total registers                             ; 270                   ; 0                              ;
+;     -- Dedicated logic registers            ; 270 / 33216 ( < 1 % ) ; 0 / 33216 ( 0 % )              ;
 ;                                             ;                       ;                                ;
-; Total LABs:  partially or completely used   ; 31 / 2076 ( 1 % )     ; 0 / 2076 ( 0 % )               ;
+; Total LABs:  partially or completely used   ; 41 / 2076 ( 2 % )     ; 0 / 2076 ( 0 % )               ;
 ;                                             ;                       ;                                ;
 ; Virtual pins                                ; 0                     ; 0                              ;
 ; I/O pins                                    ; 63                    ; 0                              ;
 ; Embedded Multiplier 9-bit elements          ; 0 / 70 ( 0 % )        ; 0 / 70 ( 0 % )                 ;
 ; Total memory bits                           ; 0                     ; 0                              ;
 ; Total RAM block bits                        ; 0                     ; 0                              ;
-; Clock control block                         ; 3 / 20 ( 15 % )       ; 0 / 20 ( 0 % )                 ;
+; Clock control block                         ; 4 / 20 ( 20 % )       ; 0 / 20 ( 0 % )                 ;
 ;                                             ;                       ;                                ;
 ; Connections                                 ;                       ;                                ;
 ;     -- Input Connections                    ; 0                     ; 0                              ;
@@ -646,8 +646,8 @@ The pin-out file can be found in /home/johnmamish/bits/quartus/pitchshift/output
 ;     -- Registered Output Connections        ; 0                     ; 0                              ;
 ;                                             ;                       ;                                ;
 ; Internal Connections                        ;                       ;                                ;
-;     -- Total Connections                    ; 1985                  ; 0                              ;
-;     -- Registered Connections               ; 727                   ; 0                              ;
+;     -- Total Connections                    ; 2434                  ; 0                              ;
+;     -- Registered Connections               ; 853                   ; 0                              ;
 ;                                             ;                       ;                                ;
 ; External Connections                        ;                       ;                                ;
 ;     -- Top                                  ; 0                     ; 0                              ;
@@ -679,9 +679,9 @@ The pin-out file can be found in /home/johnmamish/bits/quartus/pitchshift/output
 +------------+-------+----------+--------------+--------------+-------------+-----------------------+--------------------+--------+----------------+---------------+-----------------+----------+--------------+--------------+-------------+----------------------+
 ; Name       ; Pin # ; I/O Bank ; X coordinate ; Y coordinate ; Cell number ; Combinational Fan-Out ; Registered Fan-Out ; Global ; Input Register ; Power Up High ; PCI I/O Enabled ; Bus Hold ; Weak Pull Up ; I/O Standard ; Termination ; Location assigned by ;
 +------------+-------+----------+--------------+--------------+-------------+-----------------------+--------------------+--------+----------------+---------------+-----------------+----------+--------------+--------------+-------------+----------------------+
-; AUD_ADCDAT ; B5    ; 3        ; 3            ; 36           ; 2           ; 0                     ; 0                  ; no     ; no             ; no            ; no              ; no       ; Off          ; 3.3-V LVTTL  ; Off         ; User                 ;
+; AUD_ADCDAT ; B5    ; 3        ; 3            ; 36           ; 2           ; 1                     ; 0                  ; no     ; no             ; no            ; no              ; no       ; Off          ; 3.3-V LVTTL  ; Off         ; User                 ;
 ; CLOCK_50   ; N2    ; 2        ; 0            ; 18           ; 0           ; 1                     ; 0                  ; yes    ; no             ; no            ; no              ; no       ; Off          ; 3.3-V LVTTL  ; Off         ; User                 ;
-; NES_DO     ; L19   ; 5        ; 65           ; 23           ; 3           ; 9                     ; 0                  ; no     ; no             ; no            ; no              ; no       ; Off          ; 3.3-V LVTTL  ; Off         ; User                 ;
+; NES_DO     ; L19   ; 5        ; 65           ; 23           ; 3           ; 8                     ; 0                  ; no     ; no             ; no            ; no              ; no       ; Off          ; 3.3-V LVTTL  ; Off         ; User                 ;
 +------------+-------+----------+--------------+--------------+-------------+-----------------------+--------------------+--------+----------------+---------------+-----------------+----------+--------------+--------------+-------------+----------------------+
 
 
@@ -756,8 +756,8 @@ The pin-out file can be found in /home/johnmamish/bits/quartus/pitchshift/output
 +----------+-------+----------+--------------+--------------+-------------+-----------------------+--------------------+--------+----------------+-----------------+------------------------+---------------+-----------------+------------+----------+--------------+--------------+------------------+-------------+----------------------+------+-------------------------------------------------------------+---------------------+
 ; Name     ; Pin # ; I/O Bank ; X coordinate ; Y coordinate ; Cell number ; Combinational Fan-Out ; Registered Fan-Out ; Global ; Input Register ; Output Register ; Output Enable Register ; Power Up High ; PCI I/O Enabled ; Open Drain ; Bus Hold ; Weak Pull Up ; I/O Standard ; Current Strength ; Termination ; Location assigned by ; Load ; Output Enable Source                                        ; Output Enable Group ;
 +----------+-------+----------+--------------+--------------+-------------+-----------------------+--------------------+--------+----------------+-----------------+------------------------+---------------+-----------------+------------+----------+--------------+--------------+------------------+-------------+----------------------+------+-------------------------------------------------------------+---------------------+
-; I2C_SCLK ; A6    ; 3        ; 3            ; 36           ; 0           ; 1                     ; 0                  ; no     ; no             ; no              ; no                     ; no            ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_o_reg ; -                   ;
-; I2C_SDAT ; B6    ; 3        ; 3            ; 36           ; 1           ; 1                     ; 0                  ; no     ; no             ; no              ; no                     ; no            ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|sda_o_reg ; -                   ;
+; I2C_SCLK ; A6    ; 3        ; 3            ; 36           ; 0           ; 2                     ; 0                  ; no     ; no             ; no              ; no                     ; no            ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_o_reg ; -                   ;
+; I2C_SDAT ; B6    ; 3        ; 3            ; 36           ; 1           ; 2                     ; 0                  ; no     ; no             ; no              ; no                     ; no            ; no              ; yes        ; no       ; Off          ; 3.3-V LVTTL  ; 24mA             ; Off         ; User                 ; 0 pF ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|sda_o_reg ; -                   ;
 +----------+-------+----------+--------------+--------------+-------------+-----------------------+--------------------+--------+----------------+-----------------+------------------------+---------------+-----------------+------------+----------+--------------+--------------+------------------+-------------+----------------------+------+-------------------------------------------------------------+---------------------+
 
 
@@ -1500,17 +1500,18 @@ Note: User assignments will override these defaults. The user specified values a
 +----------------------------------------------+-------------+---------------------------+---------------+-------------+------+--------------+---------+-----------+------+--------------+--------------+-------------------+------------------+------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                   ; Logic Cells ; Dedicated Logic Registers ; I/O Registers ; Memory Bits ; M4Ks ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; LUT-Only LCs ; Register-Only LCs ; LUT/Register LCs ; Full Hierarchy Name                                                    ; Library Name ;
 +----------------------------------------------+-------------+---------------------------+---------------+-------------+------+--------------+---------+-----------+------+--------------+--------------+-------------------+------------------+------------------------------------------------------------------------+--------------+
-; |pitchshift                                  ; 432 (0)     ; 204 (0)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 63   ; 0            ; 228 (0)      ; 14 (0)            ; 190 (1)          ; |pitchshift                                                            ; work         ;
+; |pitchshift                                  ; 513 (1)     ; 270 (0)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 63   ; 0            ; 243 (1)      ; 8 (0)             ; 262 (0)          ; |pitchshift                                                            ; work         ;
+;    |beeper_triangle:triangle_gen|            ; 36 (36)     ; 32 (32)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 4 (4)        ; 0 (0)             ; 32 (32)          ; |pitchshift|beeper_triangle:triangle_gen                               ; work         ;
 ;    |divide_by_n:clk_12_5_divider|            ; 3 (3)       ; 3 (3)                     ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 0 (0)        ; 0 (0)             ; 3 (3)            ; |pitchshift|divide_by_n:clk_12_5_divider                               ; work         ;
-;    |i2s:i2s|                                 ; 15 (12)     ; 11 (8)                    ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 4 (4)        ; 0 (0)             ; 11 (8)           ; |pitchshift|i2s:i2s                                                    ; work         ;
+;    |i2s:i2s|                                 ; 42 (39)     ; 36 (33)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 6 (6)        ; 0 (0)             ; 36 (33)          ; |pitchshift|i2s:i2s                                                    ; work         ;
 ;       |divide_by_n:div_256|                  ; 3 (3)       ; 3 (3)                     ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 0 (0)        ; 0 (0)             ; 3 (3)            ; |pitchshift|i2s:i2s|divide_by_n:div_256                                ; work         ;
 ;    |nes_controller_reader:controller_reader| ; 54 (43)     ; 33 (25)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 21 (18)      ; 0 (0)             ; 33 (25)          ; |pitchshift|nes_controller_reader:controller_reader                    ; work         ;
 ;       |divide_by_n:div|                      ; 11 (11)     ; 8 (8)                     ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 3 (3)        ; 0 (0)             ; 8 (8)            ; |pitchshift|nes_controller_reader:controller_reader|divide_by_n:div    ; work         ;
-;    |resetter:resetter|                       ; 24 (24)     ; 17 (17)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 7 (7)        ; 0 (0)             ; 17 (17)          ; |pitchshift|resetter:resetter                                          ; work         ;
-;    |wm_setter_upper:wm8731_init|             ; 336 (0)     ; 140 (0)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 196 (0)      ; 14 (0)            ; 126 (0)          ; |pitchshift|wm_setter_upper:wm8731_init                                ; work         ;
-;       |i2c_init:i2c_init|                    ; 163 (163)   ; 56 (56)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 107 (107)    ; 10 (10)           ; 46 (46)          ; |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init              ; work         ;
-;       |i2c_master:i2c_master|                ; 152 (152)   ; 68 (68)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 83 (83)      ; 4 (4)             ; 65 (65)          ; |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master          ; work         ;
-;       |pulse_one:i2c_init_start_pulse|       ; 23 (23)     ; 16 (16)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 6 (6)        ; 0 (0)             ; 17 (17)          ; |pitchshift|wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse ; work         ;
+;    |resetter:resetter|                       ; 25 (25)     ; 17 (17)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 8 (8)        ; 0 (0)             ; 17 (17)          ; |pitchshift|resetter:resetter                                          ; work         ;
+;    |wm_setter_upper:wm8731_init|             ; 352 (0)     ; 149 (0)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 203 (0)      ; 8 (0)             ; 141 (0)          ; |pitchshift|wm_setter_upper:wm8731_init                                ; work         ;
+;       |i2c_init:i2c_init|                    ; 176 (176)   ; 63 (63)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 113 (113)    ; 6 (6)             ; 57 (57)          ; |pitchshift|wm_setter_upper:wm8731_init|i2c_init:i2c_init              ; work         ;
+;       |i2c_master:i2c_master|                ; 155 (155)   ; 70 (70)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 83 (83)      ; 2 (2)             ; 70 (70)          ; |pitchshift|wm_setter_upper:wm8731_init|i2c_master:i2c_master          ; work         ;
+;       |pulse_one:i2c_init_start_pulse|       ; 23 (23)     ; 16 (16)                   ; 0 (0)         ; 0           ; 0    ; 0            ; 0       ; 0         ; 0    ; 0            ; 7 (7)        ; 0 (0)             ; 16 (16)          ; |pitchshift|wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse ; work         ;
 +----------------------------------------------+-------------+---------------------------+---------------+-------------+------+--------------+---------+-----------+------+--------------+--------------+-------------------+------------------+------------------------------------------------------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -1529,7 +1530,6 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; AUD_DACLRCK ; Output   ; --            ; --            ; --                    ; --  ;
 ; AUD_DACDAT  ; Output   ; --            ; --            ; --                    ; --  ;
 ; AUD_ADCLRCK ; Output   ; --            ; --            ; --                    ; --  ;
-; AUD_ADCDAT  ; Input    ; (0) 170 ps    ; (0) 170 ps    ; --                    ; --  ;
 ; LEDR[0]     ; Output   ; --            ; --            ; --                    ; --  ;
 ; LEDR[1]     ; Output   ; --            ; --            ; --                    ; --  ;
 ; LEDR[2]     ; Output   ; --            ; --            ; --                    ; --  ;
@@ -1581,8 +1581,9 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; GPIO_0[30]  ; Output   ; --            ; --            ; --                    ; --  ;
 ; GPIO_0[31]  ; Output   ; --            ; --            ; --                    ; --  ;
 ; GPIO_0[32]  ; Output   ; --            ; --            ; --                    ; --  ;
-; NES_DO      ; Input    ; (6) 2523 ps   ; (6) 2523 ps   ; --                    ; --  ;
+; AUD_ADCDAT  ; Input    ; (6) 2514 ps   ; (6) 2514 ps   ; --                    ; --  ;
 ; CLOCK_50    ; Input    ; (0) 171 ps    ; (0) 171 ps    ; --                    ; --  ;
+; NES_DO      ; Input    ; (6) 2523 ps   ; (6) 2523 ps   ; --                    ; --  ;
 +-------------+----------+---------------+---------------+-----------------------+-----+
 
 
@@ -1592,10 +1593,14 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Source Pin / Fanout                                                    ; Pad To Core Index ; Setting ;
 +------------------------------------------------------------------------+-------------------+---------+
 ; I2C_SCLK                                                               ;                   ;         ;
-;      - wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_i_reg~0   ; 0                 ; 6       ;
+;      - wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_i_reg~0   ; 1                 ; 6       ;
+;      - GPIO_0[1]                                                       ; 1                 ; 6       ;
 ; I2C_SDAT                                                               ;                   ;         ;
 ;      - wm_setter_upper:wm8731_init|i2c_master:i2c_master|sda_i_reg~0   ; 0                 ; 6       ;
+;      - GPIO_0[0]                                                       ; 0                 ; 6       ;
 ; AUD_ADCDAT                                                             ;                   ;         ;
+;      - GPIO_0[7]                                                       ; 0                 ; 6       ;
+; CLOCK_50                                                               ;                   ;         ;
 ; NES_DO                                                                 ;                   ;         ;
 ;      - nes_controller_reader:controller_reader|Selector0~2             ; 0                 ; 6       ;
 ;      - nes_controller_reader:controller_reader|buttons_latch_next[1]~0 ; 0                 ; 6       ;
@@ -1605,38 +1610,37 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ;      - nes_controller_reader:controller_reader|buttons_latch_next[5]~4 ; 0                 ; 6       ;
 ;      - nes_controller_reader:controller_reader|buttons_latch_next[6]~5 ; 0                 ; 6       ;
 ;      - nes_controller_reader:controller_reader|buttons_latch_next[7]~6 ; 0                 ; 6       ;
-;      - GPIO_0[1]                                                       ; 0                 ; 6       ;
-; CLOCK_50                                                               ;                   ;         ;
 +------------------------------------------------------------------------+-------------------+---------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Control Signals                                                                                                                                                                                     ;
-+------------------------------------------------------------------------+--------------------+---------+--------------+--------+----------------------+------------------+---------------------------+
-; Name                                                                   ; Location           ; Fan-Out ; Usage        ; Global ; Global Resource Used ; Global Line Name ; Enable Signal Source Name ;
-+------------------------------------------------------------------------+--------------------+---------+--------------+--------+----------------------+------------------+---------------------------+
-; CLOCK_50                                                               ; PIN_N2             ; 20      ; Clock        ; yes    ; Global Clock         ; GCLK2            ; --                        ;
-; divide_by_n:clk_12_5_divider|out                                       ; LCFF_X24_Y22_N11   ; 159     ; Clock        ; yes    ; Global Clock         ; GCLK9            ; --                        ;
-; i2s:i2s|bitcount[2]~16                                                 ; LCCOMB_X25_Y25_N0  ; 6       ; Sync. clear  ; no     ; --                   ; --               ; --                        ;
-; i2s:i2s|bitcount[2]~17                                                 ; LCCOMB_X25_Y25_N14 ; 6       ; Clock enable ; no     ; --                   ; --               ; --                        ;
-; nes_controller_reader:controller_reader|buttons[4]~1                   ; LCCOMB_X24_Y25_N8  ; 8       ; Clock enable ; no     ; --                   ; --               ; --                        ;
-; nes_controller_reader:controller_reader|divide_by_n:div|counter[6]~23  ; LCCOMB_X25_Y23_N2  ; 7       ; Sync. load   ; no     ; --                   ; --               ; --                        ;
-; nes_controller_reader:controller_reader|divide_by_n:div|out            ; LCFF_X25_Y23_N1    ; 25      ; Clock        ; yes    ; Global Clock         ; GCLK11           ; --                        ;
-; resetter:resetter|Equal0~5                                             ; LCCOMB_X24_Y22_N6  ; 66      ; Sync. clear  ; no     ; --                   ; --               ; --                        ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[1]~1     ; LCCOMB_X23_Y22_N4  ; 6       ; Clock enable ; no     ; --                   ; --               ; --                        ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[6]~2     ; LCCOMB_X21_Y20_N10 ; 6       ; Clock enable ; no     ; --                   ; --               ; --                        ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_next~2         ; LCCOMB_X21_Y21_N14 ; 2       ; Clock enable ; no     ; --                   ; --               ; --                        ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[2]~1     ; LCCOMB_X22_Y22_N26 ; 6       ; Clock enable ; no     ; --                   ; --               ; --                        ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_valid_reg~6     ; LCCOMB_X22_Y22_N18 ; 8       ; Clock enable ; no     ; --                   ; --               ; --                        ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[3]~15       ; LCCOMB_X23_Y22_N6  ; 6       ; Clock enable ; no     ; --                   ; --               ; --                        ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~22             ; LCCOMB_X25_Y22_N2  ; 3       ; Clock enable ; no     ; --                   ; --               ; --                        ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[6]~4        ; LCCOMB_X22_Y21_N14 ; 7       ; Clock enable ; no     ; --                   ; --               ; --                        ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[3]~5   ; LCCOMB_X22_Y21_N30 ; 4       ; Clock enable ; no     ; --                   ; --               ; --                        ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[6]~0        ; LCCOMB_X21_Y21_N26 ; 8       ; Clock enable ; no     ; --                   ; --               ; --                        ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~41     ; LCCOMB_X24_Y23_N24 ; 10      ; Clock enable ; no     ; --                   ; --               ; --                        ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~28         ; LCCOMB_X23_Y21_N26 ; 5       ; Clock enable ; no     ; --                   ; --               ; --                        ;
-; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[3]~22 ; LCCOMB_X23_Y22_N10 ; 16      ; Sync. load   ; no     ; --                   ; --               ; --                        ;
-+------------------------------------------------------------------------+--------------------+---------+--------------+--------+----------------------+------------------+---------------------------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Control Signals                                                                                                                                                                                      ;
++-------------------------------------------------------------------------+--------------------+---------+--------------+--------+----------------------+------------------+---------------------------+
+; Name                                                                    ; Location           ; Fan-Out ; Usage        ; Global ; Global Resource Used ; Global Line Name ; Enable Signal Source Name ;
++-------------------------------------------------------------------------+--------------------+---------+--------------+--------+----------------------+------------------+---------------------------+
+; CLOCK_50                                                                ; PIN_N2             ; 20      ; Clock        ; yes    ; Global Clock         ; GCLK2            ; --                        ;
+; divide_by_n:clk_12_5_divider|out                                        ; LCFF_X53_Y17_N11   ; 193     ; Clock        ; yes    ; Global Clock         ; GCLK5            ; --                        ;
+; i2s:i2s|LRCK                                                            ; LCFF_X53_Y20_N17   ; 32      ; Clock        ; yes    ; Global Clock         ; GCLK4            ; --                        ;
+; i2s:i2s|bitcount[5]~6                                                   ; LCCOMB_X51_Y20_N14 ; 7       ; Sync. clear  ; no     ; --                   ; --               ; --                        ;
+; i2s:i2s|bitcount[5]~7                                                   ; LCCOMB_X51_Y20_N0  ; 30      ; Clock enable ; no     ; --                   ; --               ; --                        ;
+; nes_controller_reader:controller_reader|buttons[3]~1                    ; LCCOMB_X55_Y17_N4  ; 8       ; Clock enable ; no     ; --                   ; --               ; --                        ;
+; nes_controller_reader:controller_reader|divide_by_n:div|counter[6]~23   ; LCCOMB_X57_Y18_N24 ; 7       ; Sync. load   ; no     ; --                   ; --               ; --                        ;
+; nes_controller_reader:controller_reader|divide_by_n:div|out             ; LCFF_X64_Y19_N31   ; 25      ; Clock        ; yes    ; Global Clock         ; GCLK6            ; --                        ;
+; resetter:resetter|Equal0~5                                              ; LCCOMB_X54_Y17_N4  ; 83      ; Sync. clear  ; no     ; --                   ; --               ; --                        ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[0]~1      ; LCCOMB_X55_Y17_N10 ; 7       ; Clock enable ; no     ; --                   ; --               ; --                        ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[6]~2      ; LCCOMB_X54_Y20_N18 ; 7       ; Clock enable ; no     ; --                   ; --               ; --                        ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_next~2          ; LCCOMB_X59_Y18_N0  ; 2       ; Clock enable ; no     ; --                   ; --               ; --                        ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[4]~1      ; LCCOMB_X54_Y20_N0  ; 7       ; Clock enable ; no     ; --                   ; --               ; --                        ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_valid_reg~6      ; LCCOMB_X58_Y20_N30 ; 9       ; Clock enable ; no     ; --                   ; --               ; --                        ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[6]~13        ; LCCOMB_X54_Y19_N10 ; 7       ; Clock enable ; no     ; --                   ; --               ; --                        ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~25              ; LCCOMB_X54_Y19_N4  ; 3       ; Clock enable ; no     ; --                   ; --               ; --                        ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[6]~4         ; LCCOMB_X56_Y18_N12 ; 8       ; Clock enable ; no     ; --                   ; --               ; --                        ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[3]~4    ; LCCOMB_X55_Y18_N2  ; 4       ; Clock enable ; no     ; --                   ; --               ; --                        ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[6]~0         ; LCCOMB_X56_Y18_N22 ; 9       ; Clock enable ; no     ; --                   ; --               ; --                        ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~41      ; LCCOMB_X54_Y18_N22 ; 10      ; Clock enable ; no     ; --                   ; --               ; --                        ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~28          ; LCCOMB_X54_Y18_N20 ; 5       ; Clock enable ; no     ; --                   ; --               ; --                        ;
+; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[10]~22 ; LCCOMB_X51_Y19_N22 ; 16      ; Sync. load   ; no     ; --                   ; --               ; --                        ;
++-------------------------------------------------------------------------+--------------------+---------+--------------+--------+----------------------+------------------+---------------------------+
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -1645,8 +1649,9 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Name                                                        ; Location         ; Fan-Out ; Global Resource Used ; Global Line Name ; Enable Signal Source Name ;
 +-------------------------------------------------------------+------------------+---------+----------------------+------------------+---------------------------+
 ; CLOCK_50                                                    ; PIN_N2           ; 20      ; Global Clock         ; GCLK2            ; --                        ;
-; divide_by_n:clk_12_5_divider|out                            ; LCFF_X24_Y22_N11 ; 159     ; Global Clock         ; GCLK9            ; --                        ;
-; nes_controller_reader:controller_reader|divide_by_n:div|out ; LCFF_X25_Y23_N1  ; 25      ; Global Clock         ; GCLK11           ; --                        ;
+; divide_by_n:clk_12_5_divider|out                            ; LCFF_X53_Y17_N11 ; 193     ; Global Clock         ; GCLK5            ; --                        ;
+; i2s:i2s|LRCK                                                ; LCFF_X53_Y20_N17 ; 32      ; Global Clock         ; GCLK4            ; --                        ;
+; nes_controller_reader:controller_reader|divide_by_n:div|out ; LCFF_X64_Y19_N31 ; 25      ; Global Clock         ; GCLK6            ; --                        ;
 +-------------------------------------------------------------+------------------+---------+----------------------+------------------+---------------------------+
 
 
@@ -1655,123 +1660,123 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +--------------------------------------------------------------------------------------------+---------+
 ; Name                                                                                       ; Fan-Out ;
 +--------------------------------------------------------------------------------------------+---------+
-; resetter:resetter|Equal0~5                                                                 ; 66      ;
-; resetter:resetter|reset_count[16]                                                          ; 60      ;
-; resetter:resetter|Equal0~4                                                                 ; 59      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg.STATE_TABLE_3                      ; 29      ;
+; resetter:resetter|Equal0~5                                                                 ; 83      ;
+; resetter:resetter|reset_count[16]                                                          ; 64      ;
+; resetter:resetter|Equal0~4                                                                 ; 63      ;
+; i2s:i2s|bitcount[5]~7                                                                      ; 30      ;
+; i2s:i2s|Equal0~0                                                                           ; 26      ;
+; i2s:i2s|Equal0~1                                                                           ; 25      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg.STATE_TABLE_3                      ; 23      ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_reg[12]~30                         ; 17      ;
-; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[3]~22                     ; 16      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal4~0                                     ; 15      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg.STATE_RUN                          ; 14      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[8]                             ; 14      ;
+; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[10]~22                    ; 16      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[1]                         ; 16      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg.STATE_RUN                          ; 16      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_valid_reg                                ; 16      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]                         ; 15      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[3]                             ; 15      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[0]                             ; 15      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[8]                             ; 15      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[1]                         ; 14      ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_reg[12]~29                         ; 13      ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[1]                         ; 13      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_valid_reg                                ; 13      ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_ACTIVE           ; 13      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[4]                         ; 13      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[3]                         ; 13      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_valid_reg                           ; 13      ;
 ; nes_controller_reader:controller_reader|state[4]                                           ; 13      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[3]                         ; 12      ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[2]                         ; 12      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal0~0                                     ; 12      ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|LessThan2~5                              ; 12      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_ACTIVE           ; 12      ;
 ; nes_controller_reader:controller_reader|state[3]                                           ; 12      ;
 ; nes_controller_reader:controller_reader|state[2]                                           ; 12      ;
 ; nes_controller_reader:controller_reader|state[1]                                           ; 12      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[4]                         ; 11      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]                         ; 11      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal3~1                                     ; 11      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal2~0                                     ; 11      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal0~0                                     ; 11      ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_IDLE             ; 11      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_valid_reg                           ; 11      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_WRITE_1                  ; 11      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[0]                         ; 11      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg.STATE_TABLE_1                      ; 11      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[7]                             ; 11      ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~41                         ; 10      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[5]~24                      ; 10      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[1]                         ; 10      ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_WRITE_1                  ; 10      ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[0]                         ; 10      ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_next~2                         ; 10      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[7]                             ; 10      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[3]                             ; 10      ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[0]                             ; 10      ;
-; NES_DO                                                                                     ; 9       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~14                      ; 9       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[5]                         ; 10      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[6]                         ; 10      ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_IDLE             ; 10      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg.STATE_TABLE_2                      ; 10      ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_valid_reg~6                         ; 9       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_valid_reg~4                         ; 9       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal1~4                                     ; 9       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal3~0                                     ; 9       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[6]~0                            ; 9       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_next~2                         ; 9       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector20~0                             ; 9       ;
+; NES_DO                                                                                     ; 8       ;
+; resetter:resetter|Equal0~5_wirecell                                                        ; 8       ;
 ; ~GND                                                                                       ; 8       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_valid_reg~6                         ; 8       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal5~5                                     ; 8       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg[0]                               ; 8       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[6]~0                            ; 8       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_next~0                             ; 8       ;
-; nes_controller_reader:controller_reader|buttons[4]~1                                       ; 8       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg.STATE_TABLE_2                      ; 8       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg.STATE_TABLE_1                      ; 8       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[6]~4                            ; 8       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~13                      ; 8       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~11                      ; 8       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal4~0                                     ; 8       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~6                             ; 8       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_start_bit~0                          ; 8       ;
+; nes_controller_reader:controller_reader|buttons[3]~1                                       ; 8       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg.STATE_IDLE                         ; 8       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[5]                             ; 8       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_scl_reg                            ; 8       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[6]~4                            ; 7       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~19                      ; 7       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~17                      ; 7       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_stop_reg~0                               ; 7       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~6                             ; 7       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector37~0                             ; 7       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[6]~13                           ; 7       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[0]~1                         ; 7       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[4]~1                         ; 7       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~14                      ; 7       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[6]~2                         ; 7       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_IDLE                     ; 7       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|cmd_ready_reg                            ; 7       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector37~0                             ; 7       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[2]                         ; 7       ;
 ; nes_controller_reader:controller_reader|divide_by_n:div|counter[6]~23                      ; 7       ;
 ; nes_controller_reader:controller_reader|WideOr1~1                                          ; 7       ;
+; i2s:i2s|bitcount[5]~6                                                                      ; 7       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[6]                             ; 7       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[1]                             ; 7       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_ACTIVE_WRITE             ; 7       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[3]~15                           ; 6       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[1]~1                         ; 6       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[2]~1                         ; 6       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg[1]                               ; 6       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~20                      ; 6       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[6]~2                         ; 6       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[2]                         ; 6       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|cmd_ready_reg                            ; 6       ;
-; i2s:i2s|bitcount[2]~17                                                                     ; 6       ;
-; i2s:i2s|bitcount[2]~16                                                                     ; 6       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg.STATE_IDLE                         ; 6       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[6]                             ; 6       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[1]                             ; 6       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal5~0                                     ; 6       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal2~0                                     ; 6       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_reg~2                              ; 6       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal7~0                                     ; 6       ;
+; i2s:i2s|divide_by_n:div_256|out                                                            ; 6       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_ADDRESS_1                ; 6       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_WRITE_2                  ; 6       ;
 ; nes_controller_reader:controller_reader|state[0]                                           ; 6       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~28                             ; 5       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal3~0                                     ; 5       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_next~0                                 ; 5       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~5                       ; 5       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~3                       ; 5       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal1~1                                     ; 5       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector26~0                             ; 5       ;
 ; nes_controller_reader:controller_reader|Decoder1~0                                         ; 5       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_WRITE_BIT_1      ; 5       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal7~5                                     ; 4       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg[2]                               ; 4       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg[4]                               ; 4       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[3]~5                       ; 4       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[2]~1                       ; 4       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~15                                 ; 4       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[1]~0                         ; 4       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_stop_reg~4                               ; 4       ;
+; i2s:i2s|LRCK                                                                               ; 5       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~14                                 ; 4       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|always0~0                                    ; 4       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal3~1                                     ; 4       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_reg~3                              ; 4       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal7~2                                     ; 4       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[3]~4                       ; 4       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[0]~0                       ; 4       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[3]                         ; 4       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|sda_o_reg                                ; 4       ;
-; i2s:i2s|divide_by_n:div_256|out                                                            ; 4       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[2]                        ; 4       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[4]                             ; 4       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data_reg[2]                             ; 4       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bus_active_reg                           ; 4       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_START_WAIT               ; 4       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~22                                 ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal1~6                                     ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~1                                       ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg[3]                               ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|always0~0                                    ; 3       ;
+; beeper_triangle:triangle_gen|Add1~62                                                       ; 4       ;
+; beeper_triangle:triangle_gen|Add1~60                                                       ; 4       ;
+; beeper_triangle:triangle_gen|Add1~58                                                       ; 4       ;
+; beeper_triangle:triangle_gen|Add1~56                                                       ; 4       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~25                                 ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~16                                 ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~10                                 ; 3       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|Equal0~3                        ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~6                       ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~33                         ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~17                                 ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_next~0                                 ; 3       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_in_ready_reg                        ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~0                             ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_stop_reg~8                               ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~29                         ; 3       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_next~3                         ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector27~0                             ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_stop_reg                                 ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[3]                         ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|always0~3                                ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_reg                                ; 3       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_reg[12]~4                          ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_STOP_2           ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_REPEATED_START_2 ; 3       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_STOP_3           ; 3       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_reg[1]                             ; 3       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_reg[2]                             ; 3       ;
@@ -1790,67 +1795,110 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_reg[15]                            ; 3       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_reg[16]                            ; 3       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_reg[0]                             ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_REPEATED_START_2 ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_STOP_2           ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_stop_reg                                 ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|always0~4                                ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_reg                                ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_reg                                ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector27~0                             ; 3       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_o_reg                                ; 3       ;
+; i2s:i2s|bck_prev                                                                           ; 3       ;
+; i2s:i2s|data_shift[31]                                                                     ; 3       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[1]                        ; 3       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[0]                        ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_WRITE_3                  ; 3       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_STOP_1           ; 3       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_READ_BIT_1       ; 3       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_REPEATED_START_1 ; 3       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_WRITE_3                  ; 3       ;
 ; nes_controller_reader:controller_reader|divide_by_n:div|counter[6]                         ; 3       ;
-; i2s:i2s|bitcount[5]                                                                        ; 3       ;
 ; i2s:i2s|bitcount[4]                                                                        ; 3       ;
-; i2s:i2s|LRCK                                                                               ; 3       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg~17                              ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg~16                              ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~23                                 ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg~14                              ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg~13                              ; 2       ;
+; i2s:i2s|bitcount[5]                                                                        ; 3       ;
+; I2C_SDAT~0                                                                                 ; 2       ;
+; I2C_SCLK~0                                                                                 ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~26                                 ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~38                                 ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~37                                 ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_reg~11                             ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg~12                              ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg~11                              ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg~10                              ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg~9                               ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector16~0                             ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~17                                 ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~16                                 ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~10                                 ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~5                                       ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~4                                       ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~2                                       ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg~8                               ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg~7                               ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg~4                               ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~26                                 ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg[2]                               ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg[3]                               ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg[4]                               ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg[5]                               ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg[6]                               ; 2       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|pulse~0                         ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[3]~2                       ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|sda_i_reg                                ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[2]~0                       ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_next~2                             ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal1~5                                     ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal7~4                                     ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal5~4                                     ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~10                      ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~8                       ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg[0]                               ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg[1]                               ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector16~0                             ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_next~5                         ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~7                             ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_i_reg                                ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Add1~0                                   ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector37~2                             ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|sda_i_reg                                ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~4                       ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~2                       ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_next~2                             ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_reg~10                             ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_reg~8                              ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal7~1                                     ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[0]~5                       ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[3]~1                       ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_READ_BIT_2       ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_o_reg~0                              ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|mode_stop_reg                            ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector37~1                             ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_reg                                ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[4]                           ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[6]                           ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[6]                              ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[4]                              ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[4]                           ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[5]                           ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[3]                           ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[2]                           ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[2]                              ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[3]                              ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[0]                           ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[1]                           ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[1]                              ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[2]                              ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[3]                              ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[0]                              ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_READ_BIT_2       ; 2       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_o_reg~0                              ; 2       ;
-; divide_by_n:clk_12_5_divider|counter[0]                                                    ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[5]                              ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[6]                              ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|addr_reg[4]                              ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Add1~1                                   ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Add1~0                                   ; 2       ;
+; beeper_triangle:triangle_gen|count[29]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[8]                                                      ; 2       ;
+; beeper_triangle:triangle_gen|count[9]                                                      ; 2       ;
+; beeper_triangle:triangle_gen|count[10]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[11]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[12]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[13]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[14]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[15]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[16]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[17]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[18]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[19]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[20]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[21]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[22]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[23]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[24]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[25]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[26]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[27]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[28]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[30]                                                     ; 2       ;
+; beeper_triangle:triangle_gen|count[31]                                                     ; 2       ;
 ; i2s:i2s|divide_by_n:div_256|counter[0]                                                     ; 2       ;
-; divide_by_n:clk_12_5_divider|counter[1]                                                    ; 2       ;
-; i2s:i2s|Equal0~0                                                                           ; 2       ;
-; i2s:i2s|bck_prev                                                                           ; 2       ;
+; divide_by_n:clk_12_5_divider|counter[0]                                                    ; 2       ;
 ; i2s:i2s|divide_by_n:div_256|counter[1]                                                     ; 2       ;
+; divide_by_n:clk_12_5_divider|counter[1]                                                    ; 2       ;
 ; resetter:resetter|reset_count[14]                                                          ; 2       ;
 ; resetter:resetter|reset_count[13]                                                          ; 2       ;
 ; resetter:resetter|reset_count[0]                                                           ; 2       ;
@@ -1867,9 +1915,14 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; resetter:resetter|reset_count[12]                                                          ; 2       ;
 ; resetter:resetter|reset_count[9]                                                           ; 2       ;
 ; resetter:resetter|reset_count[10]                                                          ; 2       ;
-; nes_controller_reader:controller_reader|WideOr0~1                                          ; 2       ;
-; nes_controller_reader:controller_reader|Decoder1~2                                         ; 2       ;
+; divide_by_n:clk_12_5_divider|out                                                           ; 2       ;
 ; nes_controller_reader:controller_reader|Decoder1~1                                         ; 2       ;
+; i2s:i2s|data_shift[7]                                                                      ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~12                                      ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~10                                      ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~8                                       ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~6                                       ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~4                                       ; 2       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[13]                       ; 2       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[12]                       ; 2       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[11]                       ; 2       ;
@@ -1884,6 +1937,8 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[6]                        ; 2       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[4]                        ; 2       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|start_flag_reg                               ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~2                                       ; 2       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~0                                       ; 2       ;
 ; nes_controller_reader:controller_reader|divide_by_n:div|counter[0]                         ; 2       ;
 ; nes_controller_reader:controller_reader|divide_by_n:div|counter[1]                         ; 2       ;
 ; nes_controller_reader:controller_reader|divide_by_n:div|counter[2]                         ; 2       ;
@@ -1906,174 +1961,138 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; nes_controller_reader:controller_reader|state[7]                                           ; 2       ;
 ; nes_controller_reader:controller_reader|state[6]                                           ; 2       ;
 ; nes_controller_reader:controller_reader|state[5]                                           ; 2       ;
-; I2C_SDAT~0                                                                                 ; 1       ;
-; I2C_SCLK~0                                                                                 ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|sda_i_reg~0                              ; 1       ;
+; AUD_ADCDAT                                                                                 ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_i_reg~0                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux0~3                                   ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux0~2                                   ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux1~3                                   ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux1~2                                   ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|sda_i_reg~0                              ; 1       ;
+; i2s:i2s|data_shift~27                                                                      ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg~20                               ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg~19                               ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg~18                               ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg~17                               ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg~16                               ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg~15                               ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg~14                               ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg~13                               ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_reg~12                               ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~36                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~35                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~22                      ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_in_ready_reg~4                      ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~30                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[3]~34                      ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[2]~33                      ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[4]~32                      ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[5]~31                      ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[1]~30                      ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~29                      ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~28                      ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_next~9                         ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~42                         ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_stop_next~2                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector23~2                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector22~2                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~15                            ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~14                            ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~13                            ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_address_reg[6]~3                         ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~29                             ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_valid_next~7                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~42                         ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_next~9                         ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector23~2                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector22~2                             ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~40                         ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux1~6                                   ; 1       ;
+; i2s:i2s|data_shift~26                                                                      ; 1       ;
+; i2s:i2s|data_shift~25                                                                      ; 1       ;
+; i2s:i2s|data_shift~24                                                                      ; 1       ;
+; i2s:i2s|data_shift~23                                                                      ; 1       ;
+; i2s:i2s|data_shift~22                                                                      ; 1       ;
+; i2s:i2s|data_shift~21                                                                      ; 1       ;
+; i2s:i2s|data_shift~20                                                                      ; 1       ;
+; i2s:i2s|data_shift~19                                                                      ; 1       ;
+; i2s:i2s|data_shift~18                                                                      ; 1       ;
+; i2s:i2s|data_shift~17                                                                      ; 1       ;
+; i2s:i2s|data_shift~16                                                                      ; 1       ;
+; i2s:i2s|data_shift~15                                                                      ; 1       ;
+; i2s:i2s|data_shift~14                                                                      ; 1       ;
+; i2s:i2s|data_shift~13                                                                      ; 1       ;
+; i2s:i2s|data_shift~12                                                                      ; 1       ;
+; i2s:i2s|data_shift~11                                                                      ; 1       ;
+; i2s:i2s|data_shift~10                                                                      ; 1       ;
+; i2s:i2s|data_shift~9                                                                       ; 1       ;
+; i2s:i2s|data_shift~8                                                                       ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~24                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[0]~0                         ; 1       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|Equal0~4                        ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|start_flag_reg~1                             ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|start_flag_reg~0                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[3]~11                           ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[3]~10                           ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_next~1                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~21                                 ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~20                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[6]~6                            ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[6]~5                            ; 1       ;
+; i2s:i2s|data_shift~7                                                                       ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~39                         ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector59~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~23                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~22                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg~7                            ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg~6                            ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg~5                            ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg~4                            ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg~3                            ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg~2                            ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg~0                            ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_valid_reg~5                         ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_next.STATE_TABLE_2~2                   ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_next.STATE_TABLE_2~1                   ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_next.STATE_TABLE_2~0                   ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_next.STATE_TABLE_1~2                   ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_next.STATE_TABLE_1~1                   ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_next.STATE_TABLE_1~0                   ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~21                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~20                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_next~1                                 ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~19                                 ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_reg~18                                 ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|state_next~1                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~34                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~33                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~32                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~31                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~30                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~29                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~28                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~27                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~25                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~24                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~23                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~22                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~21                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~20                                 ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~19                                 ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~18                                 ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~17                                 ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~16                                 ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~15                                 ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~14                                 ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~13                                 ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~12                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector11~0                                 ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~11                                 ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~9                                  ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~8                                  ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~7                                  ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~6                                  ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~5                                  ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~4                                  ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~3                                  ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~2                                  ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector10~0                                 ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~1                                  ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~0                                  ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[3]~27                      ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[3]                           ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[3]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[2]~26                      ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[2]                           ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[2]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[4]~25                      ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[4]~21                      ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[4]                           ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[4]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~3                                       ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[5]~23                      ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~9                                  ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[3]~20                      ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[3]                           ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[3]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[2]~19                      ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[2]                           ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[2]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data~8                                  ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[5]~18                      ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[5]                           ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[5]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[1]~22                      ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[1]                           ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[1]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~0                                       ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~21                      ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[6]~17                      ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[6]                           ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[6]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~16                      ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[0]                           ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[0]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[1]~15                      ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|address_ptr_reg[1]                           ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~12                      ; 1       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|Equal0~2                        ; 1       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|Equal0~1                        ; 1       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|Equal0~0                        ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~18                      ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~16                      ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~15                      ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[0]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~39                         ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector59~0                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector36~0                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[0]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector34~0                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[2]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector33~0                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[3]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector35~0                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[1]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector32~0                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[4]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector29~0                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[7]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector30~0                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[6]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~9                       ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|init_data.raddr_a[0]~7                       ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[1]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_next~0                             ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector37~3                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_next.STATE_ADDRESS_1~1             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~27                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector21~0                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[3]~4                       ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[3]~3                       ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector24~0                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~9                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~8                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~7                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~6                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~5                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~4                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~3                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~2                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~1                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector25~0                                 ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[4]                           ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector23~0                                 ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[6]                           ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector26~0                                 ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[3]                           ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector27~0                                 ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[2]                           ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector29~0                                 ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[0]                           ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector28~0                                 ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[1]                           ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector12~1                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector12~0                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bus_active_reg~0                         ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|last_sda_i_reg                           ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~26                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_valid_next~6                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_valid_next~5                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_valid_next~4                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_ptr_reg[3]~8                            ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_valid_next~3                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_valid_next~2                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|cmd_ready_reg~0                          ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_next~1                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_stop_reg~7                               ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_stop_reg~6                               ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_stop_reg~5                               ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_stop_reg~3                               ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_stop_reg~2                               ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_stop_reg~1                               ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_next~0                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector14~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_valid_reg~5                         ; 1       ;
+; i2s:i2s|data_shift~6                                                                       ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~38                         ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_READ_BIT_3       ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~37                         ; 1       ;
@@ -2081,14 +2100,10 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~36                         ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~35                         ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~34                         ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~33                         ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~32                         ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~31                         ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_next~8                         ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_next~7                         ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_next~6                         ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_next~4                         ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~30                         ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_reg[1]~28                          ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_reg[2]~27                          ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_reg[2]~26                          ; 1       ;
@@ -2115,30 +2130,78 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_reg[12]~5                          ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_scl_next~1                         ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|delay_scl_next~0                         ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|sda_o_reg~0                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|sda_o_next~0                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~5                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~4                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux1~5                                   ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[0]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[2]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[3]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[1]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[4]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux1~4                                   ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[7]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[6]                              ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~3                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux0~1                                   ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux0~0                                   ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~2                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~25                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~1                             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|always0~2                                ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|always0~1                                ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|always0~0                                ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_next.STATE_ADDRESS_1~0             ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~32                         ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~31                         ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~30                         ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector37~2                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~12                            ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~11                            ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~10                            ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~9                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~8                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_start_next~6                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector24~0                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[6]                           ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector26~0                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[4]                           ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector25~0                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[5]                           ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector27~0                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[3]                           ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector28~0                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[2]                           ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector30~0                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[0]                           ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Selector29~0                                 ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cur_address_reg[1]                           ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector12~1                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector12~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bus_active_reg~0                         ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|last_sda_i_reg                           ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~27                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_valid_next~6                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_valid_next~5                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_valid_next~4                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_valid_next~3                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_valid_next~2                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|cmd_ready_reg~0                          ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|always0~5                                ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_next~1                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_reg~9                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_reg~7                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_reg~6                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_reg~5                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_reg~4                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|cmd_write_next~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Equal1~0                                     ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector14~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector36~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[0]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector34~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[2]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector33~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[3]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector35~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[1]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector32~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[4]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector30~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[6]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector29~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[7]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector31~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|data_out_reg[5]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector21~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[3]~3                       ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|bit_count_reg[3]~2                       ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector24~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_next.STATE_ADDRESS_1~1             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~26                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg~29                         ; 1       ;
+; beeper_triangle:triangle_gen|count~3                                                       ; 1       ;
+; beeper_triangle:triangle_gen|count~2                                                       ; 1       ;
+; beeper_triangle:triangle_gen|count~1                                                       ; 1       ;
+; i2s:i2s|data_shift~5                                                                       ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_o_reg~4                              ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_o_reg~3                              ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_READ_BIT_4       ; 1       ;
@@ -2146,16 +2209,57 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_START_2          ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_o_reg~2                              ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|scl_o_reg~1                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|sda_o_reg~0                              ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|LessThan2~4                              ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|LessThan2~3                              ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|LessThan2~2                              ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|LessThan2~1                              ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|LessThan2~0                              ; 1       ;
-; divide_by_n:clk_12_5_divider|counter~1                                                     ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~8                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~7                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~5                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~4                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg~25                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|always0~3                                ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|always0~2                                ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|always0~1                                ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|always0~0                                ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_next.STATE_ADDRESS_1~0             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~3                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~2                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux0~4                                   ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux0~3                                   ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux0~2                                   ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux0~1                                   ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux0~0                                   ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~1                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Selector38~0                             ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux1~3                                   ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[0]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux1~2                                   ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[2]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[3]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[1]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux1~1                                   ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[4]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Mux1~0                                   ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[6]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[7]                              ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|data_reg[5]                              ; 1       ;
+; beeper_triangle:triangle_gen|count~0                                                       ; 1       ;
+; beeper_triangle:triangle_gen|count[0]                                                      ; 1       ;
+; beeper_triangle:triangle_gen|count[1]                                                      ; 1       ;
+; beeper_triangle:triangle_gen|count[2]                                                      ; 1       ;
+; beeper_triangle:triangle_gen|count[3]                                                      ; 1       ;
+; beeper_triangle:triangle_gen|count[4]                                                      ; 1       ;
+; beeper_triangle:triangle_gen|count[5]                                                      ; 1       ;
+; beeper_triangle:triangle_gen|count[6]                                                      ; 1       ;
+; beeper_triangle:triangle_gen|count[7]                                                      ; 1       ;
+; i2s:i2s|data_shift~4                                                                       ; 1       ;
 ; i2s:i2s|divide_by_n:div_256|counter~1                                                      ; 1       ;
+; divide_by_n:clk_12_5_divider|counter~1                                                     ; 1       ;
 ; nes_controller_reader:controller_reader|divide_by_n:div|counter[6]~22                      ; 1       ;
 ; nes_controller_reader:controller_reader|divide_by_n:div|counter[6]~21                      ; 1       ;
-; divide_by_n:clk_12_5_divider|counter~0                                                     ; 1       ;
 ; nes_controller_reader:controller_reader|buttons_latch_next[7]~6                            ; 1       ;
 ; nes_controller_reader:controller_reader|Decoder0~6                                         ; 1       ;
 ; nes_controller_reader:controller_reader|buttons_latch_next[6]~5                            ; 1       ;
@@ -2174,11 +2278,12 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; nes_controller_reader:controller_reader|Selector0~2                                        ; 1       ;
 ; nes_controller_reader:controller_reader|Selector0~1                                        ; 1       ;
 ; nes_controller_reader:controller_reader|Selector0~0                                        ; 1       ;
+; i2s:i2s|data_shift~3                                                                       ; 1       ;
 ; i2s:i2s|bck_prev~0                                                                         ; 1       ;
 ; i2s:i2s|divide_by_n:div_256|counter~0                                                      ; 1       ;
+; divide_by_n:clk_12_5_divider|counter~0                                                     ; 1       ;
 ; resetter:resetter|reset_count~0                                                            ; 1       ;
 ; nes_controller_reader:controller_reader|divide_by_n:div|out~0                              ; 1       ;
-; divide_by_n:clk_12_5_divider|out~0                                                         ; 1       ;
 ; nes_controller_reader:controller_reader|buttons~8                                          ; 1       ;
 ; nes_controller_reader:controller_reader|buttons~7                                          ; 1       ;
 ; nes_controller_reader:controller_reader|buttons~6                                          ; 1       ;
@@ -2188,14 +2293,15 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; nes_controller_reader:controller_reader|buttons~2                                          ; 1       ;
 ; nes_controller_reader:controller_reader|Decoder1~3                                         ; 1       ;
 ; nes_controller_reader:controller_reader|buttons~0                                          ; 1       ;
-; i2s:i2s|LRCK~1                                                                             ; 1       ;
+; i2s:i2s|data_shift[31]~2                                                                   ; 1       ;
 ; i2s:i2s|LRCK~0                                                                             ; 1       ;
+; i2s:i2s|always0~0                                                                          ; 1       ;
 ; i2s:i2s|divide_by_n:div_256|out~0                                                          ; 1       ;
+; divide_by_n:clk_12_5_divider|out~0                                                         ; 1       ;
 ; resetter:resetter|Equal0~3                                                                 ; 1       ;
 ; resetter:resetter|Equal0~2                                                                 ; 1       ;
 ; resetter:resetter|Equal0~1                                                                 ; 1       ;
 ; resetter:resetter|Equal0~0                                                                 ; 1       ;
-; divide_by_n:clk_12_5_divider|out                                                           ; 1       ;
 ; nes_controller_reader:controller_reader|buttons[7]                                         ; 1       ;
 ; nes_controller_reader:controller_reader|buttons[6]                                         ; 1       ;
 ; nes_controller_reader:controller_reader|buttons[5]                                         ; 1       ;
@@ -2204,7 +2310,26 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; nes_controller_reader:controller_reader|buttons[2]                                         ; 1       ;
 ; nes_controller_reader:controller_reader|buttons[1]                                         ; 1       ;
 ; nes_controller_reader:controller_reader|buttons[0]                                         ; 1       ;
+; nes_controller_reader:controller_reader|WideOr0~1                                          ; 1       ;
 ; nes_controller_reader:controller_reader|WideOr0~0                                          ; 1       ;
+; nes_controller_reader:controller_reader|Decoder1~2                                         ; 1       ;
+; i2s:i2s|data_shift[8]                                                                      ; 1       ;
+; i2s:i2s|data_shift[9]                                                                      ; 1       ;
+; i2s:i2s|data_shift[10]                                                                     ; 1       ;
+; i2s:i2s|data_shift[11]                                                                     ; 1       ;
+; i2s:i2s|data_shift[12]                                                                     ; 1       ;
+; i2s:i2s|data_shift[13]                                                                     ; 1       ;
+; i2s:i2s|data_shift[14]                                                                     ; 1       ;
+; i2s:i2s|data_shift[15]                                                                     ; 1       ;
+; i2s:i2s|data_shift[16]                                                                     ; 1       ;
+; i2s:i2s|data_shift[17]                                                                     ; 1       ;
+; i2s:i2s|data_shift[18]                                                                     ; 1       ;
+; i2s:i2s|data_shift[19]                                                                     ; 1       ;
+; i2s:i2s|data_shift[20]                                                                     ; 1       ;
+; i2s:i2s|data_shift[21]                                                                     ; 1       ;
+; i2s:i2s|data_shift[22]                                                                     ; 1       ;
+; i2s:i2s|data_shift[23]                                                                     ; 1       ;
+; i2s:i2s|data_shift[24]                                                                     ; 1       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[15]~47                    ; 1       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[14]~46                    ; 1       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[14]~45                    ; 1       ;
@@ -2236,7 +2361,14 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[1]~18                     ; 1       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[0]~17                     ; 1       ;
 ; wm_setter_upper:wm8731_init|pulse_one:i2c_init_start_pulse|count[0]~16                     ; 1       ;
-; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_ADDRESS_2                ; 1       ;
+; i2s:i2s|data_shift[25]                                                                     ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~11                                      ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~9                                       ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~7                                       ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~5                                       ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~3                                       ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_init:i2c_init|Add0~1                                       ; 1       ;
+; i2s:i2s|data_shift[26]                                                                     ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|phy_state_reg.PHY_STATE_START_1          ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Add2~32                                  ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Add2~31                                  ; 1       ;
@@ -2271,6 +2403,68 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Add2~2                                   ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Add2~1                                   ; 1       ;
 ; wm_setter_upper:wm8731_init|i2c_master:i2c_master|Add2~0                                   ; 1       ;
+; wm_setter_upper:wm8731_init|i2c_master:i2c_master|state_reg.STATE_ADDRESS_2                ; 1       ;
+; i2s:i2s|data_shift[27]                                                                     ; 1       ;
+; beeper_triangle:triangle_gen|Add1~61                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~59                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~57                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~55                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~54                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~53                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~52                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~51                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~50                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~49                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~48                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~47                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~46                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~45                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~44                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~43                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~42                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~41                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~40                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~39                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~38                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~37                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~36                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~35                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~34                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~33                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~32                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~31                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~30                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~29                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~28                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~27                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~26                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~25                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~24                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~23                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~22                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~21                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~20                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~19                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~18                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~17                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~16                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~15                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~14                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~13                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~12                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~11                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~10                                                       ; 1       ;
+; beeper_triangle:triangle_gen|Add1~9                                                        ; 1       ;
+; beeper_triangle:triangle_gen|Add1~8                                                        ; 1       ;
+; beeper_triangle:triangle_gen|Add1~7                                                        ; 1       ;
+; beeper_triangle:triangle_gen|Add1~6                                                        ; 1       ;
+; beeper_triangle:triangle_gen|Add1~5                                                        ; 1       ;
+; beeper_triangle:triangle_gen|Add1~4                                                        ; 1       ;
+; beeper_triangle:triangle_gen|Add1~3                                                        ; 1       ;
+; beeper_triangle:triangle_gen|Add1~2                                                        ; 1       ;
+; beeper_triangle:triangle_gen|Add1~1                                                        ; 1       ;
+; beeper_triangle:triangle_gen|Add1~0                                                        ; 1       ;
+; i2s:i2s|data_shift[28]                                                                     ; 1       ;
 ; nes_controller_reader:controller_reader|divide_by_n:div|counter[6]~19                      ; 1       ;
 ; nes_controller_reader:controller_reader|divide_by_n:div|counter[5]~18                      ; 1       ;
 ; nes_controller_reader:controller_reader|divide_by_n:div|counter[5]~17                      ; 1       ;
@@ -2284,17 +2478,18 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; nes_controller_reader:controller_reader|divide_by_n:div|counter[1]~9                       ; 1       ;
 ; nes_controller_reader:controller_reader|divide_by_n:div|counter[0]~8                       ; 1       ;
 ; nes_controller_reader:controller_reader|divide_by_n:div|counter[0]~7                       ; 1       ;
+; i2s:i2s|data_shift[29]                                                                     ; 1       ;
 ; i2s:i2s|bitcount[5]~18                                                                     ; 1       ;
-; i2s:i2s|bitcount[4]~15                                                                     ; 1       ;
-; i2s:i2s|bitcount[4]~14                                                                     ; 1       ;
-; i2s:i2s|bitcount[3]~13                                                                     ; 1       ;
-; i2s:i2s|bitcount[3]~12                                                                     ; 1       ;
-; i2s:i2s|bitcount[2]~11                                                                     ; 1       ;
-; i2s:i2s|bitcount[2]~10                                                                     ; 1       ;
-; i2s:i2s|bitcount[1]~9                                                                      ; 1       ;
-; i2s:i2s|bitcount[1]~8                                                                      ; 1       ;
-; i2s:i2s|bitcount[0]~7                                                                      ; 1       ;
-; i2s:i2s|bitcount[0]~6                                                                      ; 1       ;
+; i2s:i2s|bitcount[4]~17                                                                     ; 1       ;
+; i2s:i2s|bitcount[4]~16                                                                     ; 1       ;
+; i2s:i2s|bitcount[3]~15                                                                     ; 1       ;
+; i2s:i2s|bitcount[3]~14                                                                     ; 1       ;
+; i2s:i2s|bitcount[2]~13                                                                     ; 1       ;
+; i2s:i2s|bitcount[2]~12                                                                     ; 1       ;
+; i2s:i2s|bitcount[1]~11                                                                     ; 1       ;
+; i2s:i2s|bitcount[1]~10                                                                     ; 1       ;
+; i2s:i2s|bitcount[0]~9                                                                      ; 1       ;
+; i2s:i2s|bitcount[0]~8                                                                      ; 1       ;
 ; resetter:resetter|Add0~32                                                                  ; 1       ;
 ; resetter:resetter|Add0~31                                                                  ; 1       ;
 ; resetter:resetter|Add0~30                                                                  ; 1       ;
@@ -2328,6 +2523,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; resetter:resetter|Add0~2                                                                   ; 1       ;
 ; resetter:resetter|Add0~1                                                                   ; 1       ;
 ; resetter:resetter|Add0~0                                                                   ; 1       ;
+; i2s:i2s|data_shift[30]                                                                     ; 1       ;
 ; nes_controller_reader:controller_reader|state[8]~25                                        ; 1       ;
 ; nes_controller_reader:controller_reader|state[7]~24                                        ; 1       ;
 ; nes_controller_reader:controller_reader|state[7]~23                                        ; 1       ;
@@ -2353,158 +2549,158 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +-----------------------------+------------------------+
 ; Other Routing Resource Type ; Usage                  ;
 +-----------------------------+------------------------+
-; Block interconnects         ; 576 / 94,460 ( < 1 % ) ;
-; C16 interconnects           ; 14 / 3,315 ( < 1 % )   ;
-; C4 interconnects            ; 271 / 60,840 ( < 1 % ) ;
-; Direct links                ; 167 / 94,460 ( < 1 % ) ;
-; Global clocks               ; 3 / 16 ( 19 % )        ;
-; Local interconnects         ; 281 / 33,216 ( < 1 % ) ;
-; R24 interconnects           ; 22 / 3,091 ( < 1 % )   ;
-; R4 interconnects            ; 348 / 81,294 ( < 1 % ) ;
+; Block interconnects         ; 677 / 94,460 ( < 1 % ) ;
+; C16 interconnects           ; 11 / 3,315 ( < 1 % )   ;
+; C4 interconnects            ; 261 / 60,840 ( < 1 % ) ;
+; Direct links                ; 216 / 94,460 ( < 1 % ) ;
+; Global clocks               ; 4 / 16 ( 25 % )        ;
+; Local interconnects         ; 324 / 33,216 ( < 1 % ) ;
+; R24 interconnects           ; 24 / 3,091 ( < 1 % )   ;
+; R4 interconnects            ; 355 / 81,294 ( < 1 % ) ;
 +-----------------------------+------------------------+
 
 
 +----------------------------------------------------------------------------+
 ; LAB Logic Elements                                                         ;
 +---------------------------------------------+------------------------------+
-; Number of Logic Elements  (Average = 13.94) ; Number of LABs  (Total = 31) ;
+; Number of Logic Elements  (Average = 12.51) ; Number of LABs  (Total = 41) ;
 +---------------------------------------------+------------------------------+
-; 1                                           ; 0                            ;
-; 2                                           ; 0                            ;
-; 3                                           ; 1                            ;
-; 4                                           ; 1                            ;
+; 1                                           ; 3                            ;
+; 2                                           ; 2                            ;
+; 3                                           ; 0                            ;
+; 4                                           ; 2                            ;
 ; 5                                           ; 0                            ;
-; 6                                           ; 0                            ;
+; 6                                           ; 2                            ;
 ; 7                                           ; 0                            ;
 ; 8                                           ; 0                            ;
 ; 9                                           ; 1                            ;
-; 10                                          ; 1                            ;
-; 11                                          ; 1                            ;
+; 10                                          ; 2                            ;
+; 11                                          ; 0                            ;
 ; 12                                          ; 0                            ;
-; 13                                          ; 5                            ;
-; 14                                          ; 2                            ;
-; 15                                          ; 2                            ;
-; 16                                          ; 17                           ;
+; 13                                          ; 2                            ;
+; 14                                          ; 0                            ;
+; 15                                          ; 1                            ;
+; 16                                          ; 26                           ;
 +---------------------------------------------+------------------------------+
 
 
 +-------------------------------------------------------------------+
 ; LAB-wide Signals                                                  ;
 +------------------------------------+------------------------------+
-; LAB-wide Signals  (Average = 1.45) ; Number of LABs  (Total = 31) ;
+; LAB-wide Signals  (Average = 1.61) ; Number of LABs  (Total = 41) ;
 +------------------------------------+------------------------------+
-; 1 Clock                            ; 25                           ;
-; 1 Clock enable                     ; 4                            ;
-; 1 Sync. clear                      ; 12                           ;
+; 1 Clock                            ; 33                           ;
+; 1 Clock enable                     ; 12                           ;
+; 1 Sync. clear                      ; 14                           ;
 ; 1 Sync. load                       ; 1                            ;
-; 2 Clock enables                    ; 1                            ;
-; 2 Clocks                           ; 2                            ;
+; 2 Clock enables                    ; 3                            ;
+; 2 Clocks                           ; 3                            ;
 +------------------------------------+------------------------------+
 
 
 +-----------------------------------------------------------------------------+
 ; LAB Signals Sourced                                                         ;
 +----------------------------------------------+------------------------------+
-; Number of Signals Sourced  (Average = 20.39) ; Number of LABs  (Total = 31) ;
+; Number of Signals Sourced  (Average = 19.07) ; Number of LABs  (Total = 41) ;
 +----------------------------------------------+------------------------------+
 ; 0                                            ; 0                            ;
-; 1                                            ; 0                            ;
-; 2                                            ; 0                            ;
+; 1                                            ; 2                            ;
+; 2                                            ; 1                            ;
 ; 3                                            ; 1                            ;
-; 4                                            ; 0                            ;
+; 4                                            ; 1                            ;
 ; 5                                            ; 0                            ;
-; 6                                            ; 1                            ;
+; 6                                            ; 2                            ;
 ; 7                                            ; 0                            ;
-; 8                                            ; 0                            ;
-; 9                                            ; 1                            ;
-; 10                                           ; 0                            ;
+; 8                                            ; 2                            ;
+; 9                                            ; 0                            ;
+; 10                                           ; 1                            ;
 ; 11                                           ; 0                            ;
 ; 12                                           ; 0                            ;
 ; 13                                           ; 1                            ;
-; 14                                           ; 1                            ;
+; 14                                           ; 0                            ;
 ; 15                                           ; 0                            ;
-; 16                                           ; 1                            ;
-; 17                                           ; 2                            ;
-; 18                                           ; 1                            ;
-; 19                                           ; 3                            ;
-; 20                                           ; 3                            ;
-; 21                                           ; 0                            ;
+; 16                                           ; 0                            ;
+; 17                                           ; 3                            ;
+; 18                                           ; 0                            ;
+; 19                                           ; 2                            ;
+; 20                                           ; 4                            ;
+; 21                                           ; 3                            ;
 ; 22                                           ; 3                            ;
-; 23                                           ; 2                            ;
-; 24                                           ; 3                            ;
-; 25                                           ; 1                            ;
+; 23                                           ; 1                            ;
+; 24                                           ; 1                            ;
+; 25                                           ; 0                            ;
 ; 26                                           ; 2                            ;
-; 27                                           ; 3                            ;
-; 28                                           ; 1                            ;
-; 29                                           ; 0                            ;
-; 30                                           ; 0                            ;
+; 27                                           ; 2                            ;
+; 28                                           ; 3                            ;
+; 29                                           ; 1                            ;
+; 30                                           ; 2                            ;
 ; 31                                           ; 0                            ;
-; 32                                           ; 1                            ;
+; 32                                           ; 3                            ;
 +----------------------------------------------+------------------------------+
 
 
 +--------------------------------------------------------------------------------+
 ; LAB Signals Sourced Out                                                        ;
 +-------------------------------------------------+------------------------------+
-; Number of Signals Sourced Out  (Average = 8.81) ; Number of LABs  (Total = 31) ;
+; Number of Signals Sourced Out  (Average = 7.66) ; Number of LABs  (Total = 41) ;
 +-------------------------------------------------+------------------------------+
 ; 0                                               ; 0                            ;
-; 1                                               ; 1                            ;
-; 2                                               ; 2                            ;
-; 3                                               ; 1                            ;
-; 4                                               ; 2                            ;
+; 1                                               ; 4                            ;
+; 2                                               ; 4                            ;
+; 3                                               ; 4                            ;
+; 4                                               ; 0                            ;
 ; 5                                               ; 2                            ;
 ; 6                                               ; 4                            ;
-; 7                                               ; 1                            ;
-; 8                                               ; 0                            ;
-; 9                                               ; 5                            ;
-; 10                                              ; 1                            ;
-; 11                                              ; 2                            ;
-; 12                                              ; 2                            ;
-; 13                                              ; 2                            ;
-; 14                                              ; 2                            ;
-; 15                                              ; 3                            ;
-; 16                                              ; 1                            ;
+; 7                                               ; 2                            ;
+; 8                                               ; 3                            ;
+; 9                                               ; 4                            ;
+; 10                                              ; 3                            ;
+; 11                                              ; 4                            ;
+; 12                                              ; 0                            ;
+; 13                                              ; 1                            ;
+; 14                                              ; 1                            ;
+; 15                                              ; 1                            ;
+; 16                                              ; 3                            ;
+; 17                                              ; 0                            ;
+; 18                                              ; 1                            ;
 +-------------------------------------------------+------------------------------+
 
 
 +-----------------------------------------------------------------------------+
 ; LAB Distinct Inputs                                                         ;
 +----------------------------------------------+------------------------------+
-; Number of Distinct Inputs  (Average = 16.06) ; Number of LABs  (Total = 31) ;
+; Number of Distinct Inputs  (Average = 14.61) ; Number of LABs  (Total = 41) ;
 +----------------------------------------------+------------------------------+
 ; 0                                            ; 0                            ;
-; 1                                            ; 0                            ;
-; 2                                            ; 0                            ;
-; 3                                            ; 2                            ;
-; 4                                            ; 1                            ;
-; 5                                            ; 2                            ;
-; 6                                            ; 2                            ;
-; 7                                            ; 0                            ;
-; 8                                            ; 1                            ;
+; 1                                            ; 1                            ;
+; 2                                            ; 1                            ;
+; 3                                            ; 0                            ;
+; 4                                            ; 5                            ;
+; 5                                            ; 0                            ;
+; 6                                            ; 3                            ;
+; 7                                            ; 2                            ;
+; 8                                            ; 0                            ;
 ; 9                                            ; 1                            ;
-; 10                                           ; 1                            ;
-; 11                                           ; 0                            ;
+; 10                                           ; 2                            ;
+; 11                                           ; 1                            ;
 ; 12                                           ; 0                            ;
-; 13                                           ; 2                            ;
-; 14                                           ; 2                            ;
-; 15                                           ; 1                            ;
-; 16                                           ; 1                            ;
-; 17                                           ; 0                            ;
-; 18                                           ; 1                            ;
-; 19                                           ; 3                            ;
-; 20                                           ; 1                            ;
-; 21                                           ; 1                            ;
-; 22                                           ; 1                            ;
-; 23                                           ; 0                            ;
-; 24                                           ; 1                            ;
-; 25                                           ; 3                            ;
+; 13                                           ; 1                            ;
+; 14                                           ; 4                            ;
+; 15                                           ; 0                            ;
+; 16                                           ; 0                            ;
+; 17                                           ; 1                            ;
+; 18                                           ; 2                            ;
+; 19                                           ; 1                            ;
+; 20                                           ; 2                            ;
+; 21                                           ; 2                            ;
+; 22                                           ; 3                            ;
+; 23                                           ; 1                            ;
+; 24                                           ; 2                            ;
+; 25                                           ; 0                            ;
 ; 26                                           ; 0                            ;
-; 27                                           ; 1                            ;
-; 28                                           ; 0                            ;
-; 29                                           ; 1                            ;
-; 30                                           ; 1                            ;
-; 31                                           ; 1                            ;
+; 27                                           ; 0                            ;
+; 28                                           ; 1                            ;
+; 29                                           ; 4                            ;
 +----------------------------------------------+------------------------------+
 
 
@@ -2557,18 +2753,28 @@ Critical Warning (332012): Synopsys Design Constraints File file not found: 'pit
 Info (336004): TimeQuest will use the Classic Timing Analyzer's FMAX_REQUIREMENT assignment (or --fmax command-line argument) as default timing requirement. Any other Classic Timing Analyzer assignment will be ignored.
 Info (332144): No user constrained base clocks found in the design
 Info (332129): Detected timing requirements -- optimizing circuit to achieve only the specified requirements
-Info (332111): Found 3 clocks
+Info (332111): Found 4 clocks
     Info (332111):   Period   Clock Name
     Info (332111): ======== ============
     Info (332111):    1.000     CLOCK_50
     Info (332111):    1.000 divide_by_n:clk_12_5_divider|out
+    Info (332111):    1.000 i2s:i2s|LRCK
     Info (332111):    1.000 nes_controller_reader:controller_reader|divide_by_n:div|out
 Info (176353): Automatically promoted node CLOCK_50 (placed in PIN N2 (CLK0, LVDSCLK0p, Input))
     Info (176355): Automatically promoted destinations to use location or clock signal Global Clock CLKCTRL_G2
 Info (176353): Automatically promoted node divide_by_n:clk_12_5_divider|out 
     Info (176355): Automatically promoted destinations to use location or clock signal Global Clock
     Info (176356): Following destination nodes may be non-global or may not use global or regional clocks
-        Info (176357): Destination node GPIO_0[0]
+        Info (176357): Destination node AUD_XCK
+        Info (176357): Destination node GPIO_0[2]
+Info (176353): Automatically promoted node i2s:i2s|LRCK 
+    Info (176355): Automatically promoted destinations to use location or clock signal Global Clock
+    Info (176356): Following destination nodes may be non-global or may not use global or regional clocks
+        Info (176357): Destination node i2s:i2s|LRCK~0
+        Info (176357): Destination node AUD_DACLRCK
+        Info (176357): Destination node AUD_ADCLRCK
+        Info (176357): Destination node GPIO_0[4]
+        Info (176357): Destination node GPIO_0[6]
 Info (176353): Automatically promoted node nes_controller_reader:controller_reader|divide_by_n:div|out 
     Info (176355): Automatically promoted destinations to use location or clock signal Global Clock
 Info (176233): Starting register packing
@@ -2937,19 +3143,19 @@ Warning (15705): Ignored locations or region assignments to the following nodes
     Warning (15706): Node "VGA_SYNC" is assigned to location or region, but does not exist in design
     Warning (15706): Node "VGA_VS" is assigned to location or region, but does not exist in design
     Warning (15706): Node "cpu_nrst" is assigned to location or region, but does not exist in design
-Info (171121): Fitter preparation operations ending: elapsed time is 00:00:01
+Info (171121): Fitter preparation operations ending: elapsed time is 00:00:00
 Info (170189): Fitter placement preparation operations beginning
 Info (170190): Fitter placement preparation operations ending: elapsed time is 00:00:00
 Info (170191): Fitter placement operations beginning
 Info (170137): Fitter placement was successful
-Info (170192): Fitter placement operations ending: elapsed time is 00:00:01
+Info (170192): Fitter placement operations ending: elapsed time is 00:00:02
 Info (170193): Fitter routing operations beginning
 Info (170195): Router estimated average interconnect usage is 0% of the available device resources
-    Info (170196): Router estimated peak interconnect usage is 1% of the available device resources in the region that extends from location X22_Y12 to location X32_Y23
+    Info (170196): Router estimated peak interconnect usage is 2% of the available device resources in the region that extends from location X55_Y12 to location X65_Y23
 Info (170194): Fitter routing operations ending: elapsed time is 00:00:01
 Info (170199): The Fitter performed an Auto Fit compilation.  Optimizations were skipped to reduce compilation time.
     Info (170201): Optimizations that may affect the design's routability were skipped
-Info (11888): Total time spent on timing analysis during the Fitter is 0.50 seconds.
+Info (11888): Total time spent on timing analysis during the Fitter is 0.56 seconds.
 Info (306004): Started post-fitting delay annotation
 Warning (306006): Found 60 output pins without output pin load capacitance assignment
     Info (306007): Pin "I2C_SCLK" has no specified output pin load capacitance -- assuming default load capacitance of 0 pF for timing analysis
@@ -3015,15 +3221,15 @@ Warning (306006): Found 60 output pins without output pin load capacitance assig
 Info (306005): Delay annotation completed successfully
 Info (306004): Started post-fitting delay annotation
 Info (306005): Delay annotation completed successfully
-Info (11218): Fitter post-fit operations ending: elapsed time is 00:00:00
+Info (11218): Fitter post-fit operations ending: elapsed time is 00:00:01
 Warning (171167): Found invalid Fitter assignments. See the Ignored Assignments panel in the Fitter Compilation Report for more information.
 Warning (169174): The Reserve All Unused Pins setting has not been specified, and will default to 'As output driving ground'.
 Info (144001): Generated suppressed messages file /home/johnmamish/bits/quartus/pitchshift/output_files/pitchshift.fit.smsg
 Info: Quartus II 32-bit Fitter was successful. 0 errors, 369 warnings
-    Info: Peak virtual memory: 476 megabytes
-    Info: Processing ended: Mon Aug 10 10:29:25 2020
-    Info: Elapsed time: 00:00:07
-    Info: Total CPU time (on all processors): 00:00:07
+    Info: Peak virtual memory: 482 megabytes
+    Info: Processing ended: Tue Aug 11 10:49:23 2020
+    Info: Elapsed time: 00:00:08
+    Info: Total CPU time (on all processors): 00:00:08
 
 
 +----------------------------+

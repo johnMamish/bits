@@ -1,5 +1,5 @@
 EDA Netlist Writer report for pitchshift
-Mon Aug 10 10:29:32 2020
+Tue Aug 11 10:49:31 2020
 Quartus II 32-bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -36,7 +36,7 @@ applicable agreement for further details.
 +-------------------------------------------------------------------+
 ; EDA Netlist Writer Summary                                        ;
 +---------------------------+---------------------------------------+
-; EDA Netlist Writer Status ; Successful - Mon Aug 10 10:29:32 2020 ;
+; EDA Netlist Writer Status ; Successful - Tue Aug 11 10:49:31 2020 ;
 ; Revision Name             ; pitchshift                            ;
 ; Top-level Entity Name     ; pitchshift                            ;
 ; Family                    ; Cyclone II                            ;
@@ -84,12 +84,12 @@ applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus II 32-bit EDA Netlist Writer
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Mon Aug 10 10:29:31 2020
+    Info: Processing started: Tue Aug 11 10:49:30 2020
 Info: Command: quartus_eda --read_settings_files=off --write_settings_files=off pitchshift -c pitchshift
 Info (204026): Generated files "pitchshift.vho", "pitchshift_fast.vho", "pitchshift_vhd.sdo" and "pitchshift_vhd_fast.sdo" in directory "/home/johnmamish/bits/quartus/pitchshift/simulation/modelsim/" for EDA simulation tool
 Info: Quartus II 32-bit EDA Netlist Writer was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 316 megabytes
-    Info: Processing ended: Mon Aug 10 10:29:32 2020
+    Info: Peak virtual memory: 320 megabytes
+    Info: Processing ended: Tue Aug 11 10:49:31 2020
     Info: Elapsed time: 00:00:01
     Info: Total CPU time (on all processors): 00:00:01
 

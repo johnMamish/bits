@@ -1,5 +1,5 @@
 Flow report for pitchshift
-Mon Aug 10 10:29:32 2020
+Tue Aug 11 10:49:31 2020
 Quartus II 32-bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -40,17 +40,17 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Flow Summary                                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Flow Status                        ; Successful - Mon Aug 10 10:29:32 2020           ;
+; Flow Status                        ; Successful - Tue Aug 11 10:49:31 2020           ;
 ; Quartus II 32-bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; pitchshift                                      ;
 ; Top-level Entity Name              ; pitchshift                                      ;
 ; Family                             ; Cyclone II                                      ;
 ; Device                             ; EP2C35F672C6                                    ;
 ; Timing Models                      ; Final                                           ;
-; Total logic elements               ; 432 / 33,216 ( 1 % )                            ;
-;     Total combinational functions  ; 418 / 33,216 ( 1 % )                            ;
-;     Dedicated logic registers      ; 204 / 33,216 ( < 1 % )                          ;
-; Total registers                    ; 204                                             ;
+; Total logic elements               ; 513 / 33,216 ( 2 % )                            ;
+;     Total combinational functions  ; 505 / 33,216 ( 2 % )                            ;
+;     Dedicated logic registers      ; 270 / 33,216 ( < 1 % )                          ;
+; Total registers                    ; 270                                             ;
 ; Total pins                         ; 63 / 475 ( 13 % )                               ;
 ; Total virtual pins                 ; 0                                               ;
 ; Total memory bits                  ; 0 / 483,840 ( 0 % )                             ;
@@ -64,7 +64,7 @@ applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 08/10/2020 10:29:15 ;
+; Start date & time ; 08/11/2020 10:49:12 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; pitchshift          ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ applicable agreement for further details.
 +-------------------------------------+---------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                     ; Value                                 ; Default Value ; Entity Name ; Section Id     ;
 +-------------------------------------+---------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 0.159707335429249                     ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID               ; 0.159716095215208                     ; --            ; --          ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Vhdl                                  ; --            ; --          ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (VHDL)                ; <None>        ; --          ; --             ;
 ; FMAX_REQUIREMENT                    ; 50 MHz                                ; --            ; --          ; --             ;
@@ -96,12 +96,12 @@ applicable agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:02     ; 1.0                     ; 342 MB              ; 00:00:02                           ;
-; Fitter                    ; 00:00:06     ; 1.0                     ; 476 MB              ; 00:00:07                           ;
-; Assembler                 ; 00:00:02     ; 1.0                     ; 347 MB              ; 00:00:02                           ;
-; TimeQuest Timing Analyzer ; 00:00:00     ; 1.0                     ; 309 MB              ; 00:00:01                           ;
+; Analysis & Synthesis      ; 00:00:02     ; 1.0                     ; 346 MB              ; 00:00:02                           ;
+; Fitter                    ; 00:00:08     ; 1.0                     ; 482 MB              ; 00:00:08                           ;
+; Assembler                 ; 00:00:02     ; 1.0                     ; 337 MB              ; 00:00:02                           ;
+; TimeQuest Timing Analyzer ; 00:00:01     ; 1.0                     ; 308 MB              ; 00:00:01                           ;
 ; EDA Netlist Writer        ; 00:00:01     ; 1.0                     ; 309 MB              ; 00:00:01                           ;
-; Total                     ; 00:00:11     ; --                      ; --                  ; 00:00:13                           ;
+; Total                     ; 00:00:14     ; --                      ; --                  ; 00:00:14                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
