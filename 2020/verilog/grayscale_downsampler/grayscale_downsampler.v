@@ -43,8 +43,8 @@ module grayscale_downsampler(input               clock,
                              input               data_in_valid,
                              input [(data_width - 1) : 0]  data_in,
 
-                             output              data_out_valid,
-                             output [(data_width - 1) : 0] data_out);
+                             output reg          data_out_valid,
+                             output reg [(data_width - 1) : 0] data_out);
     parameter data_width = 8;
     parameter image_width = 320;
     parameter image_height = 240;
@@ -67,6 +67,9 @@ module grayscale_downsampler(input               clock,
     reg [($clog2(num_bins_x) - 1):0] inter_bin_xidx [0:1], inter_bin_xidx_next;
     reg [($clog2(num_bins_y) - 1):0] inter_bin_yidx [0:1], inter_bin_yidx_next;
 
+    reg x_at_final_pixel_in_bin [0:1];
+    reg y_at_final_pixel_in_bin [0:1];
+
     reg buffer_write_en;
     reg [($clog2(num_bins_x) - 1):0] buffer_waddr;
     reg [(bin_bitdepth - 1):0] buffer_wdata;
@@ -82,8 +85,14 @@ module grayscale_downsampler(input               clock,
     reg [(bin_bitdepth - 1):0] accum_result;
 
     reg data_valid [0:1];
-
     always @* begin
+        x_at_final_pixel_in_bin[0] = (inter_bin_xidx[0] == (num_bins_x - 1)) ?
+                                     (intra_bin_xidx[0] == (final_bin_width - 1)) :
+                                     (intra_bin_xidx[0] == (bin_width - 1));
+        y_at_final_pixel_in_bin[0] = (inter_bin_yidx[0] == (num_bins_y - 1)) ?
+                                     (intra_bin_yidx[0] == (final_bin_height - 1)) :
+                                     (intra_bin_yidx[0] == (bin_height - 1));
+
         data_valid[0] = data_in_valid;
 
         if (data_valid[0]) begin
@@ -97,20 +106,65 @@ module grayscale_downsampler(input               clock,
             buffer_raddr = 'hx;
             ////////////////////////////////
 
+            // increment x
+            intra_bin_xidx_next = x_at_final_pixel_in_bin[0] ? 'h0 : intra_bin_xidx[0] + 'h1;
+            inter_bin_xidx_next = (inter_bin_xidx[0] == (num_bins_x - 1)) ? 'h0 :
+                                  x_at_final_pixel_in_bin[0] ? inter_bin_xidx[0] + 'h1 :
+                                  inter_bin_xidx[0];
+
+            // increment y
             if (inter_bin_xidx[0] == (num_bins_x - 1)) begin
-                intra_bin_xidx_next = (intra_bin_xidx[0] == final_bin_width - 1) ? 'h0 : intra_bin_xidx_next + 'h1;
-                inter_bin_xidx_next = (intra_bin_xidx[0] == final_bin_width - 1) ? 'h0 : inter_bin_xidx[0];
+                intra_bin_yidx_next = y_at_final_pixel_in_bin[0] ? 'h0 : intra_bin_yidx[0] + 'h1;
             end else begin
-                intra_bin_xidx_next = (intra_bin_xidx[0] == bin_width - 1) ? 'h0 : intra_bin_xidx_next + 'h1;
-                inter_bin_xidx_next = (intra_bin_xidx[0] == bin_width - 1) ? inter_bin_xidx[0] + 'h1 : inter_bin_xidx[0];
+                inter_bin_yidx_next = (inter_bin_yidx[0] == (num_bins_y - 1)) ? 'h0 :
+                                      y_at_final_pixel_in_bin[0] ? inter_bin_yidx[0] + 'h1 :
+                                      inter_bin_yidx[0];
             end
 
-            if (inter_bin_yidx[0] == (num_bins_y - 1)) begin
-                intra_bin_yidx_next = (intra_bin_yidx[0] == final_bin_height - 1) ? 'h0 : intra_bin_yidx_next + 'h1;
-                inter_bin_yidx_next = (intra_bin_yidx[0] == final_bin_height - 1) ? 'h0 : inter_bin_yidx[0];
+            intra_bin_yidx_next = y_at_final_pixel_in_bin[0]
+            (inter_bin_yidx[0] == (num_))
+
+            if (inter_bin_xidx[0] == (num_bins_x - 1)) begin
+                // always increment x
+                if (x_at_final_pixel_in_bin[0]) begin
+                    // rollover x
+                    intra_bin_xidx_next = 'h0;
+                    inter_bin_xidx_next = 'h0;
+
+                    // increment y
+                    intra_bin_yidx_next = y_at_final_pixel_in_bin[0] ? 'h0 : intra_bin_yidx[0] + 'h1;
+                    inter_bin_yidx_next = y_at_final_pixel_in_bin[0] ? inter_bin_yidx[0] + 'h1 : inter_bin_yidx[0];
+                end else begin
+                    // don't rollover x
+                    intra_bin_xidx_next = intra_bin_xidx[0] + 'h1;
+                    inter_bin_xidx_next = inter_bin_xidx[0];
+
+                    // don't increment y
+                    intra_bin_yidx_next = intra_bin_yidx[0];
+                    inter_bin_yidx_next = inter_bin_yidx[0];
+                end
             end else begin
-                intra_bin_yidx_next = (intra_bin_yidx[0] == bin_height - 1) ? 'h0 : intra_bin_yidx_next + 'h1;
-                inter_bin_yidx_next = (intra_bin_yidx[0] == bin_height - 1) ? inter_bin_yidx[0] + 'h1 : inter_bin_yidx[0];
+                // always increment x
+                if (x_at_final_pixel_in_bin[0]) begin
+                    // rollover x
+                    intra_bin_xidx_next = 'h0;
+                    inter_bin_xidx_next = 'h0;
+
+                    // increment y
+                    intra_bin_yidx_next = y_at_final_pixel_in_bin[0] ? 'h0 : intra_bin_yidx[0] + 'h1;
+                    inter_bin_yidx_next = y_at_final_pixel_in_bin[0] ? inter_bin_yidx[0] + 'h1 : inter_bin_yidx[0];
+                end else begin
+                    // don't rollover x
+                    intra_bin_xidx_next = intra_bin_xidx[0] + 'h1;
+                    inter_bin_xidx_next = inter_bin_xidx[0];
+
+                    // don't increment y
+                    intra_bin_yidx_next = intra_bin_yidx[0];
+                    inter_bin_yidx_next = inter_bin_yidx[0];
+                end
+
+                intra_bin_xidx_next = x_at_final_pixel_in_bin[0] ? 'h0 : intra_bin_xidx[0] + 'h1;
+                inter_bin_xidx_next = x_at_final_pixel_in_bin[0] ? inter_bin_xidx[0] + 'h1 : inter_bin_xidx[0];
             end
 
             // We don't need to read if we are at the top-left pixel of an image.
@@ -126,7 +180,7 @@ module grayscale_downsampler(input               clock,
             inter_bin_yidx_next = inter_bin_yidx[0];
 
             buffer_raddr = {($clog2(num_bins_x)){1'bx}};
-        end // else: !if(data_valid[0])
+        end
 
         if (data_valid[1]) begin
             accum_result = 'hx;
@@ -135,24 +189,39 @@ module grayscale_downsampler(input               clock,
             buffer_waddr = 'hx;
             buffer_wdata = 'hx;
 
+            data_out_valid = 1'bx;
+            data_out = 'hxx;
+
             if ((intra_bin_xidx[1] == 0) && (intra_bin_yidx[1] == 0)) begin
                 accum_result = data_in_latch;
             end else begin
                 accum_result = data_in_latch + buffer_rdata;
             end
 
+            if (x_at_final_pixel_in_bin[1] && y_at_final_pixel_in_bin[1]) begin
+                buffer_write_en = 1'b0;
+                buffer_waddr = 'hx;
+                buffer_wdata = 'hx;
 
-
-            /*if ((intra_bin_xidx[1] == 0) && (intra_bin_yidx[1] == 0)) begin
-
+                data_out_valid = 1'b1;
+                data_out = accum_result / bin_size;
             end else begin
+                buffer_write_en = 1'b1;
+                buffer_waddr = intra_bin_xidx[1];
+                buffer_wdata = accum_result;
 
-            end*/
-
+                data_out_valid = 1'b0;
+                data_out = 'hxx;
+            end
         end else begin
+            accum_result = 'hx;
+
             buffer_write_en = 1'b0;
             buffer_waddr = 'hx;
             buffer_wdata = 'hx;
+
+            data_out_valid = 1'b0;
+            data_out = 'hxx;
         end
     end
 
@@ -168,6 +237,9 @@ module grayscale_downsampler(input               clock,
             inter_bin_yidx[0] <= inter_bin_yidx_next;
             inter_bin_yidx[1] <= inter_bin_yidx[0];
             data_valid[1] <= data_valid[0];
+
+            x_at_final_pixel_in_bin[1] <= x_at_final_pixel_in_bin[0];
+            y_at_final_pixel_in_bin[1] <= y_at_final_pixel_in_bin[0];
         end else begin
             data_in_latch <= data_in;
             intra_bin_xidx[0] <= 'h0; intra_bin_xidx[1] <= 'h0;
@@ -175,6 +247,9 @@ module grayscale_downsampler(input               clock,
             inter_bin_xidx[0] <= 'h0; inter_bin_xidx[1] <= 'h0;
             inter_bin_yidx[0] <= 'h0; inter_bin_yidx[1] <= 'h0;
             data_valid[1] <= 'h0;
+
+            x_at_final_pixel_in_bin[1] <= 1'bx;
+            y_at_final_pixel_in_bin[1] <= 1'bx;
         end
     end
 

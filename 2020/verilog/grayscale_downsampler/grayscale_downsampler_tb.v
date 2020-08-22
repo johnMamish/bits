@@ -4,7 +4,7 @@ module grayscale_downsampler_tb();
     reg clock;
     reg reset;
 
-    localparam real sys_clock_freq = 10000000;
+    localparam real sys_clock_freq = 100000000;
 
     always begin
         clock = 1'b0;
@@ -55,10 +55,18 @@ module grayscale_downsampler_tb();
         $dumpfile("grayscale_downsampler_tb.vcd");
         $dumpvars(0, grayscale_downsampler_tb);
 
-        reset = 1'b1;
+        $dumpvars(1, ds.intra_bin_xidx[0]);
+        $dumpvars(1, ds.intra_bin_yidx[0]);
+        $dumpvars(1, ds.inter_bin_xidx[0]);
+        $dumpvars(1, ds.inter_bin_yidx[0]);
+        $dumpvars(1, ds.data_valid[0]);         $dumpvars(1, ds.data_valid[1]);
+        $dumpvars(1, ds.x_at_final_pixel_in_bin[0]);
+        $dumpvars(1, ds.y_at_final_pixel_in_bin[0]);
+
+        reset <= 1'b1;
         @(posedge clock);
         @(posedge clock);
-        reset = #1 1'b0;
+        reset <= #1 1'b0;
 
         for (i = 0; i < ntest; i = i + 1) begin: test_loop
             integer rand_offset;
