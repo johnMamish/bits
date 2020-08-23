@@ -31,7 +31,12 @@ module ebr(input                        wclk,
 
     always @(posedge rclk) // Read memory.
     begin
-        rdata <= mem[raddr]; // Using read address bus.
+        // hacky RaW forwarding
+        if (write_en && (waddr == raddr)) begin
+            rdata <= wdata;
+        end else begin
+            rdata <= mem[raddr]; // Using read address bus.
+        end
     end
 endmodule
 
@@ -108,63 +113,23 @@ module grayscale_downsampler(input               clock,
 
             // increment x
             intra_bin_xidx_next = x_at_final_pixel_in_bin[0] ? 'h0 : intra_bin_xidx[0] + 'h1;
-            inter_bin_xidx_next = (inter_bin_xidx[0] == (num_bins_x - 1)) ? 'h0 :
-                                  x_at_final_pixel_in_bin[0] ? inter_bin_xidx[0] + 'h1 :
-                                  inter_bin_xidx[0];
-
-            // increment y
-            if (inter_bin_xidx[0] == (num_bins_x - 1)) begin
-                intra_bin_yidx_next = y_at_final_pixel_in_bin[0] ? 'h0 : intra_bin_yidx[0] + 'h1;
+            if (x_at_final_pixel_in_bin[0]) begin
+                inter_bin_xidx_next = (inter_bin_xidx[0] == (num_bins_x - 1)) ? 'h0 : inter_bin_xidx[0] + 'h1;
             end else begin
-                inter_bin_yidx_next = (inter_bin_yidx[0] == (num_bins_y - 1)) ? 'h0 :
-                                      y_at_final_pixel_in_bin[0] ? inter_bin_yidx[0] + 'h1 :
-                                      inter_bin_yidx[0];
+                inter_bin_xidx_next = inter_bin_xidx[0];
             end
 
-            intra_bin_yidx_next = y_at_final_pixel_in_bin[0]
-            (inter_bin_yidx[0] == (num_))
-
-            if (inter_bin_xidx[0] == (num_bins_x - 1)) begin
-                // always increment x
-                if (x_at_final_pixel_in_bin[0]) begin
-                    // rollover x
-                    intra_bin_xidx_next = 'h0;
-                    inter_bin_xidx_next = 'h0;
-
-                    // increment y
-                    intra_bin_yidx_next = y_at_final_pixel_in_bin[0] ? 'h0 : intra_bin_yidx[0] + 'h1;
-                    inter_bin_yidx_next = y_at_final_pixel_in_bin[0] ? inter_bin_yidx[0] + 'h1 : inter_bin_yidx[0];
+            // increment y
+            if (x_at_final_pixel_in_bin[0] && (inter_bin_xidx[0] == (num_bins_x - 1))) begin
+                intra_bin_yidx_next = y_at_final_pixel_in_bin[0] ? 'h0 : intra_bin_yidx[0] + 'h1;
+                if (y_at_final_pixel_in_bin[0]) begin
+                    inter_bin_yidx_next = (inter_bin_yidx[0] == (num_bins_y - 1)) ? 'h0 : inter_bin_yidx[0] + 'h1;
                 end else begin
-                    // don't rollover x
-                    intra_bin_xidx_next = intra_bin_xidx[0] + 'h1;
-                    inter_bin_xidx_next = inter_bin_xidx[0];
-
-                    // don't increment y
-                    intra_bin_yidx_next = intra_bin_yidx[0];
                     inter_bin_yidx_next = inter_bin_yidx[0];
                 end
             end else begin
-                // always increment x
-                if (x_at_final_pixel_in_bin[0]) begin
-                    // rollover x
-                    intra_bin_xidx_next = 'h0;
-                    inter_bin_xidx_next = 'h0;
-
-                    // increment y
-                    intra_bin_yidx_next = y_at_final_pixel_in_bin[0] ? 'h0 : intra_bin_yidx[0] + 'h1;
-                    inter_bin_yidx_next = y_at_final_pixel_in_bin[0] ? inter_bin_yidx[0] + 'h1 : inter_bin_yidx[0];
-                end else begin
-                    // don't rollover x
-                    intra_bin_xidx_next = intra_bin_xidx[0] + 'h1;
-                    inter_bin_xidx_next = inter_bin_xidx[0];
-
-                    // don't increment y
-                    intra_bin_yidx_next = intra_bin_yidx[0];
-                    inter_bin_yidx_next = inter_bin_yidx[0];
-                end
-
-                intra_bin_xidx_next = x_at_final_pixel_in_bin[0] ? 'h0 : intra_bin_xidx[0] + 'h1;
-                inter_bin_xidx_next = x_at_final_pixel_in_bin[0] ? inter_bin_xidx[0] + 'h1 : inter_bin_xidx[0];
+                intra_bin_yidx_next = intra_bin_yidx[0];
+                inter_bin_yidx_next = inter_bin_yidx[0];
             end
 
             // We don't need to read if we are at the top-left pixel of an image.
@@ -207,7 +172,7 @@ module grayscale_downsampler(input               clock,
                 data_out = accum_result / bin_size;
             end else begin
                 buffer_write_en = 1'b1;
-                buffer_waddr = intra_bin_xidx[1];
+                buffer_waddr = inter_bin_xidx[1];
                 buffer_wdata = accum_result;
 
                 data_out_valid = 1'b0;

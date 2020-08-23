@@ -13,10 +13,12 @@ module grayscale_downsampler_tb();
         #((1E9 / sys_clock_freq) / 2);
     end
 
-    localparam bin_width = 6;
-    localparam bin_height = 12;
-    localparam num_bins_x = (((image_width + bin_width - 1) / bin_width) - 1);
-    localparam num_bins_y = (((image_height + bin_height - 1) / bin_height) - 1);
+    //localparam bin_width = 6;
+    //localparam bin_height = 12;
+    localparam bin_width = 4;
+    localparam bin_height = 8;
+    localparam num_bins_x = ((image_width + bin_width - 1) / bin_width);
+    localparam num_bins_y = ((image_height + bin_height - 1) / bin_height);
     localparam num_bins = num_bins_x * num_bins_y;
     localparam bin_size = bin_width * bin_height;
 
@@ -43,7 +45,7 @@ module grayscale_downsampler_tb();
     reg [$clog2(bin_size) + 7:0] ground_truth [0:(num_bins - 1)];
     reg [7:0] result [0:(num_bins - 1)];
 
-    localparam ntest = 2;
+    localparam ntest = 10;
     integer uniform_seed0, uniform_seed1;
     integer normal_seed;
     initial begin: main
@@ -60,8 +62,8 @@ module grayscale_downsampler_tb();
         $dumpvars(1, ds.inter_bin_xidx[0]);
         $dumpvars(1, ds.inter_bin_yidx[0]);
         $dumpvars(1, ds.data_valid[0]);         $dumpvars(1, ds.data_valid[1]);
-        $dumpvars(1, ds.x_at_final_pixel_in_bin[0]);
-        $dumpvars(1, ds.y_at_final_pixel_in_bin[0]);
+        $dumpvars(1, ds.x_at_final_pixel_in_bin[0]); $dumpvars(1, ds.x_at_final_pixel_in_bin[1]);
+        $dumpvars(1, ds.y_at_final_pixel_in_bin[0]); $dumpvars(1, ds.y_at_final_pixel_in_bin[1]);
 
         reset <= 1'b1;
         @(posedge clock);
@@ -85,11 +87,14 @@ module grayscale_downsampler_tb();
 
                     rand_pixel = rand_offset + $dist_normal(normal_seed, 0, 8);
                     image_idx = ((y * image_width) + x);
-                    bin_idx = (((y / num_bins_y) * num_bins_x) + (x / num_bins_x));
+                    bin_idx = (((y / bin_height) * num_bins_x) + (x / bin_width));
 
                     image[image_idx] = rand_pixel;
                     ground_truth[bin_idx] = ground_truth[bin_idx] + rand_pixel;
                 end
+            end
+            for (j = 0; j < num_bins; j = j + 1) begin
+                ground_truth[j] = ground_truth[j] / bin_size;
             end
 
             // feed image through grayscale downsampler
@@ -113,17 +118,25 @@ module grayscale_downsampler_tb();
                 @(posedge clock);
             end
 
+            // wait for last few bytes to clear; put some space between the 2
+            data_in_valid = #1 1'b0;
+            for (j = 0; j < 100000; j = j + 1) begin
+                #1;
+                if (data_out_valid) begin
+                    result[image_output_ptr] = data_out;
+                    image_output_ptr = image_output_ptr + 1;
+                end
+                @(posedge clock);
+            end
+
             // check result
             $display("Image output ptr = %d. Num bins = %d", image_output_ptr, num_bins);
             for (j = 0; j < num_bins; j = j + 1) begin
                 if (result[j] !== ground_truth[j]) begin
-                    $display("Error at index %d in test number %d.", j, i);
+                    $display("Error at index %d in test number %d. %h !== %h", j, i, result[j], ground_truth[j]);
+
                 end
             end
-
-            // put some space between the 2
-            data_in_valid = #1 1'b0;
-            for (j = 0; j < 10000; j = j + 1) @(posedge clock);
         end
 
         $finish;
