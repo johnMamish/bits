@@ -63,15 +63,16 @@ def import_bom(filename):
 
     good_dict, bad_dict = filter_out_lines_missing_keys(partdict, manufacturer_pn_strings)
     for part in bad_dict:
-        print("BOM: part " + part + " filtered out because of missing manufacturer part number")
+        print("BOM: part " + part + " filtered out because of missing manufacturer part number", file=sys.stderr)
 
     pop_dict,dnp_dict = bom_filter_out_dnp_lines(good_dict, ["DNP", "DNI"])
     for part in dnp_dict:
-        print("BOM: part " + part + " filtered out because of DNP field")
+        print("BOM: part " + part + " filtered out because of DNP field", file=sys.stderr)
 
     return pop_dict
 
 def import_pnp(filename):
+    partdict = {}
     with open(filename) as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         rows = [row for row in reader]
@@ -80,7 +81,7 @@ def import_pnp(filename):
     good_dict,bad_dict = filter_out_lines_missing_keys(partdict, pnp_strings)
 
     for part in bad_dict:
-        print("Pick-n-place: part " + part + " filtered out because of missing pick-n-place string")
+        print("Pick-n-place: part " + part + " filtered out because of missing pick-n-place string", file=sys.stderr)
         print(bad_dict[part])
 
     return good_dict
@@ -103,7 +104,7 @@ def merge(a, b, path=None):
 
 if __name__ == "__main__":
     if (len(sys.argv) != 4):
-        print("Expected 4 args. Usage: " + sys.argv[0] + " bom_file.csv pick-n-place_top.csv pick-n-place_bottom.csv")
+        print("Expected 4 args. Usage: " + sys.argv[0] + " bom_file.csv pick-n-place_top.csv pick-n-place_bottom.csv", file=sys.stderr)
         exit(-1)
 
     bom_dict = import_bom(sys.argv[1])
@@ -118,29 +119,30 @@ if __name__ == "__main__":
 
     for item in top_dict:
         if (item in pnp_dict):
-            print("Warning: duplicate part " + item + " in top and bottom pick-and-place files. Bottom entry will be overwritten.")
+            print("Warning: duplicate part " + item + " in top and bottom pick-and-place files. Bottom entry will be overwritten.", file=sys.stderr)
         pnp_dict.update({item: top_dict[item]})
         pnp_dict[item].update({"SIDE": "Top"})
 
     # check and see if all keys in pick-n-place dict are also in bom dict
     for item in {item for item in bom_dict} - {item for item in pnp_dict}:
-        print(item + " is in BOM but not in pick-n-place files")
+        print(item + " is in BOM but not in pick-n-place files", file=sys.stderr)
     for item in ({item for item in pnp_dict} - {item for item in bom_dict}):
-        print(item + " is in pick-n-place files but not in BOM")
+        print(item + " is in pick-n-place files but not in BOM", file=sys.stderr)
 
     # generate final file
     final_dict = merge(bom_dict, pnp_dict)
     keys_to_print = [["MFR_PN"], ["X (MM)"], ["Y (MM)"], ["ROTATION"], ["SIDE"]]
-    print('\"IDENTIFIER\";', end='')
+    print('\"IDENTIFIER\", ', end='')
     for key in keys_to_print:
-        print('\"' + key[0] + '\";', end='')
+        print('\"' + key[0] + '\", ', end='')
     print("")
 
     for part in final_dict:
-        print('\"' + part + '\";', end='')
-        for key in keys_to_print:
-            if key[0] in final_dict[part]:
-                print('\"' + final_dict[part][key[0]] + '\";', end='')
-            else:
-                print('\"\";', end='')
-        print("")
+        if (all([(key[0] in final_dict[part]) for key in keys_to_print])) :
+            print('' + part + ', ', end='')
+            for key in keys_to_print:
+                if key[0] in final_dict[part]:
+                    print('' + final_dict[part][key[0]] + ', ', end='')
+                else:
+                    print(', ', end='')
+            print("")
