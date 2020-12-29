@@ -73,11 +73,17 @@ def import_bom(filename):
 
 def import_pnp(filename):
     partdict = {}
+    pnp_strings = [["X (MM)"], ["Y (MM)"], ["ROTATION"]]
     with open(filename) as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         rows = [row for row in reader]
-        partdict = {row[0]:{header.upper().strip():attribute.strip() for (header, attribute) in zip(rows[0][1:],row[1:]) if (len(attribute) > 0)} for row in rows[1:]}
-    pnp_strings = [["X (MM)"], ["Y (MM)"], ["ROTATION"]]
+
+        # Eagle doesn't put headers on the columns in the pnp file, so we will assume that the
+        # headers should be "PART", "X (MM)", "Y (MM)", "ROTATION"
+        headers = ["X (MM)", "Y (MM)", "ROTATION", "VALUE", "FOOTPRINT"]
+
+        partdict = {row[0]:{header.upper().strip():attribute.strip() for (header, attribute) in zip(headers, row[1:]) if (len(attribute) > 0)} for row in rows}
+
     good_dict,bad_dict = filter_out_lines_missing_keys(partdict, pnp_strings)
 
     for part in bad_dict:

@@ -32,6 +32,7 @@ module ebr(input                        wclk,
     always @(posedge rclk) // Read memory.
     begin
         // hacky RaW forwarding
+        //rdata <= mem[raddr]; // Using read address bus.
         if (write_en && (waddr == raddr)) begin
             rdata <= wdata;
         end else begin
@@ -41,14 +42,15 @@ module ebr(input                        wclk,
 endmodule
 
 
-
 module grayscale_downsampler(input               clock,
                              input               reset,
 
                              input               data_in_valid,
+                             input               vsync_in,
                              input [(data_width - 1) : 0]  data_in,
 
                              output reg          data_out_valid,
+                             output reg          vsync_out,
                              output reg [(data_width - 1) : 0] data_out);
     parameter data_width = 8;
     parameter image_width = 320;
@@ -91,6 +93,8 @@ module grayscale_downsampler(input               clock,
 
     reg data_valid [0:1];
     always @* begin
+        vsync_out = vsync_in;
+
         x_at_final_pixel_in_bin[0] = (inter_bin_xidx[0] == (num_bins_x - 1)) ?
                                      (intra_bin_xidx[0] == (final_bin_width - 1)) :
                                      (intra_bin_xidx[0] == (bin_width - 1));

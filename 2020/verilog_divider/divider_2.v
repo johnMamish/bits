@@ -73,6 +73,7 @@ module pipeline_divider (input                             clock,
     end
 endmodule
 
+`ifdef NOT_DEFINED
 module pipeline_divider_tb();
 
     reg clock;
@@ -176,4 +177,5 @@ module pipeline_divider_tb();
 
         $finish;
     end
-endmodule
+endmodule // pipeline_divider_tb
+`endif
