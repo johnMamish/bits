@@ -1,0 +1,19 @@
+<!-- Licensed under a BSD license. See license.html for license -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Erg split calculator</title>
+    <script type="text/javascript" src="ergcalc.js"> </script>
+  </head>
+  <body onload="init()">
+    <p>When planning a near-max-effort piece, you might have different target
+      splits for different segments of the piece. This calculator helps you check
+      and see if your different target splits for each section will add up to
+      your overall target split.</p>
+    <div id="segments"></div>
+    <button onclick="AddSegment()">add segment</button>
+    <button onclick="RemoveSegment()">remove segment</button>
+  </body>
+</html>
