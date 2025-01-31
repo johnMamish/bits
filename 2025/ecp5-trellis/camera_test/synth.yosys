@@ -1,0 +1,6 @@
+read_verilog util.v
+read_verilog -sv camera_reader.sv
+read_verilog -sv uart.sv
+read_verilog -sv i2c_initializer.sv
+read_verilog -sv top.sv
+synth_ecp5 -top top -json top.json

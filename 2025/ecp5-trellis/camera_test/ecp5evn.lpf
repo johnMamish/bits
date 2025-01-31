@@ -1,0 +1,154 @@
+################################
+# FTDI
+LOCATE COMP "ftdi_clk_12m" SITE "A10";
+IOBUF PORT "ftdi_clk_12m" IO_TYPE=LVCMOS25;
+FREQUENCY PORT "ftdi_clk_12m" 12 MHZ;
+
+# This is the FPGA's tx and FTDI's rx.
+LOCATE COMP "sda_0_uart_tx" SITE "E6";
+
+# This is the FPGA's rx and FTDI's tx.
+LOCATE COMP "scl_0_uart_rx" SITE "D7";
+
+# Both of these are on bank0, which must have vcc = 2.5 to work with the image sensor.
+IOBUF PORT "sda_0_uart_tx" IO_TYPE=LVCMOS25;
+IOBUF PORT "scl_0_uart_rx" IO_TYPE=LVCMOS25;
+
+################################
+# leds and buttons
+LOCATE COMP "led[0]" SITE "A13";
+LOCATE COMP "led[1]" SITE "A12";
+LOCATE COMP "led[2]" SITE "B19";
+LOCATE COMP "led[3]" SITE "A18";
+LOCATE COMP "led[4]" SITE "B18";
+LOCATE COMP "led[5]" SITE "C17";
+LOCATE COMP "led[6]" SITE "A17";
+LOCATE COMP "led[7]" SITE "B17";
+
+IOBUF PORT "led[0]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led[1]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led[2]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led[3]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led[4]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led[5]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led[6]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led[7]" IO_TYPE=LVCMOS25;
+
+LOCATE COMP "btn" SITE "P4";
+IOBUF PORT "btn" IO_TYPE=LVCMOS25;
+
+################################
+# Assorted GPIOs
+LOCATE COMP "j5_gpio[0]" SITE "G19";
+LOCATE COMP "j5_gpio[1]" SITE "H20";
+LOCATE COMP "j5_gpio[2]" SITE "J18";
+LOCATE COMP "j5_gpio[3]" SITE "K18";
+LOCATE COMP "j5_gpio[4]" SITE "J19";
+LOCATE COMP "j5_gpio[5]" SITE "K19";
+LOCATE COMP "j5_gpio[6]" SITE "J20";
+LOCATE COMP "j5_gpio[7]" SITE "K20";
+
+IOBUF PORT "j5_gpio[0]" IO_TYPE=LVCMOS25;
+IOBUF PORT "j5_gpio[1]" IO_TYPE=LVCMOS25;
+IOBUF PORT "j5_gpio[2]" IO_TYPE=LVCMOS25;
+IOBUF PORT "j5_gpio[3]" IO_TYPE=LVCMOS25;
+IOBUF PORT "j5_gpio[4]" IO_TYPE=LVCMOS25;
+IOBUF PORT "j5_gpio[5]" IO_TYPE=LVCMOS25;
+IOBUF PORT "j5_gpio[6]" IO_TYPE=LVCMOS25;
+IOBUF PORT "j5_gpio[7]" IO_TYPE=LVCMOS25;
+
+################################
+# Camera breakout pins
+
+# Bank 0 and 1 should be at vccio=2.5v.
+# Bank 6
+
+# J1 on breakout board
+LOCATE COMP "camera_0_d[0]"     SITE "E7";     # Bank 0
+LOCATE COMP "camera_0_d[1]"     SITE "A9";     # Bank 0
+LOCATE COMP "camera_0_d[2]"     SITE "D13";    # Bank 1
+LOCATE COMP "camera_0_d[3]"     SITE "A14";    # Bank 1
+LOCATE COMP "camera_0_d[4]"     SITE "D11";    # Bank 1
+LOCATE COMP "camera_0_d[5]"     SITE "D12";    # Bank 1
+LOCATE COMP "camera_0_d[6]"     SITE "C15";    # Bank 1
+LOCATE COMP "camera_0_d[7]"     SITE "B13";    # Bank 1
+
+LOCATE COMP "camera_0_hsync"    SITE "A11";    # Bank 0
+LOCATE COMP "camera_0_vsync"    SITE "B10";    # Bank 0
+LOCATE COMP "camera_0_pclk"     SITE "A19";    # Bank 1
+LOCATE COMP "camera_0_int"      SITE "D15";    # Bank 1
+LOCATE COMP "camera_0_mclk"     SITE "E11";    # Bank 1
+
+
+IOBUF PORT "camera_0_d[0]"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_d[1]"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_d[2]"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_d[3]"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_d[4]"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_d[5]"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_d[6]"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_d[7]"     IO_TYPE=LVCMOS25;
+
+IOBUF PORT "camera_0_hsync"    IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_vsync"    IO_TYPE=LVCMOS25;
+
+IOBUF PORT "camera_0_pclk"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_int"      IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_mclk"     IO_TYPE=LVCMOS25;
+
+# J2 on breakout board
+LOCATE COMP "camera_1_sda"      SITE "K2";     # Bank 6
+LOCATE COMP "camera_1_scl"      SITE "A15";    # Bank 1
+LOCATE COMP "camera_1_clksel"   SITE "H2";     # Bank 6
+LOCATE COMP "camera_0_xshut"    SITE "J4";     # Bank 6
+LOCATE COMP "camera_0_scl"      SITE "J3";     # Bank 6
+LOCATE COMP "camera_0_clksel"   SITE "L4";     # Bank 6
+LOCATE COMP "camera_1_xshut"    SITE "M4";     # Bank 6
+LOCATE COMP "camera_1_trig"     SITE "N3";     # Bank 6
+LOCATE COMP "camera_1_d[0]"     SITE "K5";     # Bank 6
+LOCATE COMP "camera_1_hsync"    SITE "M5";     # Bank 6
+LOCATE COMP "camera_1_pclk"     SITE "L3";     # Bank 6
+LOCATE COMP "camera_1_d[1]"     SITE "N2";     # Bank 6
+LOCATE COMP "camera_1_d[3]"     SITE "L2";     # Bank 6
+LOCATE COMP "camera_1_d[2]"     SITE "L1";     # Bank 6
+LOCATE COMP "camera_1_d[4]"     SITE "C14";    # Bank 1
+LOCATE COMP "camera_1_d[7]"     SITE "P1";     # Bank 6
+LOCATE COMP "camera_1_d[6]"     SITE "D14";    # Bank 1
+LOCATE COMP "camera_0_xsleep"   SITE "G1";     # Bank 6
+LOCATE COMP "camera_0_trig"     SITE "J5";     # Bank 6
+LOCATE COMP "camera_0_sda"      SITE "K3";     # Bank 6
+LOCATE COMP "camera_1_xsleep"   SITE "L5";     # Bank 6
+LOCATE COMP "camera_1_int"      SITE "P5";     # Bank 6
+LOCATE COMP "camera_1_mclk"     SITE "M3";     # Bank 6
+LOCATE COMP "camera_1_vsync"    SITE "M1";     # Bank 6
+LOCATE COMP "camera_1_d[5]"     SITE "N1";     # Bank 6
+
+IOBUF PORT "camera_1_sda"      IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_scl"      IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_clksel"   IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_xshut"    IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_scl"    PULLMODE=NONE  IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_clksel"   IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_xshut"    IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_trig"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_d[0]"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_hsync"    IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_pclk"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_d[1]"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_d[3]"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_d[2]"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_d[4]"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_d[7]"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_d[6]"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_xsleep"   IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_trig"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_sda"    PULLMODE=NONE IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_xsleep"   IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_int"      IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_mclk"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_vsync"    IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_d[5]"     IO_TYPE=LVCMOS25;
+
+# camera pclk freq definition
+FREQUENCY PORT "camera_0_pclk" 20 MHZ;
+FREQUENCY PORT "camera_1_pclk" 20 MHZ;
