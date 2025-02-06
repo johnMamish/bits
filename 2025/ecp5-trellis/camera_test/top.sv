@@ -108,6 +108,10 @@ module top (
     assign camera_0_xsleep = 1'b1;
     assign camera_0_xshut = 1'b1;
 
+    assign camera_1_clksel = 1'b0;
+    assign camera_1_xsleep = 1'b1;
+    assign camera_1_xshut = 1'b1;
+
     logic sys_reset;
 
     ////////////////////////////////////////////////////////////////
@@ -178,7 +182,8 @@ module top (
     logic [7:0] fifo_data;
     async_fifo #(
         .DSIZE(8),
-        .ASIZE(14)
+        .ASIZE(16),
+        .FALLTHROUGH("FALSE")
     ) camera_pixel_fifo (
         .wclk(camera_0_pclk), .wrst_n(!async_fifo_rst),
         .winc(reader_pix_valid), .wdata(reader_pix_data),

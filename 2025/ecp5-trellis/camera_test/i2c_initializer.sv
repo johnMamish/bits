@@ -3,6 +3,318 @@
  * Copyright 2025, John Mamish
  */
 
+
+/**
+ * Does a single transmission over i2c when requested
+ */
+module i2c_transmitter #(
+    parameter DEV_ID = 7'h35,
+    parameter SCL_DIV = 60
+)  (
+    input clock,
+    input reset,
+
+    // Control bus
+    input [15:0] reg_addr,
+    input [7:0] reg_data,
+    input data_valid,
+    output reg ready,
+
+    // i2c output
+    inout sda_io,
+    inout scl_io
+);
+
+    reg sda, scl;
+    assign sda_io = sda ? 1'bz : 1'b0;
+    assign scl_io = scl ? 1'bz : 1'b0;
+
+    wire scl_freq;
+    defparam div.N = SCL_DIV;
+    divide_by_n div(
+        .clk(clock),
+        .reset(reset),
+        .out(scl_freq)
+    );
+
+    // kind of hacky, but simple: rising and falling edge detection for divided clock
+    logic scl_freq_prev, scl_freq_rose, scl_freq_fell;
+    always_ff @(posedge clock) begin
+        scl_freq_prev <= scl_freq;
+        scl_freq_rose <= (!scl_freq_prev && scl_freq);
+        scl_freq_fell <= (scl_freq_prev && !scl_freq);
+    end
+
+    enum logic [2:0] {
+        IDLE=0, PRE_START_COND=1, START_COND=2, STOP_COND=3,
+        TRANSMITTING_DEV_ADDR=4, TRANSMITTING_REG_ADDR=5, TRANSMITTING_DATA=6
+    } state;
+
+    logic [15:0] reg_addr_latch;
+    logic [7:0] reg_data_latch;
+    logic [7:0] output_latch;
+    logic [4:0] bit_addr;
+    logic [1:0] byte_addr;
+
+    always_ff @(posedge clock) begin
+        case (state)
+            IDLE: begin
+                scl <= '1;
+                sda <= '1;
+                ready <= '1;
+                if (data_valid) begin
+                    reg_addr_latch <= reg_addr;
+                    reg_data_latch <= reg_data;
+                    ready <= '0;
+                    state <= START_COND;
+                end
+            end
+
+            PRE_START_COND: begin
+                // we need to wait until the scl serial clock has had a falling edge before we
+                // move to the next state.
+                if (scl_freq_fell) state <= START_COND;
+            end
+
+            START_COND: begin
+                // on rising edge of scl serial clock, we bring sda low and advance to the next state.
+                if (scl_freq_rose) begin
+                    sda <= '0;
+                    state <= TRANSMITTING_DEV_ADDR;
+                    bit_addr <= '0;
+                end
+            end
+
+            TRANSMITTING_DEV_ADDR: begin
+                if (scl_freq_fell) begin
+                    // bring scl low and advance the bit address
+                    scl <= '0;
+                    bit_addr <= bit_addr + 1;
+
+                    if (bit_addr == 4'h8) begin
+                        // allow NAK to happen
+                        sda <= 1'b1;
+                    end else begin
+                        // send next bit of address
+                        logic [7:0] dev_addr = {DEV_ID,1'b0};
+                        sda <= dev_addr[7 - bit_addr];
+                    end
+                end
+
+                if (scl_freq_rose) begin
+                    scl <= '1;
+
+                    if (bit_addr == 4'h9) begin
+                        // TODO: if we wanted to sample SDA for NAK, we'd do it here.
+                        state <= TRANSMITTING_REG_ADDR;
+                        bit_addr <= '0;
+                        byte_addr <= '0;
+                    end
+                end
+            end
+
+            TRANSMITTING_REG_ADDR: begin
+                if (scl_freq_fell) begin
+                    // bring scl low and advance the bit address
+                    scl <= '0;
+
+                    // increment bit addr
+                    if (bit_addr == 4'h8) begin
+                        bit_addr <= '0;
+                        byte_addr <= byte_addr + 1;
+                    end else begin
+                        bit_addr <= bit_addr + 1;
+                    end
+
+                    if (bit_addr == 4'h8) begin
+                        // allow NAK ot happen
+                        sda <= '1;
+                    end else begin
+                        sda <= reg_addr_latch[((1 - byte_addr) << 3) + (7 - bit_addr)];
+                    end
+                end
+
+                if (scl_freq_rose) begin
+                    scl <= '1;
+
+                    if (byte_addr == 2) begin
+                        state <= TRANSMITTING_DATA;
+                        bit_addr <= '0;
+                        byte_addr <= '0;
+                    end
+                end
+            end
+
+            TRANSMITTING_DATA: begin
+                if (scl_freq_fell) begin
+                    // bring scl low and advance the bit address
+                    scl <= '0;
+                    bit_addr <= bit_addr + 1;
+
+                    if (bit_addr == 4'h8) begin
+                        // allow NAK to happen
+                        sda <= 1'b1;
+                    end else begin
+                        // send next bit of address
+                        sda <= reg_data_latch[7 - bit_addr];
+                    end
+                end
+
+                if (scl_freq_rose) begin
+                    scl <= '1;
+
+                    if (bit_addr == 4'h9) begin
+                        // TODO: if we wanted to sample SDA for NAK, we'd do it here.
+                        state <= STOP_COND;
+                        bit_addr <= '0;
+                        byte_addr <= '0;
+                    end
+                end
+            end
+
+            STOP_COND: begin
+                if (scl_freq_rose) begin
+                    scl <= '1;
+
+                    if (bit_addr == 1) begin
+                        state <= IDLE;
+                        ready <= '1;
+                        sda <= '1;
+                    end
+                end
+
+                if (scl_freq_fell) begin
+                    bit_addr <= bit_addr + 1;
+
+                    if (bit_addr == 0) sda <= '0;
+                    else sda <= '1;
+                end
+            end
+        endcase // case (state)
+
+        if (reset) begin
+            state <= IDLE;
+            sda <= '1;
+            scl <= '1;
+        end
+    end
+endmodule
+
+
+/**
+ * Sends a bunch of i2c write requests.
+ *
+ * Instruction encoding (all instrs are 32b and presented in little endian):
+ * wait until i2c controller is ready, then immediately send data
+ *     00  <addr MSB>   <addr LSB>   <addr data>
+ *
+ * delay for ARG clock cycles
+ *     01  xx ARG[15:0]
+ *
+ * wait for trigger input from external signal, then advance to next instruction
+ *     02  00 00 00
+ *
+ * jump to address ARG immediately
+ *     03  ARG[23:0]
+ *
+ * relative jump to pc + (signed ARG[23:0]) immediately
+ *     04  ARG[23:0]
+ */
+module i2c_transmitter_controller #(
+    parameter DEV_ID = 7'h35,
+    parameter MEM_NUM_WORDS = 512
+)  (
+    input clock,
+    input reset,
+    input trigger,
+
+    // control bus to i2c transmitter
+    output logic [15:0] reg_addr_o,
+    output logic [7:0] reg_data_o,
+    output logic data_valid_o,
+    input i2c_transmitter_ready
+);
+    reg [31:0] mem [MEM_NUM_WORDS];
+
+    initial begin
+        $readmemh("i2c_controller_program.hex", mem);
+    end
+
+    logic [15:0] pc;
+    logic [31:0] ir;
+
+    enum logic [1:0] {
+        FETCH=0, EXECUTE=1
+    } state;
+
+    localparam logic [7:0] OPCODE_TX = 8'h00;
+    localparam logic [7:0] OPCODE_WAIT = 8'h01;
+    localparam logic [7:0] OPCODE_TRIG = 8'h02;
+    localparam logic [7:0] OPCODE_JMP = 8'h03;
+    localparam logic [7:0] OPCODE_JMP_RELATIVE = 8'h04;
+
+    logic [23:0] cycle_count;
+
+    always_ff @(posedge clock) begin
+        data_valid_o <= '0;
+
+        case (state)
+            FETCH: begin
+                ir <= mem[pc];
+                pc <= pc + 1;
+                state <= EXECUTE;
+                cycle_count <= '0;
+            end
+
+            EXECUTE: begin
+                cycle_count <= cycle_count + 1;
+                case (ir[7:0])
+                    OPCODE_TX: begin
+                        if (i2c_transmitter_ready) begin
+                            reg_addr_o <= ir[8 +: 16];
+                            reg_data_o <= ir[24 +: 8];
+                            data_valid_o <= '1;
+                            state <= FETCH;
+                        end
+                    end
+
+                    OPCODE_WAIT: begin
+                        if (cycle_count >= ir[16 +: 16]) begin
+                            state <= FETCH;
+                        end
+                    end
+
+                    OPCODE_TRIG: begin
+                        if (trigger) begin
+                            state <= FETCH;
+                        end
+                    end
+
+                    OPCODE_JMP: begin
+                        pc <= ir[8 +: 24];
+                        state <= FETCH;
+                    end
+
+                    OPCODE_JMP_RELATIVE: begin
+                        pc <= pc + ir[8 +: 24];
+                        state <= FETCH;
+                    end
+
+                    default: begin
+                        state <= FETCH;
+                    end
+                endcase
+            end
+        endcase
+
+        if (reset) begin
+            pc <= 0;
+            state <= FETCH;
+        end
+    end
+
+endmodule
+
 module i2c_initializer #(
     parameter DEV_ID = 7'h35,
     parameter MEM_NUM_WORDS = 256

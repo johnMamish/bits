@@ -29,7 +29,7 @@
 // sensor_core_clk = 48MHz / (2 * 0x0300[1:0]). pixclk = sensor_core_clk
 // pixel_clk_out_pin = 48MHz / (0x0300[3:2])  (??)
 // 0b, 0a, 09 for different clock speeds
-0300_0b
+0300_09
 0301_0A
 0302_77
 
@@ -297,7 +297,7 @@
 // set height (num lines) and width (pclks per line)
 0340_02
 0341_40
-0342_10
+0342_14
 0343_00
 
 // set test pattern mode

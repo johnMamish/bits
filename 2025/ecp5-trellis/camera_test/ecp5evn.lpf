@@ -123,8 +123,8 @@ LOCATE COMP "camera_1_mclk"     SITE "M3";     # Bank 6
 LOCATE COMP "camera_1_vsync"    SITE "M1";     # Bank 6
 LOCATE COMP "camera_1_d[5]"     SITE "N1";     # Bank 6
 
-IOBUF PORT "camera_1_sda"      IO_TYPE=LVCMOS25;
-IOBUF PORT "camera_1_scl"      IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_sda"    PULLMODE=NONE  IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_scl"    PULLMODE=NONE  IO_TYPE=LVCMOS25;
 IOBUF PORT "camera_1_clksel"   IO_TYPE=LVCMOS25;
 IOBUF PORT "camera_0_xshut"    IO_TYPE=LVCMOS25;
 IOBUF PORT "camera_0_scl"    PULLMODE=NONE  IO_TYPE=LVCMOS25;

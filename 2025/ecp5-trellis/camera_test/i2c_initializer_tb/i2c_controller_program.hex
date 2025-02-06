@@ -1,0 +1,19 @@
+aa_1001_00
+bb_1002_00
+
+// wait for 0x0100 clock cycles
+0001_00_01
+
+// write again
+23_3030_00
+
+// wait for trigger
+000000_02
+
+// write to address
+ff_0000_00
+
+// jump back to wait for trigger
+fffffd_04
+
+00_00_00_00
