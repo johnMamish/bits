@@ -80,7 +80,29 @@ module top (
     // camera 0 config
     output logic camera_0_xshut,
     output logic camera_0_clksel,
-    output logic camera_0_xsleep
+    output logic camera_0_xsleep,
+
+    ////////////////////////////////
+    // Camera 1 interface
+    // camera 1 pixel data
+    input camera_1_pclk,
+    input camera_1_hsync,
+    input camera_1_vsync,
+    input [7:0] camera_1_d,
+
+    // camera 0 timing
+    input camera_1_int,
+    output logic camera_1_mclk,
+    output logic camera_1_trig,
+
+    // camera 0 i2c
+    inout camera_1_sda,
+    inout camera_1_scl,
+
+    // camera 0 config
+    output logic camera_1_xshut,
+    output logic camera_1_clksel,
+    output logic camera_1_xsleep
 );
     assign camera_0_clksel = 1'b0;
     assign camera_0_xsleep = 1'b1;
@@ -125,19 +147,47 @@ module top (
 
     ////////////////////////////////////////////////////////////////
     // camera reader
+    logic reader_pix_valid;
+    logic [7:0] reader_pix_data;
+    logic [15:0] reader_row;
+    logic [15:0] reader_col;
+
+    logic async_fifo_rst;
+
     camera_reader reader (
         .pixclk_i(camera_0_pclk), .pixel_data_i(camera_0_d),
-        .hsync_i(camera_0_hsync), .vsync(camera_0_vsync),
+        .hsync_i(camera_0_hsync), .vsync_i(camera_0_vsync),
 
-        .pix_valid_o(), .pix_o(), .row_o(
+        .pix_valid_o(reader_pix_valid), .pix_o(reader_pix_data),
+        .row_o(reader_row), .col_o(reader_col),
+
+        .async_fifo_rst_o(async_fifo_rst)
     );
 
-    always_comb begin
-        j5_gpio[0 +: 4] = pixout_iface.row[0 +: 4];
-        j5_gpio[4 +: 2] = pixout_iface.col[0 +: 2];
-        j5_gpio[6] = pixout_iface.clk;
-        j5_gpio[7] = pixout_iface.valid;
-    end
+    ////////////////////////////////////////////////////////////////
+    // module to stuff extra bytes into stream for alignment
+
+
+
+    ////////////////////////////////////////////////////////////////
+    // fifo between camera reader and UART
+
+    // hacky solution to hold async fifo write side in reset
+    logic do_fifo_read;
+    logic fifo_almost_empty, fifo_empty, fifo_full;
+    logic [7:0] fifo_data;
+    async_fifo #(
+        .DSIZE(8),
+        .ASIZE(14)
+    ) camera_pixel_fifo (
+        .wclk(camera_0_pclk), .wrst_n(!async_fifo_rst),
+        .winc(reader_pix_valid), .wdata(reader_pix_data),
+        .wfull(fifo_full), .awfull(),
+
+        .rclk(clk_pll), .rrst_n(!sys_reset),
+        .rinc(do_fifo_read), .rdata(fifo_data),
+        .rempty(fifo_empty), .arempty(fifo_almost_empty)
+    );
 
     ////////////////////////////////////////////////////////////////
     // UART
@@ -148,17 +198,37 @@ module top (
         .clk(clk_pll), .reset(sys_reset), .out(clk_baud)
     );
 
+    logic uart_busy;
     logic uart_data_valid;
     logic [7:0] uart_data;
     uart_tx uart_transmitter (
         .clk_i(clk_pll), .reset_i(sys_reset), .baud_clk_i(clk_baud),
-        .data_valid_i(uart_data_valid), .data_i(uart_data),
-        .uart_tx_o(sda_0_uart_tx), .uart_busy_o()
+        .data_valid_i(do_fifo_read), .data_i(fifo_data),
+        .uart_tx_o(sda_0_uart_tx), .uart_busy_o(uart_busy)
     );
 
-    uart_traffic_generator uart_tgen (
-        .clk_i(clk_pll), .reset_i(sys_reset),
-        .uart_data_valid_o(uart_data_valid), .uart_data_o(uart_data)
-    );
+    ////////////////////////////////////////////////////////////////
+    // suck from fifo into uart
+    always_ff @(posedge clk_pll) begin
+        do_fifo_read <= 0;
+        if (!do_fifo_read) begin
+            do_fifo_read <= !uart_busy && !(fifo_almost_empty || fifo_empty);
+        end
+
+        if (sys_reset) do_fifo_read <= 0;
+    end
+
+    ////////////////////////////////////////////////////////////////
+    // debug pins
+    always_comb begin
+        j5_gpio[0] = camera_0_pclk;
+        j5_gpio[1] = camera_0_hsync;
+        j5_gpio[2] = camera_0_vsync;
+        j5_gpio[3] = reader_pix_valid;
+        j5_gpio[4] = fifo_full;
+        j5_gpio[5] = do_fifo_read;
+        j5_gpio[6] = uart_busy;
+        j5_gpio[7] = fifo_almost_empty || fifo_empty;
+    end
 
 endmodule

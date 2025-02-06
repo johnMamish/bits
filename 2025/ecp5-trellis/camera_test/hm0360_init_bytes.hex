@@ -23,18 +23,22 @@
 1020_01
 1021_00
 
-3112_00  // PCLKO_polarity falling
-
-0300_0b  // Core = 24MHz PCLKO = 24MHz I2C = 12MHz
-0301_0A  // MIPI pre-dev (default)
-0302_77  // PMU/MIPI pre-dev (default)
+////////////////////////////////////////////////////////////////
+// internal clock config
+// internal oscillator = 48MHz
+// sensor_core_clk = 48MHz / (2 * 0x0300[1:0]). pixclk = sensor_core_clk
+// pixel_clk_out_pin = 48MHz / (0x0300[3:2])  (??)
+// 0b, 0a, 09 for different clock speeds
+0300_0b
+0301_0A
+0302_77
 
 3024_08  // Disable context switching
-3112_00  // PCLKO_polarity falling
+3112_00  // PCLKO_polarity
 
 ////////////////////////////////////////////////////////////////
 // Automatic Exposure config
-2000_5F  // Automatic Exposure (NOTE: Auto framerate enabled)
+2000_0e  // Automatic Exposure (NOTE: Auto framerate enabled)
 2001_00  // AE_CTRL1
 
 2031_20  // AE T damping factor
@@ -277,5 +281,29 @@
 // non-gated pclk
 1014_0b
 
+// autoexposure disable
+2000_0e
+
+// commit changes
 0104_01
-0100_06
+
+// mode select (triggered, streaming, etc)
+0100_01
+
+// set binning
+0380_00
+0381_00
+
+// set height (num lines) and width (pclks per line)
+0340_02
+0341_40
+0342_10
+0343_00
+
+// set test pattern mode
+///0601_11
+
+3030_00
+
+// commit changes
+0104_01

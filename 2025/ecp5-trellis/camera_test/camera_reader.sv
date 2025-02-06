@@ -7,10 +7,10 @@
 
 module camera_reader #(
     parameter PIX_WIDTH = 8,
-    parameter HSYNC_PADDING = 2,
-    parameter VSYNC_PADDING = 2,
-    parameter ACTIVE_REGION_WIDTH = 320,
-    parameter ACTIVE_REGION_HEIGHT = 240
+    parameter HSYNC_PADDING = 10,
+    parameter VSYNC_PADDING = 10,
+    parameter ACTIVE_REGION_WIDTH = 240,
+    parameter ACTIVE_REGION_HEIGHT = 450
 )  (
     // Image sensor interface to read from.
     // This interface carries the clock that drives the logic inside this module
@@ -19,15 +19,13 @@ module camera_reader #(
     input hsync_i,
     input vsync_i,
 
-    // active-high reset synchronous with the sensor interface.
-    // TODO: unused
-    // input reset,
-
     // pixel data interface that data is output to
     output logic pix_valid_o,
     output logic [7:0] pix_o,
     output logic [15:0] row_o,
-    output logic [15:0] col_o
+    output logic [15:0] col_o,
+
+    output logic async_fifo_rst_o
 );
     ////////////////////////////////////////////////////////////////
     // latch signals at input
@@ -57,7 +55,8 @@ module camera_reader #(
     logic [15:0] row;
 
     initial col = 16'h0000;
-    initial row = 16'hf000;
+    initial row = 16'he000;
+    initial async_fifo_rst_o = '1;
 
     // This signal is high whenever the current pixel readout pointer is in the valid window.
     logic pix_readout_in_valid_region;
@@ -69,6 +68,7 @@ module camera_reader #(
         // On falling edge of hsync / vsync, we reset col / row count, respectively
         if (hsync_fell) col <= 0;
         if (vsync_fell) row <= 0;
+        if (vsync_fell) async_fifo_rst_o <= 0;
 
         // On every cycle that hsync is high / every fall of hsync, we increment col / row
         if (hsync) col <= col + 1;
@@ -83,12 +83,14 @@ module camera_reader #(
         end
     end
 
+
+
     // Arithmetically determined from config registers.
     localparam ACTIVE_REGION_MAX_X = HSYNC_PADDING + ACTIVE_REGION_WIDTH;
     localparam ACTIVE_REGION_MAX_Y = VSYNC_PADDING + ACTIVE_REGION_HEIGHT;
 
     always_comb begin
-        pix_readout_in_valid_region = ((row >= HSYNC_PADDING) && (row < active_region_max_x) &&
-                                       (col >= VSYNC_PADDING) && (col < active_region_max_y));
+        pix_readout_in_valid_region = ((row >= VSYNC_PADDING) && (row < ACTIVE_REGION_MAX_Y) &&
+                                       (col >= HSYNC_PADDING) && (col < ACTIVE_REGION_MAX_X));
     end
 endmodule

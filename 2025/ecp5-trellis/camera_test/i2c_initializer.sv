@@ -1,5 +1,6 @@
 /**
- * Copyright 2020, Julian Richey
+ * Copyright 2020, Julian Richey and
+ * Copyright 2025, John Mamish
  */
 
 module i2c_initializer #(
@@ -21,7 +22,7 @@ module i2c_initializer #(
 
     wire scl_freq;
     //A11 = 12000000/(440*(2^7)) = 213.068
-    defparam div.N = 180; //120 for 100khz, 30 for 400khz
+    defparam div.N = 60; //120 for 100khz, 30 for 400khz
     divide_by_n div(
         .clk(clock),
         .reset(reset),
@@ -33,6 +34,9 @@ module i2c_initializer #(
     initial begin
         $readmemh("hm0360_init_bytes.hex", mem);
     end
+
+    reg [2:0] stop_clk_count;
+    reg [2:0] stop_clk_count_next;
 
     reg [15:0] mem_adr;
     reg [15:0] mem_adr_next;
@@ -67,6 +71,7 @@ module i2c_initializer #(
         txing <= txing_next;
         stopping <= stopping_next;
         active <= active_next;
+        stop_clk_count <= stop_clk_count_next;
     end
 
     always @* begin
@@ -78,17 +83,9 @@ module i2c_initializer #(
         txing_next = txing;
         stopping_next = stopping;
         active_next = active;
+        stop_clk_count_next = stop_clk_count;
 
-        if (reset) begin
-            sda_next = 1'b1;
-            scl_next = 1'b1;
-            mem_adr_next = 'b0;
-            byte_adr_next = 2'b11;
-            bit_adr_next = 4'h7;
-            txing_next = 1'b0;
-            stopping_next = 1'b0;
-            active_next = 1'b1;
-        end else if (mem_adr >= MEM_NUM_WORDS) begin //done with transmissions
+        if (mem_adr >= MEM_NUM_WORDS) begin //done with transmissions
             sda_next = 1'b1;
             active_next = 1'b0;
         end else if (scl_freq && !scl_freq_prev) begin
@@ -97,10 +94,14 @@ module i2c_initializer #(
         end else if (scl_freq_prev && !scl_freq_prev_prev) begin //posedge scl - start, stop
             // the cycle after scl rises, we update SDA logic
             if (stopping) begin
-                sda_next = 1'b1; //sda is ack:high, stopping:low, stop condition:high
-                stopping_next = 1'b0;
-                mem_adr_next = mem_adr + 1;
+                //sda_next = 1'b1; //sda is ack:high, stopping:low, stop condition:high
+                stop_clk_count_next = stop_clk_count + 1;
+                if (stop_clk_count == 1) begin
+                    stopping_next = 1'b0;
+                    mem_adr_next = mem_adr + 1;
+                end
             end else begin
+                stop_clk_count_next = 0;
                 if (byte_adr == 2'b11 && bit_adr == 4'h7 && !txing) begin //start
                     txing_next = 1'b1;
                     sda_next = 1'b0;
@@ -112,15 +113,16 @@ module i2c_initializer #(
         end else if (!scl_freq && scl_freq_prev) begin
             // Divided clock is telling us to bring scl low.
             // if we're stopping, leave scl high on this cycle
-            if (!stopping && !txing) begin
+            if ((stop_clk_count != 0) && !txing) begin
                 scl_next = 1'b1;
             end else begin
                 scl_next = 1'b0;
             end
         end else if (!scl_freq_prev && scl_freq_prev_prev) begin //negedge scl - transmit
-            if (stopping)
-                sda_next = 1'b1;
-            else if (txing) begin
+            if (stopping) begin
+                if (stop_clk_count == 0) sda_next = 1'b0;
+                else sda_next = 1'b1;
+            end else if (txing) begin
                 bit_adr_next = bit_adr - 4'b1;
 
                 if (!bit_adr) begin
@@ -139,5 +141,16 @@ module i2c_initializer #(
             end
         end
 
+        if (reset) begin
+            sda_next = 1'b1;
+            scl_next = 1'b1;
+            mem_adr_next = 'b0;
+            byte_adr_next = 2'b11;
+            bit_adr_next = 4'h7;
+            txing_next = 1'b0;
+            stopping_next = 1'b0;
+            active_next = 1'b1;
+            stop_clk_count_next = '0;
+        end
     end
 endmodule

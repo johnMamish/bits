@@ -1,3 +1,10 @@
+read_verilog async_fifo/rtl/async_fifo.v
+read_verilog async_fifo/rtl/fifomem.v
+read_verilog async_fifo/rtl/rptr_empty.v
+read_verilog async_fifo/rtl/sync_r2w.v
+read_verilog async_fifo/rtl/sync_w2r.v
+read_verilog async_fifo/rtl/wptr_full.v
+
 read_verilog util.v
 read_verilog -sv camera_reader.sv
 read_verilog -sv uart.sv
