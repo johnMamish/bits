@@ -105,12 +105,15 @@ module top (
     output logic camera_1_xsleep
 );
     assign camera_0_clksel = 1'b0;
-    assign camera_0_xsleep = 1'b1;
     assign camera_0_xshut = 1'b1;
+    assign camera_0_mclk = 1'b0;
+    assign camera_0_trig = 1'b0;
 
     assign camera_1_clksel = 1'b0;
     assign camera_1_xsleep = 1'b1;
     assign camera_1_xshut = 1'b1;
+    assign camera_1_mclk = 1'b0;
+    assign camera_1_trig = 1'b0;
 
     logic sys_reset;
 
@@ -143,11 +146,58 @@ module top (
 
     ////////////////////////////////////////////////////////////////
     // i2c initialization
-    i2c_initializer cam0_init (
+    logic i2c_shutter_trig;
+    logic i2c_init_done;
+    logic [15:0] i2c_init_addr;
+    logic [7:0] i2c_init_data;
+    logic [1:0] i2c_tx_phases;
+    logic camera_0_vsync_i2c_domain;
+    logic i2c_rw_bit;
+    logic i2c_init_data_valid;
+    logic i2c_transmitter_ready;
+    i2c_transmitter_controller i2c_txctl (
         .clock(ftdi_clk_12m), .reset(sys_reset),
-        .sda_io(camera_0_sda), .scl_io(camera_0_scl),
-        .active()
+        .reg_addr_o(i2c_init_addr), .reg_data_o(i2c_init_data), .data_valid_o(i2c_init_data_valid),
+        .rw_bit_o(i2c_rw_bit), .i2c_tx_phases_o(i2c_tx_phases),
+        .i2c_transmitter_ready,
+        .trigger_i({camera_0_vsync_i2c_domain, i2c_shutter_trig}),
+        .trigger_o({camera_0_xsleep, i2c_init_done})
     );
+    defparam i2c_txctl.INIT_FILE = "hm0360_initializer_program.hex";
+
+    i2c_transmitter i2c_tx (
+        .clock(ftdi_clk_12m), .reset(sys_reset),
+        .reg_addr(i2c_init_addr), .reg_data(i2c_init_data), .data_valid(i2c_init_data_valid),
+        .rw_bit(i2c_rw_bit), .phase_enable(i2c_tx_phases),
+        .ready(i2c_transmitter_ready),
+        .sda_io(camera_0_sda), .scl_io(camera_0_scl),
+    );
+    defparam i2c_tx.SCL_DIV = 50;
+
+    localparam SHUTTER_PERIOD = 6000000;
+    logic [30:0] count;
+    always_ff @(posedge ftdi_clk_12m) begin
+        if (count >= SHUTTER_PERIOD) begin
+            count <= 0;
+            i2c_shutter_trig <= 1;
+        end else begin
+            count <= count + 1;
+            i2c_shutter_trig <= 0;
+        end
+
+        if (sys_reset || !i2c_init_done) begin
+            count <= 0;
+        end
+    end
+
+    // synchronize vsync into i2c controller domain
+    always_ff @(posedge ftdi_clk_12m) begin
+        localparam NDELAY = 3;
+        automatic logic camera_0_vsync_q [NDELAY];
+        camera_0_vsync_q[0] <= camera_0_vsync;
+        for (int i = 1; i < NDELAY; i++) camera_0_vsync_q[i] <= camera_0_vsync_q[i-1];
+        camera_0_vsync_i2c_domain <= ocamera_0_vsync_q[NDELAY-1];
+    end
 
     ////////////////////////////////////////////////////////////////
     // camera reader
@@ -155,7 +205,6 @@ module top (
     logic [7:0] reader_pix_data;
     logic [15:0] reader_row;
     logic [15:0] reader_col;
-
     logic async_fifo_rst;
 
     camera_reader reader (
@@ -169,7 +218,7 @@ module top (
     );
 
     ////////////////////////////////////////////////////////////////
-    // module to stuff extra bytes into stream for alignment
+    // TODO: module to stuff extra bytes into stream for alignment
 
 
 
@@ -182,7 +231,7 @@ module top (
     logic [7:0] fifo_data;
     async_fifo #(
         .DSIZE(8),
-        .ASIZE(16),
+        .ASIZE(8),
         .FALLTHROUGH("FALSE")
     ) camera_pixel_fifo (
         .wclk(camera_0_pclk), .wrst_n(!async_fifo_rst),
@@ -229,9 +278,9 @@ module top (
         j5_gpio[0] = camera_0_pclk;
         j5_gpio[1] = camera_0_hsync;
         j5_gpio[2] = camera_0_vsync;
-        j5_gpio[3] = reader_pix_valid;
-        j5_gpio[4] = fifo_full;
-        j5_gpio[5] = do_fifo_read;
+        j5_gpio[3] = i2c_shutter_trig;
+        j5_gpio[4] = i2c_transmitter_ready;
+        j5_gpio[5] = camera_0_xsleep;
         j5_gpio[6] = uart_busy;
         j5_gpio[7] = fifo_almost_empty || fifo_empty;
     end

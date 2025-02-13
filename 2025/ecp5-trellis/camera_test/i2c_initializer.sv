@@ -17,8 +17,12 @@ module i2c_transmitter #(
     // Control bus
     input [15:0] reg_addr,
     input [7:0] reg_data,
+    input rw_bit,
     input data_valid,
     output reg ready,
+
+    // if this is 01, then only the reg addr is sent. If it's 10, then only the data is sent.
+    input [1:0] phase_enable,
 
     // i2c output
     inout sda_io,
@@ -52,6 +56,8 @@ module i2c_transmitter #(
 
     logic [15:0] reg_addr_latch;
     logic [7:0] reg_data_latch;
+    logic rw_bit_latch;
+    logic [1:0] phase_enable_latch;
     logic [7:0] output_latch;
     logic [4:0] bit_addr;
     logic [1:0] byte_addr;
@@ -65,6 +71,8 @@ module i2c_transmitter #(
                 if (data_valid) begin
                     reg_addr_latch <= reg_addr;
                     reg_data_latch <= reg_data;
+                    rw_bit_latch <= rw_bit;
+                    phase_enable_latch <= phase_enable;
                     ready <= '0;
                     state <= START_COND;
                 end
@@ -96,7 +104,8 @@ module i2c_transmitter #(
                         sda <= 1'b1;
                     end else begin
                         // send next bit of address
-                        logic [7:0] dev_addr = {DEV_ID,1'b0};
+                        logic [7:0] dev_addr;
+                        dev_addr = {DEV_ID, rw_bit_latch};
                         sda <= dev_addr[7 - bit_addr];
                     end
                 end
@@ -106,7 +115,8 @@ module i2c_transmitter #(
 
                     if (bit_addr == 4'h9) begin
                         // TODO: if we wanted to sample SDA for NAK, we'd do it here.
-                        state <= TRANSMITTING_REG_ADDR;
+                        if(phase_enable_latch[0]) state <= TRANSMITTING_REG_ADDR;
+                        else state <= TRANSMITTING_DATA;
                         bit_addr <= '0;
                         byte_addr <= '0;
                     end
@@ -127,7 +137,7 @@ module i2c_transmitter #(
                     end
 
                     if (bit_addr == 4'h8) begin
-                        // allow NAK ot happen
+                        // allow NAK to happen if we're txing
                         sda <= '1;
                     end else begin
                         sda <= reg_addr_latch[((1 - byte_addr) << 3) + (7 - bit_addr)];
@@ -138,7 +148,8 @@ module i2c_transmitter #(
                     scl <= '1;
 
                     if (byte_addr == 2) begin
-                        state <= TRANSMITTING_DATA;
+                        if (phase_enable_latch[1]) state <= TRANSMITTING_DATA;
+                        else state <= STOP_COND;
                         bit_addr <= '0;
                         byte_addr <= '0;
                     end
@@ -153,7 +164,7 @@ module i2c_transmitter #(
 
                     if (bit_addr == 4'h8) begin
                         // allow NAK to happen
-                        sda <= 1'b1;
+                        sda <= '1;
                     end else begin
                         // send next bit of address
                         sda <= reg_data_latch[7 - bit_addr];
@@ -176,7 +187,7 @@ module i2c_transmitter #(
                 if (scl_freq_rose) begin
                     scl <= '1;
 
-                    if (bit_addr == 1) begin
+                    if (bit_addr == 2) begin
                         state <= IDLE;
                         ready <= '1;
                         sda <= '1;
@@ -186,8 +197,8 @@ module i2c_transmitter #(
                 if (scl_freq_fell) begin
                     bit_addr <= bit_addr + 1;
 
-                    if (bit_addr == 0) sda <= '0;
-                    else sda <= '1;
+                    sda <= (bit_addr >= 2) ? '1 : '0;
+                    scl <= (bit_addr >= 1) ? '1 : '0;
                 end
             end
         endcase // case (state)
@@ -204,7 +215,7 @@ endmodule
 /**
  * Sends a bunch of i2c write requests.
  *
- * Instruction encoding (all instrs are 32b and presented in little endian):
+ * Instruction encoding (all instrs are 32b and presented in big endian):
  * wait until i2c controller is ready, then immediately send data
  *     00  <addr MSB>   <addr LSB>   <addr data>
  *
@@ -212,32 +223,52 @@ endmodule
  *     01  xx ARG[15:0]
  *
  * wait for trigger input from external signal, then advance to next instruction
- *     02  00 00 00
+ *     02  00 ll hh
+ * The trigger signals are a bitmask; setting the corresponding bit in 'hh' waits for a high
+ * signal on the corresponding bit. Setting the bit in 'll' waits for a low signal on the
+ * corresponding bit.
  *
- * jump to address ARG immediately
- *     03  ARG[23:0]
+ * for instance, the following waits for a low signal on input 3.
+ *     02  00 08 00
+ *
+ * And the following sequence of 2 instructions waits for a falling edge on signal 5
+ *     02  00 00 20    // wait for signal 5 to go high
+ *     02  00 20 00    // wait for signal 5 to go low
+ *
+ *
+ * write trigger output to lsbit value
+ *     03  00 00 0x
  *
  * relative jump to pc + (signed ARG[23:0]) immediately
  *     04  ARG[23:0]
+ *
+ * jump to address ARG immediately
+ *     05  ARG[23:0]
  */
 module i2c_transmitter_controller #(
     parameter DEV_ID = 7'h35,
-    parameter MEM_NUM_WORDS = 512
+    parameter MEM_NUM_WORDS = 512,
+    parameter INIT_FILE = "hm0360_initializer_program.hex"
 )  (
     input clock,
     input reset,
-    input trigger,
+    input [7:0] trigger_i,
 
     // control bus to i2c transmitter
     output logic [15:0] reg_addr_o,
     output logic [7:0] reg_data_o,
+    output logic rw_bit_o,
     output logic data_valid_o,
-    input i2c_transmitter_ready
+    output logic [1:0] i2c_tx_phases_o,
+    input i2c_transmitter_ready,
+
+    // output to let other modules know that init is done.
+    output logic [7:0] trigger_o
 );
     reg [31:0] mem [MEM_NUM_WORDS];
 
     initial begin
-        $readmemh("i2c_controller_program.hex", mem);
+        $readmemh(INIT_FILE, mem);
     end
 
     logic [15:0] pc;
@@ -250,13 +281,23 @@ module i2c_transmitter_controller #(
     localparam logic [7:0] OPCODE_TX = 8'h00;
     localparam logic [7:0] OPCODE_WAIT = 8'h01;
     localparam logic [7:0] OPCODE_TRIG = 8'h02;
-    localparam logic [7:0] OPCODE_JMP = 8'h03;
+    localparam logic [7:0] OPCODE_OUTPUT_TRIG = 8'h03;
     localparam logic [7:0] OPCODE_JMP_RELATIVE = 8'h04;
+    localparam logic [7:0] OPCODE_JMP = 8'h05;
+
+    // RX doesn't actually deliver read bytes to the FPGA fabric, just lets us look with logic analyzer
+    localparam logic [7:0] OPCODE_TX_SHORT = 8'h06;
+    localparam logic [7:0] OPCODE_RX = 8'h07;
 
     logic [23:0] cycle_count;
 
+    // latch the trigger signals to provide a little timing slack
+    logic [7:0] trigger_signals;
+
     always_ff @(posedge clock) begin
         data_valid_o <= '0;
+        rw_bit_o <= '0;
+        trigger_signals <= trigger_i;
 
         case (state)
             FETCH: begin
@@ -268,36 +309,67 @@ module i2c_transmitter_controller #(
 
             EXECUTE: begin
                 cycle_count <= cycle_count + 1;
-                case (ir[7:0])
+                case (ir[24 +: 8])
                     OPCODE_TX: begin
                         if (i2c_transmitter_ready) begin
                             reg_addr_o <= ir[8 +: 16];
-                            reg_data_o <= ir[24 +: 8];
+                            reg_data_o <= ir[0 +: 8];
+                            i2c_tx_phases_o <= 2'b11;
+                            rw_bit_o <= '0;
                             data_valid_o <= '1;
                             state <= FETCH;
                         end
                     end
 
                     OPCODE_WAIT: begin
-                        if (cycle_count >= ir[16 +: 16]) begin
+                        if (cycle_count >= ir[0 +: 24]) begin
                             state <= FETCH;
                         end
                     end
 
                     OPCODE_TRIG: begin
-                        if (trigger) begin
+                        automatic logic high_sig_detected = |(ir[0 +: 8] & trigger_signals);
+                        automatic logic low_sig_detected  = |(ir[8 +: 8] & ~trigger_signals);
+                        if (high_sig_detected || low_sig_detected) begin
                             state <= FETCH;
                         end
                     end
 
-                    OPCODE_JMP: begin
-                        pc <= ir[8 +: 24];
+                    OPCODE_OUTPUT_TRIG: begin
+                        trigger_o <= ir[0 +: 8];
                         state <= FETCH;
                     end
 
                     OPCODE_JMP_RELATIVE: begin
-                        pc <= pc + ir[8 +: 24];
+                        pc <= pc + ir[0 +: 24];
                         state <= FETCH;
+                    end
+
+                    OPCODE_JMP: begin
+                        pc <= ir[0 +: 24];
+                        state <= FETCH;
+                    end
+
+                    OPCODE_TX_SHORT: begin
+                        if (i2c_transmitter_ready) begin
+                            reg_addr_o <= ir[8 +: 16];
+                            reg_data_o <= '1;
+                            i2c_tx_phases_o <= 2'b01;
+                            rw_bit_o <= '0;
+                            data_valid_o <= '1;
+                            state <= FETCH;
+                        end
+                    end
+
+                    OPCODE_RX: begin
+                        if (i2c_transmitter_ready) begin
+                            reg_addr_o <= 16'hx;
+                            reg_data_o <= '1;
+                            i2c_tx_phases_o <= 2'b10;
+                            rw_bit_o <= '1;
+                            data_valid_o <= '1;
+                            state <= FETCH;
+                        end
                     end
 
                     default: begin
@@ -310,6 +382,7 @@ module i2c_transmitter_controller #(
         if (reset) begin
             pc <= 0;
             state <= FETCH;
+            trigger_o <= 0;
         end
     end
 

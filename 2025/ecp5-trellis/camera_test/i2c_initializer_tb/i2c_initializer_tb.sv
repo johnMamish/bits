@@ -8,18 +8,22 @@ module i2c_initializer_tb;
     wire sda, scl;
     logic [15:0] reg_addr;
     logic [7:0] reg_data;
+    logic [1:0] i2c_tx_phases;
+    logic i2c_rw_bit;
     logic data_valid;
     logic trigger;
     wire ready;
     i2c_transmitter dut (
         .clock(clk), .reset(reset),
         .reg_addr(reg_addr), .reg_data(reg_data), .data_valid(data_valid), .ready(ready),
+        .rw_bit(i2c_rw_bit), .phase_enable(i2c_tx_phases),
         .sda_io(sda), .scl_io(scl)
     );
 
     i2c_transmitter_controller txc (
-        .clock(clk), .reset, .trigger,
+        .clock(clk), .reset, .trigger_i(trigger),
         .reg_addr_o(reg_addr), .reg_data_o(reg_data), .data_valid_o(data_valid),
+        .rw_bit_o(i2c_rw_bit), .i2c_tx_phases_o(i2c_tx_phases),
         .i2c_transmitter_ready(ready)
     );
 

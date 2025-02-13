@@ -1,0 +1,321 @@
+// program for an i2c_transmitter_controller which initializes the hm0360 in software triggered
+// mode and then waits for a trigger before sending an i2c command to take a picture.
+
+// i/o connections
+//     trigger_out[0]: i2c_init_done
+//     trigger_out[1]: camera_0_xsleep
+//     trigger_out[7:2]: z
+
+//     trigger_in[0]: i2c_shutter_trig
+//     trigger_in[1]: camera vsync (resynchronized)
+
+// bring xsleep high and wait for a little.
+03_0000_02
+01_00_8000
+
+// File for initializing hm0360
+00_0103_00
+00_0370_00
+00_0371_01
+00_0372_01
+
+// BLC control
+00_1000_01
+00_1003_04
+00_1004_04
+00_1007_01
+00_1008_04
+00_1009_04
+00_100a_03
+
+// Output format control
+00_1014_0C
+
+// Reserved regs
+00_101D_00
+00_101E_01
+00_101F_00
+00_1020_01
+00_1021_00
+
+////////////////////////////////////////////////////////////////
+// internal clock config
+// internal oscillator = 48MHz
+// sensor_core_clk = 48MHz / (2 * 0x0300[1:0]). pixclk = sensor_core_clk
+// pixel_clk_out_pin = 48MHz / (0x0300[3:2])  (??)
+// 0b, 0a, 09 for different clock speeds (4MHz, 8MHz, and 16MHz respectively)
+00_0300_09
+00_0301_0A
+00_0302_77
+
+00_3024_08  // Disable context switching
+00_3112_00  // PCLKO_polarity
+
+////////////////////////////////////////////////////////////////
+// Automatic Exposure config
+00_2000_0e  // disble automatic exposure (NOTE: Auto framerate enabled)
+//00_2001_00  // AE_CTRL1
+
+//00_2031_20  // AE T damping factor
+//00_2032_00  // AE N damping factor
+//00_2034_64  // AE target
+//00_2035_0A  // AE min target mean
+//00_2036_23  // AE target zone
+//00_2037_03  // AE converge in threshold
+//00_2038_05  // AE converge out threshold
+
+// (HIMAX_FRAME_LENGTH_QVGA - 4) >> 8  and then (HIMAX_FRAME_LENGTH_QVGA - 4) & 0xff
+// note: HIMAX_FRAME_LENGTH_QVGA = 0x109
+00_2029_01  // MAX_INTG_H
+00_202a_05  // MAX_INTG_L
+
+00_202b_04  // Maximum analog gain
+00_202c_03
+00_202d_3F
+00_0202_01
+00_0203_08
+
+//00_2080_6A
+//00_2083_01
+//00_209b_01
+//00_209e_06
+//00_2061_00  // Interrupt in level mode.
+//00_2081_F0
+//00_2082_F0
+
+////////////////////////////////////////////////////////////////
+// set frame dims
+// {*0x341, *0x340} = HIMAX_FRAME_LENGTH_QVGA (=0x109)
+// {*0x342, *0x343} = HIMAX_LINE_LEN_PCK_QVGA (=0x178)
+00_0340_01
+00_0341_09
+00_0342_01
+00_0343_78
+
+00_0380_00  // H_SUBSAMPLE
+00_0381_00  // V_SUBSAMPLE
+00_0382_00  // BINNING_MODE
+00_3030_00  // WIN_MODE
+00_0101_00  // IMG_ORIENTATION
+00_0104_01  // COMMAND_UPDATE
+
+/// SYNC function config.
+00_3010_00
+00_3013_01
+00_3019_00
+00_301A_00
+00_301B_20
+00_301C_FF
+
+// PREMETER config.
+00_3026_03
+00_3027_81
+00_3028_01
+00_3029_00
+00_302A_30
+00_302E_00
+00_302F_00
+
+// Magic regs.
+//00_302B_2A
+//00_302C_00
+//00_302D_03
+//00_3031_01
+//00_3051_00
+//00_305C_03
+
+// extend VSYNC and HSYNC porches a little.
+00_3094_02
+00_3095_02
+00_3096_00
+00_3097_02
+00_3098_00
+00_3099_02
+00_309E_05
+00_309F_02
+00_30A0_02
+00_30A1_00
+00_30A2_08
+00_30A3_00
+00_30A4_20
+
+// choose pclk gating
+00_30A5_04
+//00_30A6_02
+//00_30A7_02
+
+//00_30B0_03
+//00_30C4_10
+//00_30C5_01
+//00_30C6_BF
+//00_30C7_00
+//00_30C8_00
+//00_30CB_FF
+//00_30CC_FF
+//00_30CD_7F
+//00_30CE_7F
+//00_30D3_01
+//00_30D4_FF
+//00_30D5_00
+//00_30D6_40
+//00_30D7_00
+//00_30D8_A7
+//00_30D9_05
+//00_30DA_01
+//00_30DB_40
+//00_30DC_00
+//00_30DD_27
+//00_30DE_05
+//00_30DF_07
+//00_30E0_40
+//00_30E1_00
+//00_30E2_27
+//00_30E3_05
+//00_30E4_47
+//00_30E5_30
+//00_30E6_00
+//00_30E7_27
+//00_30E8_05
+//00_30E9_87
+//00_30EA_30
+//00_30EB_00
+//00_30EC_27
+//00_30ED_05
+//00_30EE_00
+//00_30EF_40
+//00_30F0_00
+//00_30F1_A7
+//00_30F2_05
+//00_30F3_01
+//00_30F4_40
+//00_30F5_00
+//00_30F6_27
+//00_30F7_05
+//00_30F8_07
+//00_30F9_40
+//00_30FA_00
+//00_30FB_27
+//00_30FC_05
+//00_30FD_47
+//00_30FE_30
+//00_30FF_00
+//00_3100_27
+//00_3101_05
+//00_3102_87
+//00_3103_30
+//00_3104_00
+//00_3105_27
+//00_3106_05
+//00_310B_10
+//00_3113_A0
+//00_3114_67
+//00_3115_42
+//00_3116_10
+//00_3117_0A
+//00_3118_3F
+//00_311C_10
+//00_311D_06
+//00_311E_0F
+//00_311F_0E
+//00_3120_0D
+//00_3121_0F
+//00_3122_00
+//00_3123_1D
+//00_3126_03
+00_3128_57
+//00_312A_11
+//00_312B_41
+//00_312E_00
+//00_312F_00
+//00_3130_0C
+//00_3141_2A
+//00_3142_9F
+//00_3147_18
+//00_3149_18
+//00_314B_01
+//00_3150_50
+//00_3152_00
+//00_3156_2C
+//00_315A_0A
+//00_315B_2F
+//00_315C_E0
+//00_315F_02
+//00_3160_1F
+//00_3163_1F
+//00_3164_7F
+//00_3165_7F
+//00_317B_94
+//00_317C_00
+//00_317D_02
+//00_318C_00
+
+// pclk polarity
+00_3112_04
+
+// non-gated pclk
+00_1014_0b
+
+// autoexposure  and motion detect disable
+00_2000_0e
+00_2080_00
+
+// commit changes
+00_0104_01
+
+// mode select (triggered, streaming, etc)
+00_0100_00
+
+// set binning
+00_0380_00
+00_0381_00
+
+// set height (num lines) and width (pclks per line)
+00_0340_03
+00_0341_00
+00_0342_03
+00_0343_80
+
+// set test pattern mode
+//00_0601_11
+
+00_3030_00
+
+// commit changes
+00_0104_01
+
+// wait for a little bit
+01_200000
+
+// signal to other modules that i2c init is done
+03_0000_03
+
+////////////////////////////////////////////////////////////////
+// loop_start:
+// wait for trigger
+02_000000
+
+// write 0x01 to address 0x0100 to start capture
+00_0100_01
+
+// wait for falling edge of hsync
+02_00_00_02
+02_00_02_00
+
+// wait for another millisecond
+01_00_20_00
+
+// write to address 0x0100 to stop capture
+00_0100_00
+06_0100_00
+07_0000_ff
+01_00_8000
+
+// also try bringing xsleep low and high again
+03_0000_01
+01_00_8000
+03_0000_03
+
+01_10_0000
+
+// loop forever
+04_fffff3
