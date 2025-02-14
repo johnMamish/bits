@@ -54,18 +54,10 @@
 ////////////////////////////////////////////////////////////////
 // Automatic Exposure config
 00_2000_0e  // disble automatic exposure (NOTE: Auto framerate enabled)
-//00_2001_00  // AE_CTRL1
-
-//00_2031_20  // AE T damping factor
-//00_2032_00  // AE N damping factor
-//00_2034_64  // AE target
-//00_2035_0A  // AE min target mean
-//00_2036_23  // AE target zone
-//00_2037_03  // AE converge in threshold
-//00_2038_05  // AE converge out threshold
 
 // (HIMAX_FRAME_LENGTH_QVGA - 4) >> 8  and then (HIMAX_FRAME_LENGTH_QVGA - 4) & 0xff
 // note: HIMAX_FRAME_LENGTH_QVGA = 0x109
+/*
 00_2029_01  // MAX_INTG_H
 00_202a_05  // MAX_INTG_L
 
@@ -74,7 +66,8 @@
 00_202d_3F
 00_0202_01
 00_0203_08
-
+*/
+/*
 // <start comment>
 00_2080_6A
 00_2083_01
@@ -84,6 +77,7 @@
 00_2081_F0
 00_2082_F0
 // <end comment>
+*/
 
 ////////////////////////////////////////////////////////////////
 // set frame dims
@@ -120,12 +114,14 @@
 
 // Magic regs.
 // <start comment>
+/*
 00_302B_2A
 00_302C_00
 00_302D_03
 00_3031_01
 00_3051_00
 00_305C_03
+*/
 // <end comment>
 
 // extend VSYNC and HSYNC porches a little.
@@ -285,8 +281,17 @@
 // set height (num lines) and width (pclks per line)
 00_0340_03
 00_0341_00
-00_0342_03
-00_0343_80
+00_0342_0a
+00_0343_00
+
+// set digital gain (0x020e[1:0], 0x020f[7:2]) and analog gain (0x0205)
+00_020e_00
+00_020f_7c
+00_0205_00
+
+// set integration time in lines (H and L respectively)
+00_0202_00
+00_0203_34
 
 // set test pattern mode
 //00_0601_11
@@ -310,7 +315,7 @@
 // write 0x01 to address 0x0100 to start capture
 00_0100_01
 
-04_ffff_ff
+04_ff_ffff
 
 // wait for falling edge of hsync
 02_00_00_02
@@ -327,9 +332,16 @@
 03_0000_01
 01_00_8000
 03_0000_03
+01_00_2000
+
+// reset some i2c registers
+// set integration time in lines (H and L respectively)
+00_0202_00
+00_0203_34
+00_0104_01
 
 // wait for ~100 millisec
 01_12_0000
 
 // loop back to trigger start
-04_fffff3
+04_ffffef

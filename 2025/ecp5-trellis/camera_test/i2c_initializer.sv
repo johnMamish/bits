@@ -328,8 +328,10 @@ module i2c_transmitter_controller #(
                     end
 
                     OPCODE_TRIG: begin
-                        automatic logic high_sig_detected = |(ir[0 +: 8] & trigger_signals);
-                        automatic logic low_sig_detected  = |(ir[8 +: 8] & ~trigger_signals);
+                        logic high_sig_detected;
+                        logic low_sig_detected;
+                        high_sig_detected = |(ir[0 +: 8] & trigger_signals);
+                        low_sig_detected = |(ir[8 +: 8] & ~trigger_signals);
                         if (high_sig_detected || low_sig_detected) begin
                             state <= FETCH;
                         end

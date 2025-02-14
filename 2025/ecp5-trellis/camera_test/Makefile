@@ -4,7 +4,7 @@ TRELLIS?=/usr/local/oss-cad-suite/share/trellis
 all: ${PROJ}.bit
 
 %.json: top.sv
-	yosys -s synth.yosys > yosys.log
+	yosys -s synth.yosys | tee yosys.log
 
 %_out.config: %.json
 	nextpnr-ecp5 --json $< --textcfg $@ --um5g-85k --package CABGA381 --lpf ecp5evn.lpf

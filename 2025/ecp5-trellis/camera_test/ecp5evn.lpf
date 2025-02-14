@@ -1,3 +1,5 @@
+# https://github.com/danderson/ulxs/blob/main/lpf.md
+
 ################################
 # FTDI
 LOCATE COMP "ftdi_clk_12m" SITE "A10";
@@ -94,7 +96,7 @@ IOBUF PORT "camera_0_vsync"    IO_TYPE=LVCMOS25;
 
 IOBUF PORT "camera_0_pclk"     IO_TYPE=LVCMOS25;
 IOBUF PORT "camera_0_int"      IO_TYPE=LVCMOS25;
-IOBUF PORT "camera_0_mclk"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_0_mclk" DRIVE=8 SLEWRATE=FAST    IO_TYPE=LVCMOS25;
 
 # J2 on breakout board
 LOCATE COMP "camera_1_sda"      SITE "K2";     # Bank 6
@@ -145,7 +147,7 @@ IOBUF PORT "camera_0_trig"     IO_TYPE=LVCMOS25;
 IOBUF PORT "camera_0_sda"    PULLMODE=NONE IO_TYPE=LVCMOS25;
 IOBUF PORT "camera_1_xsleep"   IO_TYPE=LVCMOS25;
 IOBUF PORT "camera_1_int"      IO_TYPE=LVCMOS25;
-IOBUF PORT "camera_1_mclk"     IO_TYPE=LVCMOS25;
+IOBUF PORT "camera_1_mclk"  DRIVE=8  SLEWRATE=FAST   IO_TYPE=LVCMOS25;
 IOBUF PORT "camera_1_vsync"    IO_TYPE=LVCMOS25;
 IOBUF PORT "camera_1_d[5]"     IO_TYPE=LVCMOS25;
 
