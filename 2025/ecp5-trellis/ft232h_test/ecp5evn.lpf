@@ -1,0 +1,80 @@
+# https://github.com/danderson/ulxs/blob/main/lpf.md
+
+################################
+# FTDI
+LOCATE COMP "ftdi_clk_12m" SITE "A10";
+IOBUF PORT "ftdi_clk_12m" IO_TYPE=LVCMOS25;
+FREQUENCY PORT "ftdi_clk_12m" 12 MHZ;
+
+# This is the FPGA's tx and FTDI's rx.
+LOCATE COMP "sda_0_uart_tx" SITE "E6";
+
+# This is the FPGA's rx and FTDI's tx.
+LOCATE COMP "scl_0_uart_rx" SITE "D7";
+
+# Both of these are on bank0, which must have vcc = 2.5 to work with the image sensor.
+IOBUF PORT "sda_0_uart_tx" IO_TYPE=LVCMOS25;
+IOBUF PORT "scl_0_uart_rx" IO_TYPE=LVCMOS25;
+
+################################
+# leds and buttons
+LOCATE COMP "led[0]" SITE "A13";
+LOCATE COMP "led[1]" SITE "A12";
+LOCATE COMP "led[2]" SITE "B19";
+LOCATE COMP "led[3]" SITE "A18";
+LOCATE COMP "led[4]" SITE "B18";
+LOCATE COMP "led[5]" SITE "C17";
+LOCATE COMP "led[6]" SITE "A17";
+LOCATE COMP "led[7]" SITE "B17";
+
+IOBUF PORT "led[0]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led[1]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led[2]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led[3]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led[4]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led[5]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led[6]" IO_TYPE=LVCMOS25;
+IOBUF PORT "led[7]" IO_TYPE=LVCMOS25;
+
+LOCATE COMP "btn" SITE "P4";
+IOBUF PORT "btn" IO_TYPE=LVCMOS25;
+
+################################
+# Assorted GPIOs
+LOCATE COMP "j5_gpio[0]" SITE "G19";
+LOCATE COMP "j5_gpio[1]" SITE "H20";
+LOCATE COMP "j5_gpio[2]" SITE "J18";
+LOCATE COMP "j5_gpio[3]" SITE "K18";
+LOCATE COMP "j5_gpio[4]" SITE "J19";
+LOCATE COMP "j5_gpio[5]" SITE "K19";
+LOCATE COMP "j5_gpio[6]" SITE "J20";
+LOCATE COMP "j5_gpio[7]" SITE "K20";
+
+IOBUF PORT "j5_gpio[0]" IO_TYPE=LVCMOS25;
+IOBUF PORT "j5_gpio[1]" IO_TYPE=LVCMOS25;
+IOBUF PORT "j5_gpio[2]" IO_TYPE=LVCMOS25;
+IOBUF PORT "j5_gpio[3]" IO_TYPE=LVCMOS25;
+IOBUF PORT "j5_gpio[4]" IO_TYPE=LVCMOS25;
+IOBUF PORT "j5_gpio[5]" IO_TYPE=LVCMOS25;
+IOBUF PORT "j5_gpio[6]" IO_TYPE=LVCMOS25;
+IOBUF PORT "j5_gpio[7]" IO_TYPE=LVCMOS25;
+
+################################
+# FT232H pins
+LOCATE COMP "ft245_async_d[0]" SITE "J20";
+LOCATE COMP "ft245_async_d[1]" SITE "K20";
+LOCATE COMP "ft245_async_d[2]" SITE "J19";
+LOCATE COMP "ft245_async_d[3]" SITE "K19";
+LOCATE COMP "ft245_async_d[4]" SITE "J18";
+LOCATE COMP "ft245_async_d[5]" SITE "K18";
+LOCATE COMP "ft245_async_d[6]" SITE "G19";
+LOCATE COMP "ft245_async_d[7]" SITE "H20";
+
+IOBUF PORT "ft245_async_d[0]" IO_TYPE=LVCMOS33;
+IOBUF PORT "ft245_async_d[1]" IO_TYPE=LVCMOS33;
+IOBUF PORT "ft245_async_d[2]" IO_TYPE=LVCMOS33;
+IOBUF PORT "ft245_async_d[3]" IO_TYPE=LVCMOS33;
+IOBUF PORT "ft245_async_d[4]" IO_TYPE=LVCMOS33;
+IOBUF PORT "ft245_async_d[5]" IO_TYPE=LVCMOS33;
+IOBUF PORT "ft245_async_d[6]" IO_TYPE=LVCMOS33;
+IOBUF PORT "ft245_async_d[7]" IO_TYPE=LVCMOS33;
