@@ -57,7 +57,6 @@ module top (
 
     // LEDs and random GPIOs
     output logic [7:0] led,
-    output logic [7:0] j5_gpio,
     input btn,
 
     // ft232h pins
@@ -95,14 +94,9 @@ module top (
     // If brought low, this pin puts the system into a power saving mode.
     // we tie it to 5v through a resistor.
 );
-
-    assign camera_0_xshut = 1'b1;
-    assign camera_0_trig = 1'b0;
-
-    assign camera_1_xshut = 1'b1;
-    assign camera_1_trig = 1'b0;
-
     logic sys_reset;
+
+    assign sda_0_uart_tx = 1;
 
     ////////////////////////////////////////////////////////////////
     // PLL
@@ -114,18 +108,6 @@ module top (
     );
 
     always_comb led[7] = !pll_locked;
-
-    // Output 15MHz to camera mclk, select mclk for both cameras.
-    // Combinational clock division bad practice, but ok for just outputting on clock pin only.
-    logic [2:0] counter_60m;
-    always_ff @(posedge clk_pll) begin
-        counter_60m <= counter_60m + 1;
-        if (sys_reset) counter_60m <= '0;
-    end
-    assign camera_0_clksel = 1'b1;
-    always_comb camera_0_mclk = counter_60m[1];
-    assign camera_1_clksel = 1'b1;
-    always_comb camera_1_mclk = counter_60m[1];
 
     ////////////////////////////////////////////////////////////////
     // reset logic
@@ -144,161 +126,34 @@ module top (
     end
 
     ////////////////////////////////////////////////////////////////
-    // parallel camera reader pipelines
-    logic i2c_shutter_trig;
-    wire [1:0] cameras_xsleep = {camera_0_xsleep, camera_1_xsleep};
-    wire [1:0] i2c_inits_done;
-    wire [1:0] cameras_sda = {camera_0_sda, camera_1_sda};
-    wire [1:0] cameras_scl = {camera_0_scl, camera_1_scl};
-    wire [1:0] cameras_pclk = {camera_0_pclk, camera_1_pclk};
-    wire [1:0] [7:0] cameras_d = {camera_0_d, camera_1_d};
-    wire [1:0] cameras_hsync = {camera_0_hsync, camera_1_hsync};
-    wire [1:0] cameras_vsync = {camera_0_vsync, camera_1_vsync};
+    // dummy data producer
+    // produce data at 6MB/s
+    logic [7:0] fifo_write_data;
+    logic write_data_valid;
+    logic [7:0] write_data_counter;
 
-    wire [1:0] do_fifos_read;
-    wire [1:0] fifos_almost_empty;
-    wire [1:0] fifos_empty;
-    wire [1:0] fifos_full;
-    wire [1:0] [7:0] fifos_data;
-    wire [1:0] fifos_sof;
-
-    generate
-        for (genvar gi = 0; gi < 2; gi++) begin: i2c_controller
-            logic camera_vsync_i2c_domain;
-
-            // wires between i2c controller and i2c transmitter
-            logic [15:0] i2c_init_addr;
-            logic [7:0] i2c_init_data;
-            logic [1:0] i2c_tx_phases;
-            logic i2c_rw_bit;
-            logic i2c_init_data_valid;
-            logic i2c_transmitter_ready;
-            i2c_transmitter_controller i2c_txctl (
-                .clock(ftdi_clk_12m), .reset(sys_reset),
-                .reg_addr_o(i2c_init_addr), .reg_data_o(i2c_init_data), .data_valid_o(i2c_init_data_valid),
-                .rw_bit_o(i2c_rw_bit), .i2c_tx_phases_o(i2c_tx_phases),
-                .i2c_transmitter_ready,
-                .trigger_i({i2c_transmitter_ready, camera_vsync_i2c_domain, i2c_shutter_trig}),
-                .trigger_o({cameras_xsleep[gi], i2c_inits_done[gi]})
-            );
-            defparam i2c_txctl.INIT_FILE = "hm0360_initializer_program.hex";
-
-            i2c_transmitter i2c_tx (
-                .clock(ftdi_clk_12m), .reset(sys_reset),
-                .reg_addr(i2c_init_addr), .reg_data(i2c_init_data), .data_valid(i2c_init_data_valid),
-                .rw_bit(i2c_rw_bit), .phase_enable(i2c_tx_phases),
-                .ready(i2c_transmitter_ready),
-                .sda_io(cameras_sda[gi]), .scl_io(cameras_scl[gi]),
-            );
-            defparam i2c_tx.SCL_DIV = 50;
-
-`define NO_OUTPUT
-`ifndef NO_OUTPUT
-            // synchronize vsync into i2c controller domain
-            always_ff @(posedge ftdi_clk_12m) begin
-                localparam NDELAY = 3;
-                logic [NDELAY-1:0] camera_vsync_q;
-                camera_vsync_q[0] <= cameras_vsync[gi];
-                for (int i = 1; i < NDELAY; i++) camera_vsync_q[i] <= camera_vsync_q[i-1];
-                camera_vsync_i2c_domain <= camera_vsync_q[NDELAY-1];
-            end
-
-            ////////////////////////////////////////////////////////////////
-            // camera reader
-            logic reader_pix_valid;
-            logic [7:0] reader_pix_data;
-            logic [15:0] reader_row;
-            logic [15:0] reader_col;
-            logic async_fifo_rst;
-            camera_reader reader (
-                .pixclk_i(cameras_pclk[gi]), .pixel_data_i(cameras_d[gi]),
-                .hsync_i(cameras_hsync[gi]), .vsync_i(cameras_vsync[gi]),
-
-                .pix_valid_o(reader_pix_valid), .pix_o(reader_pix_data),
-                .row_o(reader_row), .col_o(reader_col),
-
-                .async_fifo_rst_o(async_fifo_rst)
-            );
-
-            logic [7:0] counter;
-            always_ff @(posedge cameras_pclk[gi]) begin
-                if (reader_pix_valid) counter <= counter + 1;
-            end
-
-            // hacky solution to hold async fifo write side in reset: the camera reader module
-            // holds it in reset until a falling edge on vsync (end of first frame)
-
-            ////////////////////////////////////////////////////////////////
-            // fifo
-            async_fifo #(
-                .DSIZE(8),
-                .ASIZE(8),
-                .FALLTHROUGH("FALSE")
-            ) camera_pixel_fifo (
-                .wclk(cameras_pclk[gi]), .wrst_n(!async_fifo_rst),
-                .winc(reader_pix_valid), .wdata(reader_pix_data),
-                .wfull(), .awfull(),
-
-                .rclk(clk_pll), .rrst_n(!sys_reset),
-                .rinc(do_fifos_read[gi]), .rdata(fifos_data[gi]),
-                .rempty(fifos_empty[gi]), .arempty(fifos_almost_empty[gi])
-            );
-
-            // super lazy and expensive solution for getting an 'sof' bit
-            logic reader_sof = reader_pix_valid && (reader_row == 0) && (reader_col == 0);
-            async_fifo #(
-                .DSIZE(1),
-                .ASIZE(8),
-                .FALLTHROUGH("FALSE")
-            ) sof_fifo (
-                .wclk(cameras_pclk[gi]), .wrst_n(!async_fifo_rst),
-                .winc(reader_pix_valid), .wdata(reader_sof),
-                .wfull(), .awfull(),
-
-                .rclk(clk_pll), .rrst_n(!sys_reset),
-                .rinc(do_fifos_read[gi]), .rdata(fifos_sof[gi]),
-                .rempty(), .arempty()
-            );
-            `endif
-        end
-    endgenerate
-
-    // i2c shutter trig
-    localparam SHUTTER_PERIOD = 6000000;
-    logic [30:0] count;
-    always_ff @(posedge ftdi_clk_12m) begin
-        if (count >= SHUTTER_PERIOD) begin
-            count <= 0;
-            i2c_shutter_trig <= 1;
-        end else begin
-            count <= count + 1;
-            i2c_shutter_trig <= 0;
+    always_ff @(posedge clk_pll) begin
+        write_data_counter <= write_data_counter + 1;
+        write_data_valid <= 0;
+        if (write_data_counter == 8) begin
+            fifo_write_data <= fifo_write_data + 1;
+            write_data_valid <= 1;
+            write_data_counter <= 0;
         end
 
-        if (sys_reset || !(|i2c_inits_done)) begin
-            count <= 0;
+        if (sys_reset) begin
+            write_data_counter <= 0;
         end
     end
 
-`ifndef NO_OUTPUT
-//`define OUTPUT_UART
-`ifdef OUTPUT_UART
     ////////////////////////////////////////////////////////////////
-    // UART
-    logic clk_baud;
-    divide_by_n #(
-        .N(15)
-    ) baud_clk_divider (
-        .clk(clk_pll), .reset(sys_reset), .out(clk_baud)
+    // ft232 output
+    ft232h_async_driver dut (
+        .clk_in(clk_pll), .reset_in(sys_reset),
+        .fifo_data_in(fifo_write_data), .fifo_data_valid_in(write_data_valid),
+        .ft245_async_d_inout(ft245_async_d),
+        .ft245_async_nrxf_in(ft245_async_nrxf), .ft245_async_ntxe_in(ft245_async_ntxe),
+        .ft245_async_nrd_out(ft245_async_nrd), .ft245_async_nwr_out(ft245_async_nwr)
     );
-
-    logic uart_busy;
-    logic uart_data_valid;
-    logic [7:0] uart_data;
-    uart_tx uart_transmitter (
-        .clk_i(clk_pll), .reset_i(sys_reset), .baud_clk_i(clk_baud),
-        .data_valid_i(do_fifos_read[jumper]), .data_i(fifos_data[jumper]),
-        .uart_tx_o(sda_0_uart_tx), .uart_busy_o(uart_busy)
-    );
-
+    defparam dut.TX_STATE_TICKS = 4;
 endmodule

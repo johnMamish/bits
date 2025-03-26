@@ -9,7 +9,7 @@ module ft232h_async_driver #(
     // How many clock cycles should we hold WR# low for?
     // WR should always be held low for at least 30ns.
     parameter TX_STATE_TICKS=4,
-    parameter FIFO_DEPTH=1024
+    parameter FIFO_DEPTH=2048
 ) (
     // clock used for writing to the internal fifo and timing output
     input clk_in,
@@ -89,6 +89,8 @@ module ft232h_async_driver #(
         STATE_TX_END
     } state;
 
+    logic ntxe_acked;
+
     always_ff @(posedge clk_in) begin
         case (state)
             STATE_IDLE: begin
@@ -104,6 +106,7 @@ module ft232h_async_driver #(
 
             STATE_TX_START: begin
                 do_tx_fifo_read <= '0;
+                ntxe_acked <= '0;
 
                 // We just read data from the fifo. Latch it and write it to the FT232H
                 ft245_tx_d <= tx_fifo_read_data;
@@ -112,6 +115,9 @@ module ft232h_async_driver #(
             end
 
             STATE_TX: begin
+                // check to see if ntxe went high or not
+                ntxe_acked <= ntxe_acked | ntxe_pipe[1];
+
                 // hold WR# low for the prescribed number of cycles.
                 ft245_async_nwr_out <= 1'b0;
                 xfer_count <= xfer_count + 1;
@@ -128,9 +134,10 @@ module ft232h_async_driver #(
 
                 // We wait until TXE# goes high again before going back to the idle state.
                 // Or there might be a timeout if we missed the pulse where TXE# goes high
+                ntxe_acked <= ntxe_acked | ntxe_pipe[1];
                 xfer_count <= xfer_count + 1;
 
-                if ((xfer_count >= 100) || (ntxe_pipe[1])) begin
+                if ((xfer_count >= 100) || (ntxe_acked)) begin
                     xfer_count <= 0;
                     state <= STATE_IDLE;
                 end

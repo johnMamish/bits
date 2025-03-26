@@ -40,26 +40,6 @@ LOCATE COMP "btn" SITE "P4";
 IOBUF PORT "btn" IO_TYPE=LVCMOS25;
 
 ################################
-# Assorted GPIOs
-LOCATE COMP "j5_gpio[0]" SITE "G19";
-LOCATE COMP "j5_gpio[1]" SITE "H20";
-LOCATE COMP "j5_gpio[2]" SITE "J18";
-LOCATE COMP "j5_gpio[3]" SITE "K18";
-LOCATE COMP "j5_gpio[4]" SITE "J19";
-LOCATE COMP "j5_gpio[5]" SITE "K19";
-LOCATE COMP "j5_gpio[6]" SITE "J20";
-LOCATE COMP "j5_gpio[7]" SITE "K20";
-
-IOBUF PORT "j5_gpio[0]" IO_TYPE=LVCMOS25;
-IOBUF PORT "j5_gpio[1]" IO_TYPE=LVCMOS25;
-IOBUF PORT "j5_gpio[2]" IO_TYPE=LVCMOS25;
-IOBUF PORT "j5_gpio[3]" IO_TYPE=LVCMOS25;
-IOBUF PORT "j5_gpio[4]" IO_TYPE=LVCMOS25;
-IOBUF PORT "j5_gpio[5]" IO_TYPE=LVCMOS25;
-IOBUF PORT "j5_gpio[6]" IO_TYPE=LVCMOS25;
-IOBUF PORT "j5_gpio[7]" IO_TYPE=LVCMOS25;
-
-################################
 # FT232H pins
 LOCATE COMP "ft245_async_d[0]" SITE "J20";
 LOCATE COMP "ft245_async_d[1]" SITE "K20";
@@ -78,3 +58,13 @@ IOBUF PORT "ft245_async_d[4]" IO_TYPE=LVCMOS33;
 IOBUF PORT "ft245_async_d[5]" IO_TYPE=LVCMOS33;
 IOBUF PORT "ft245_async_d[6]" IO_TYPE=LVCMOS33;
 IOBUF PORT "ft245_async_d[7]" IO_TYPE=LVCMOS33;
+
+LOCATE COMP "ft245_async_nrxf" SITE "G20";
+LOCATE COMP "ft245_async_ntxe" SITE "L16";
+LOCATE COMP "ft245_async_nrd" SITE "M20";
+LOCATE COMP "ft245_async_nwr" SITE "L20";
+
+IOBUF PORT "ft245_async_nrxf" IO_TYPE=LVCMOS33;
+IOBUF PORT "ft245_async_ntxe" IO_TYPE=LVCMOS33;
+IOBUF PORT "ft245_async_nrd" IO_TYPE=LVCMOS33;
+IOBUF PORT "ft245_async_nwr" IO_TYPE=LVCMOS33;
