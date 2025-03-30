@@ -59,6 +59,7 @@ module top (
     output logic [7:0] led,
     output logic [7:0] j5_gpio,
     input btn,
+    input jumper,
 
     ////////////////////////////////
     // Camera 0 interface
@@ -90,16 +91,16 @@ module top (
     input camera_1_vsync,
     input [7:0] camera_1_d,
 
-    // camera 0 timing
+    // camera 1 timing
     input camera_1_int,
     output logic camera_1_mclk,
     output logic camera_1_trig,
 
-    // camera 0 i2c
+    // camera 1 i2c
     inout camera_1_sda,
     inout camera_1_scl,
 
-    // camera 0 config
+    // camera 1 config
     output logic camera_1_xshut,
     output logic camera_1_clksel,
     output logic camera_1_xsleep
@@ -201,6 +202,8 @@ module top (
             );
             defparam i2c_tx.SCL_DIV = 50;
 
+`define NO_OUTPUT
+`ifndef NO_OUTPUT
             // synchronize vsync into i2c controller domain
             always_ff @(posedge ftdi_clk_12m) begin
                 localparam NDELAY = 3;
@@ -227,6 +230,11 @@ module top (
                 .async_fifo_rst_o(async_fifo_rst)
             );
 
+            logic [7:0] counter;
+            always_ff @(posedge cameras_pclk[gi]) begin
+                if (reader_pix_valid) counter <= counter + 1;
+            end
+
             // hacky solution to hold async fifo write side in reset: the camera reader module
             // holds it in reset until a falling edge on vsync (end of first frame)
 
@@ -234,7 +242,7 @@ module top (
             // fifo
             async_fifo #(
                 .DSIZE(8),
-                .ASIZE(16),
+                .ASIZE(8),
                 .FALLTHROUGH("FALSE")
             ) camera_pixel_fifo (
                 .wclk(cameras_pclk[gi]), .wrst_n(!async_fifo_rst),
@@ -250,7 +258,7 @@ module top (
             logic reader_sof = reader_pix_valid && (reader_row == 0) && (reader_col == 0);
             async_fifo #(
                 .DSIZE(1),
-                .ASIZE(16),
+                .ASIZE(8),
                 .FALLTHROUGH("FALSE")
             ) sof_fifo (
                 .wclk(cameras_pclk[gi]), .wrst_n(!async_fifo_rst),
@@ -261,6 +269,7 @@ module top (
                 .rinc(do_fifos_read[gi]), .rdata(fifos_sof[gi]),
                 .rempty(), .arempty()
             );
+            `endif
         end
     endgenerate
 
@@ -281,6 +290,7 @@ module top (
         end
     end
 
+`ifndef NO_OUTPUT
 //`define OUTPUT_UART
 `ifdef OUTPUT_UART
     ////////////////////////////////////////////////////////////////
@@ -297,7 +307,7 @@ module top (
     logic [7:0] uart_data;
     uart_tx uart_transmitter (
         .clk_i(clk_pll), .reset_i(sys_reset), .baud_clk_i(clk_baud),
-        .data_valid_i(do_fifos_read[0]), .data_i(fifos_data[0]),
+        .data_valid_i(do_fifos_read[jumper]), .data_i(fifos_data[jumper]),
         .uart_tx_o(sda_0_uart_tx), .uart_busy_o(uart_busy)
     );
 
@@ -307,13 +317,18 @@ module top (
     always_ff @(posedge clk_pll) begin
         do_fifo_read <= 0;
         if (!do_fifo_read) begin
-            do_fifo_read <= !uart_busy && !(fifos_almost_empty[0] || fifos_empty[0]);
+            do_fifo_read <= !uart_busy && !(fifos_almost_empty[jumper] || fifos_empty[jumper]);
         end
 
         if (sys_reset) do_fifo_read <= 0;
     end
-    assign do_fifos_read[0] = do_fifo_read;
-    assign do_fifos_read[1] = '0;
+
+    always_comb begin
+        for (int i = 0; i < 2; i++) begin
+            if (i == jumper) do_fifos_read[i] = do_fifo_read;
+            else do_fifos_read[i] = '0;
+        end
+    end
 
     ////////////////////////////////////////////////////////////////
     // debug pins
@@ -414,5 +429,5 @@ module top (
         j5_gpio[7] = camera_idx;  // image 0/1
     end
 `endif
-
+`endif
 endmodule

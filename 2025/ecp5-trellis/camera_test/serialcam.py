@@ -1,10 +1,11 @@
-#!/bin/python3.10
+#!/bin/python3
 import serial
 import numpy as np
 import cv2
 
-WIDTH=320
+WIDTH=240
 HEIGHT=240
+SCALE=4
 
 def read_from_serial(port, baud_rate, chunk_size):
     with serial.Serial(port, baud_rate, timeout=3) as ser:
@@ -16,7 +17,7 @@ def display_image(data):
     # Convert byte data to a numpy array of type uint8
     image_array = np.frombuffer(data, dtype=np.uint8).reshape((WIDTH, HEIGHT))
     # Display the image
-    resized_image = cv2.resize(image_array, (HEIGHT * 2, WIDTH * 2),
+    resized_image = cv2.resize(image_array, (HEIGHT * SCALE, WIDTH * SCALE),
                                interpolation=cv2.INTER_NEAREST)
     cv2.imshow('Serial Image', resized_image)
     cv2.waitKey(1)  # Waits for a key press for 1 ms, then continues
