@@ -49,6 +49,8 @@ endmodule
 `include "pixel_data_interface.svh"
 
 module top (
+    ////////////////////////////////
+    // Dev board connections
     // FTDI pins
     input ftdi_clk_12m,
 
@@ -57,9 +59,15 @@ module top (
 
     // LEDs and random GPIOs
     output logic [7:0] led,
-    output logic [7:0] j5_gpio,
     input btn,
-    input jumper,
+
+    ////////////////////////////////
+    // FT232H connections
+    inout [7:0] ft245_async_d,
+    input ft245_async_nrxf,
+    input ft245_async_ntxe,
+    output ft245_async_nrd,
+    output ft245_async_nwr,
 
     ////////////////////////////////
     // Camera 0 interface
@@ -150,7 +158,8 @@ module top (
     end
 
     always_comb begin
-        led[6:0] = counter[20 +: 8];
+        //led[6:0] = counter[20 +: 8];
+        led[6:0] = '1;
     end
 
     ////////////////////////////////////////////////////////////////
@@ -202,7 +211,7 @@ module top (
             );
             defparam i2c_tx.SCL_DIV = 50;
 
-`define NO_OUTPUT
+//`define NO_OUTPUT
 `ifndef NO_OUTPUT
             // synchronize vsync into i2c controller domain
             always_ff @(posedge ftdi_clk_12m) begin
@@ -231,8 +240,17 @@ module top (
             );
 
             logic [7:0] counter;
+            logic reader_sof = reader_pix_valid && (reader_row == 0) && (reader_col == 0);
             always_ff @(posedge cameras_pclk[gi]) begin
-                if (reader_pix_valid) counter <= counter + 1;
+                if (reader_pix_valid) begin
+                    if (reader_col == 0) counter <= '0;
+                    else counter <= (counter == 'hff) ? counter : counter + 1;
+                end
+                if (gi == 0) begin
+                    if (reader_sof) counter <= 0;
+                end else begin
+                    if (reader_sof) counter <= 8'h80;
+                end
             end
 
             // hacky solution to hold async fifo write side in reset: the camera reader module
@@ -242,7 +260,7 @@ module top (
             // fifo
             async_fifo #(
                 .DSIZE(8),
-                .ASIZE(8),
+                .ASIZE(16),
                 .FALLTHROUGH("FALSE")
             ) camera_pixel_fifo (
                 .wclk(cameras_pclk[gi]), .wrst_n(!async_fifo_rst),
@@ -255,10 +273,9 @@ module top (
             );
 
             // super lazy and expensive solution for getting an 'sof' bit
-            logic reader_sof = reader_pix_valid && (reader_row == 0) && (reader_col == 0);
             async_fifo #(
                 .DSIZE(1),
-                .ASIZE(8),
+                .ASIZE(16),
                 .FALLTHROUGH("FALSE")
             ) sof_fifo (
                 .wclk(cameras_pclk[gi]), .wrst_n(!async_fifo_rst),
@@ -269,7 +286,7 @@ module top (
                 .rinc(do_fifos_read[gi]), .rdata(fifos_sof[gi]),
                 .rempty(), .arempty()
             );
-            `endif
+`endif
         end
     endgenerate
 
@@ -290,61 +307,9 @@ module top (
         end
     end
 
-`ifndef NO_OUTPUT
-//`define OUTPUT_UART
-`ifdef OUTPUT_UART
-    ////////////////////////////////////////////////////////////////
-    // UART
-    logic clk_baud;
-    divide_by_n #(
-        .N(15)
-    ) baud_clk_divider (
-        .clk(clk_pll), .reset(sys_reset), .out(clk_baud)
-    );
-
-    logic uart_busy;
-    logic uart_data_valid;
-    logic [7:0] uart_data;
-    uart_tx uart_transmitter (
-        .clk_i(clk_pll), .reset_i(sys_reset), .baud_clk_i(clk_baud),
-        .data_valid_i(do_fifos_read[jumper]), .data_i(fifos_data[jumper]),
-        .uart_tx_o(sda_0_uart_tx), .uart_busy_o(uart_busy)
-    );
-
-    ////////////////////////////////////////////////////////////////
-    // suck from fifo into uart
-    logic do_fifo_read;
-    always_ff @(posedge clk_pll) begin
-        do_fifo_read <= 0;
-        if (!do_fifo_read) begin
-            do_fifo_read <= !uart_busy && !(fifos_almost_empty[jumper] || fifos_empty[jumper]);
-        end
-
-        if (sys_reset) do_fifo_read <= 0;
-    end
-
-    always_comb begin
-        for (int i = 0; i < 2; i++) begin
-            if (i == jumper) do_fifos_read[i] = do_fifo_read;
-            else do_fifos_read[i] = '0;
-        end
-    end
-
-    ////////////////////////////////////////////////////////////////
-    // debug pins
-    always_comb begin
-        j5_gpio[0] = camera_0_pclk;
-        j5_gpio[1] = camera_0_hsync;
-        j5_gpio[2] = camera_0_vsync;
-        j5_gpio[3] = i2c_shutter_trig;
-        j5_gpio[4] = i2c_transmitters_ready[0];
-        j5_gpio[5] = camera_0_xsleep;
-        j5_gpio[6] = uart_busy;
-        j5_gpio[7] = fifos_almost_empty[0] || fifos_empty[0];
-    end
-`else // !`ifdef OUTPUT_UART
     assign sda_0_uart_tx = '1;
 
+    ////////////////////////////////////////////////////////////////
     // suck from fifo and output over parallel interface.
     logic [3:0] output_data;
     logic clk_out;
@@ -358,57 +323,54 @@ module top (
 
     logic fifos_definitely_not_empty = !(|fifos_almost_empty || |fifos_empty);
 
+    logic [15:0] ft232_fifo_space_left;
+    logic ft232_fifo_has_space;
+    always_ff @(posedge clk_pll) ft232_fifo_has_space <= (ft232_fifo_space_left > 32);
+
     enum logic [2:0] {
         IDLE=0, IDLE_TO_BUSY=1, BUSY=2
     } fifo_read_state;
     always_ff @(posedge clk_pll) begin
-        clk_count <= clk_count + 1;
         do_fifo_read <= '0;
         output_valid <= '0;
 
         case (fifo_read_state)
             IDLE: begin
-                if (clk_count == (CLK_DIV - 2)) begin
-                    if (fifos_definitely_not_empty) begin
-                        do_fifo_read <= '1;
-                        camera_idx <= '0;
-                        nibble_idx <= '0;
-                        fifo_read_state <= IDLE_TO_BUSY;
-                    end
+                if (fifos_definitely_not_empty && ft232_fifo_has_space) begin
+                    do_fifo_read <= '1;
+                    camera_idx <= '0;
+                    nibble_idx <= '0;
+                    fifo_read_state <= IDLE_TO_BUSY;
                 end
             end
 
             IDLE_TO_BUSY: begin
-                // delay state to let clk fall
+                // wait state to let the fifo's output update
                 fifo_read_state <= BUSY;
             end
 
             BUSY: begin
                 output_valid <= '1;
-                if (clk_count == (CLK_DIV - 2)) begin
-                    // determine if we're going to read another output or go to the idle state.
-                    // we do this 2 cycles before falling edge phase so that the fifo's output
-                    // switches at the next falling edge
-                    if ((nibble_idx == 1) && (camera_idx == 1)) begin
-                        if (fifos_definitely_not_empty) begin
-                            // stay in the busy state and keep reading.
-                            do_fifo_read <= '1;
-                        end else begin
-                            fifo_read_state <= IDLE;
-                        end
+
+                // determine if we're going to read another output or go to the idle state.
+                // we do this 2 cycles before falling edge phase so that the fifo's output
+                // switches at the next falling edge
+                if ((nibble_idx == 1) && (camera_idx == 1)) begin
+                    if (fifos_definitely_not_empty && ft232_fifo_has_space) begin
+                        // stay in the busy state and keep reading.
+                        do_fifo_read <= '1;
+                        fifo_read_state <= IDLE_TO_BUSY;
+                    end else begin
+                        fifo_read_state <= IDLE;
                     end
                 end
 
-                if (clk_count == (CLK_DIV - 1)) begin
-                    // falling edge of output clock, change the data on this one.
-                    nibble_idx <= nibble_idx + 1;
-                    if (nibble_idx == 1) camera_idx <= camera_idx + 1;
-                end
+                nibble_idx <= nibble_idx + 1;
+                if (nibble_idx == 1) camera_idx <= camera_idx + 1;
             end
         endcase
 
         if (sys_reset) begin
-            clk_count <= '0;
             fifo_read_state <= IDLE;
         end
     end
@@ -421,13 +383,26 @@ module top (
     assign do_fifos_read[0] = do_fifo_read;
     assign do_fifos_read[1] = do_fifo_read;
 
+    logic [7:0] ft245_fifo_write_data;
+    logic ft245_fifo_write_data_valid;
     always_comb begin
-        j5_gpio[0 +: 4] = output_data;   // data
-        j5_gpio[4] = clk_out;  // clk
-        j5_gpio[5] = output_valid;  // valid
-        j5_gpio[6] = fifos_sof[camera_idx];  // sof
-        j5_gpio[7] = camera_idx;  // image 0/1
+        ft245_fifo_write_data[0 +: 4] = output_data;
+        ft245_fifo_write_data[4] = fifos_sof[camera_idx];
+        ft245_fifo_write_data[5] = 0;
+        ft245_fifo_write_data[6] = 0;
+        ft245_fifo_write_data[7] = camera_idx;
+        ft245_fifo_write_data_valid = output_valid;
     end
-`endif
-`endif
+
+    ////////////////////////////////////////////////////////////////
+    // ft232 output
+    ft232h_async_driver dut (
+        .clk_in(clk_pll), .reset_in(sys_reset),
+        .fifo_data_in(ft245_fifo_write_data), .fifo_data_valid_in(ft245_fifo_write_data_valid),
+        .remaining_space_out(ft232_fifo_space_left),
+        .ft245_async_d_inout(ft245_async_d),
+        .ft245_async_nrxf_in(ft245_async_nrxf), .ft245_async_ntxe_in(ft245_async_ntxe),
+        .ft245_async_nrd_out(ft245_async_nrd), .ft245_async_nwr_out(ft245_async_nwr)
+    );
+    defparam dut.TX_STATE_TICKS = 4;
 endmodule

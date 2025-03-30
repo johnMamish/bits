@@ -9,8 +9,8 @@ module camera_reader #(
     parameter PIX_WIDTH = 8,
     parameter HSYNC_PADDING = 10,
     parameter VSYNC_PADDING = 10,
-    parameter ACTIVE_REGION_WIDTH = 240,
-    parameter ACTIVE_REGION_HEIGHT = 240
+    parameter ACTIVE_REGION_WIDTH = 512,
+    parameter ACTIVE_REGION_HEIGHT = 400
 )  (
     // Image sensor interface to read from.
     // This interface carries the clock that drives the logic inside this module

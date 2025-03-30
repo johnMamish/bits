@@ -3,7 +3,6 @@
 import ftd2xx as ft
 import time
 import sys
-import cv2
 import numpy as np
 
 from collections import deque
@@ -14,53 +13,11 @@ import queue
 
 import argparse
 
-def printhex(arr):
-    hex_vals = [f"{val:02x}" for val in arr]
-    for i in range(0, len(hex_vals), 8):
-        print(" ".join(hex_vals[i:i+8]))
+# New: Import PyQt for our GUI display
+from PyQt5 import QtWidgets, QtGui, QtCore
 
-class DataRateStats:
-    def __init__(self, window_ms=1000):
-        """
-        :param window_ms: The time window (in milliseconds) over which to calculate the moving average.
-        """
-        self.window_ms = window_ms
-        self.history = deque()
-        self.total_bytes = 0
-
-    def register_bytes_read(self, num_bytes):
-        """
-        Update internal stats with the number of bytes just read.
-        """
-        now = time.time() * 1000
-        self.history.append((now, num_bytes))
-        self.total_bytes += num_bytes
-
-        # Remove samples older than the time window
-        while self.history and self.history[0][0] < now - self.window_ms:
-            self.history.popleft()
-
-    def get_results(self):
-        """
-        Returns a tuple containing the average number of datas read in the last second
-        and the total number of datas read overall.
-        """
-        # Sum bytes within the current window.
-        bytes_in_window = sum(item[1] for item in self.history)
-
-        # Determine the effective window time.
-        if self.history:
-            effective_window_ms = (time.time() * 1000) - self.history[0][0]
-        else:
-            effective_window_ms = self.window_ms
-
-        # Avoid division by zero.
-        if effective_window_ms > 0:
-            data_rate = (bytes_in_window / (effective_window_ms / 1000.0))
-        else:
-            data_rate = 0.0
-
-        return (data_rate, self.total_bytes)
+# Import from our utils file in the same dir
+from serialcam_ft232h_utils import *
 
 # This thread reads from the ft232 and directly sends raw binary chunks to a thread that
 # combines them into frames
@@ -68,7 +25,7 @@ class DataRateStats:
 def ft232h_read_thread(raw_binary_queue, sn_prefix=b'fsplit'):
     # Find the ftdi device to open
     try:
-        devlist =  ft.listDevices()
+        devlist = ft.listDevices()
         print(f"Read Thread: Found FT232H devices with the following serial numbers:")
         print(devlist)
         matching_sns = [sn for sn in devlist if (sn.startswith(sn_prefix))]
@@ -109,148 +66,156 @@ def ft232h_read_thread(raw_binary_queue, sn_prefix=b'fsplit'):
             #print(f"Read Thread: reading from camera at {data_rate/1e6:6.2f}MB/s. {total_datas/1e6:8.2}MB so far")
             last_printed_time = time.time()
 
-
-# This class recieves chunks of binary data containing camera data.
-# When a complete image has been
-# After every chunk is recieved, "check "
-class CameraDataAccumulator:
-    # This keeps track of produced (and horizontally concatenated) images
-    pending_images: deque
-
-    # This buffer holds already recieved bytes
-    partial_image_chunks: []
-
-    # This bit tells whether the currently accumulated partial image is valid or not.
-    # If no SoF bit hasn't been seen yet, the pending data will be tossed.
-    partial_image_valid: bool
-
-    # Prescribed width and height
-    width: int
-    height: int
-
-    def __init__(self, width=640, height=480):
-        self.partial_image_valid = False
-        self.partial_image_chunks = []
-        self.pending_images = deque()
-        self.width = width
-        self.height = height
-
-    def process_chunk(self, bin_chunk):
-        chunk = np.frombuffer(bin_chunk, dtype=np.uint8)
-
-        # Find an SoF bit in the chunk.
-        sof_idx = self.detect_sof(chunk)
-        if (sof_idx is not None):
-            # This chunk had an SoF.
-            # Split at the SoF bit, take the data before the SoF bit, append it to the pending
-            # data, and convert to an image
-            self.partial_image_chunks.append(chunk[:sof_idx])
-            if (self.partial_image_valid):
-                image_bindata = np.concatenate(self.partial_image_chunks)
-                image = self.bindata_to_image(image_bindata)
-                self.pending_images.append(image)
-
-            # Discard the currently pending image that we just processed and start a new one
-            self.partial_image_valid = True
-            self.partial_image_chunks = [chunk[sof_idx:]]
-        else:
-            self.partial_image_chunks.append(chunk)
-
-    def detect_sof(self, chunk):
-        """ Given a binary chunk as an np array of uint8, gives the first index where there's an
-            SoF bit. None if there's no SoF in the frame.
-        """
-        try:
-            sof_idx = np.nonzero(chunk & (1 << 4))[0]
-            return sof_idx[0]
-        except Exception as e:
-            return None
-
-    def process_single_bindata_to_frame(self, data, flip_nibs=False):
-        """
-        Takes data from a single camera and turns it into a frame.
-        If the data doesn't match the width and height of the prescribed framesize, will do its best
-        to pad.
-        Must be a single frame's worth of data.
-        """
-        # mask out upper bits of each chunk and combine lower and upper nibbles
-        data = data & 0x0f
-
-        # Trim or pad the array so it's the expected length
-        printhex(data[0:64])
-        target_length = self.width * self.height * 2
-        current_length = len(data)
-        if (current_length < target_length):
-            data =  np.pad(data, (0, target_length - current_length), mode='constant', constant_values=0)
-        else:
-            data= data[:target_length]
-        if (flip_nibs): data = np.array((data[1::2] << 0) | (data[0::2] << 4), dtype=np.uint8)
-        else: data = np.array((data[1::2] << 4) | (data[0::2]), dtype=np.uint8)
-        return data.reshape((self.height, self.width))
-
-    def bindata_to_image(self, data):
-        """
-        Given binary data for a single frame (interleaved from both camera 0 and camera 1),
-        returns a numpy image containing the image data.
-        Image width and height are taken from the class.
-        """
-        # split into camera 0 and camera 1
-        mask = ((data & 0x80) != 0)
-        camera_0_data = data[mask]
-        camera_1_data = data[~mask]
-
-        # split into frames
-        print("processing frames for camera 0")
-        camera_0_frames = self.process_single_bindata_to_frame(camera_0_data)
-        print("processing frames for camera 1")
-        camera_1_frames = self.process_single_bindata_to_frame(camera_1_data, flip_nibs=True)
-        print()
-        return np.hstack((camera_0_frames, camera_1_frames))
-
-    def get_image(self):
-        """ Accessor for our deque of images. Returns None if there are no images left """
-        try:
-            return self.pending_images.popleft()
-        except Exception as e:
-            return None
-
-def display_thread(queue, width=640, height=480, scale=2):
+# This function needs the display window so that it can trigger a redraw
+def image_decoder_thread_func(raw_binary_queue, image_output_queue, request_input_queue, window, width=640, height=480):
     accum = CameraDataAccumulator(width=width, height=height)
     tstart = time.time()
     accumulated_chunks = np.empty((0), dtype=np.uint8)
 
-    stats = DataRateStats()
+    recorder = RecordingManager()
+    fps_stats = DataRateStats()
+    data_rate_stats = DataRateStats()
     do_write = True
     while True:
-        chunk = queue.get()
+        chunk = raw_binary_queue.get()
         accum.process_chunk(chunk)
 
-        accumulated_chunks = np.concatenate((accumulated_chunks, np.frombuffer(chunk, dtype=np.uint8)))
-        if (len(accumulated_chunks) > 1000000 and do_write):
-            do_write = False
-            with open("foodump.bin", "wb") as f:
-                f.write(accumulated_chunks)
+        fps, total_frames = fps_stats.get_results()
+        bps, total_b = data_rate_stats.get_results()
 
         while True:
-            image = accum.get_image()
-            if (image is None):
+            images = accum.get_image()
+            if (images is None):
                 break
 
-            # display image
-            h = image.shape[1]
-            w = image.shape[0]
-            resized_image = cv2.resize(image, (h * scale, w * scale),
-                                       interpolation=cv2.INTER_NEAREST)
-            cv2.imshow('Serial Image', resized_image)
-            cv2.waitKey(1)
+            # Handle any current or new requests we recieved.
+            # Right now, we only service requests when we get a new image.
+            if (not recorder.is_active()):
+                try:
+                    req = request_input_queue.get_nowait()
+                    recorder.start_recording_request(req)
+                except queue.Empty:
+                    pass
 
-            fps, total_frames = stats.get_results()
-            stats.register_bytes_read(1)
-            print(f"DisplayThread: reading at {fps:7.3}fps. Read {total_frames:7d} frames total.\r", end='')
+            recorder.save_frames(images)
+            image = np.hstack(images)
+            image_output_queue.put(image)
+            fps_stats.register_bytes_read(1)
+
+            status_str = (f"FPS: {fps:7.2f}  |  Data rate: {bps/1e6:7.2f}MB/s.          " +
+                          f"cam 0 min/max = ({np.min(images[0])}, {np.max(images[0])})  |  " +
+                          f"cam 1 min/max = ({np.min(images[1])}, {np.max(images[1])})")
+            window.update_status(status_str)
+
+        data_rate_stats.register_bytes_read(len(chunk))
+
+
+        window.new_image_received.emit()
+
+# QDialog for "capture frames"
+class CaptureDialog(QtWidgets.QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Capture Settings")
+
+        layout = QtWidgets.QFormLayout(self)
+
+        self.frames_spin = QtWidgets.QSpinBox()
+        self.frames_spin.setValue(1)
+
+        self.format_combo = QtWidgets.QComboBox()
+        self.format_combo.addItems(["binary", "numpy", "pbm", "png"])
+
+        now = time.localtime()
+        default_filename = time.strftime("capture-%Y-%m-%d_%H-%M-%S", now)
+        self.filename_edit = QtWidgets.QLineEdit(default_filename)
+
+        self.seperate_cams_checkbox = QtWidgets.QCheckBox()
+        self.do_subdirectory_checkbox = QtWidgets.QCheckBox()
+
+        layout.addRow("Number of frames:", self.frames_spin)
+        layout.addRow("Capture format:", self.format_combo)
+        layout.addRow("Save cameras seperately:", self.seperate_cams_checkbox)
+        layout.addRow("Save in new subdir:", self.do_subdirectory_checkbox)
+        layout.addRow("Filename:", self.filename_edit)
+
+        btns = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Cancel)
+        btns.accepted.connect(self.accept)
+        btns.rejected.connect(self.reject)
+        layout.addRow(btns)
+
+    def get_values(self):
+        return {
+            "frames": self.frames_spin.value(),
+            "format": self.format_combo.currentText(),
+            "filename": self.filename_edit.text(),
+            "seperate_cameras": self.seperate_cams_checkbox.isChecked(),
+            "subdirectory": self.do_subdirectory_checkbox.isChecked()
+        }
+
+# This class displays recieved data in a qt window.
+# Images are passed in through the 'image_queue'; whenever something pushes to the image queue, a
+# redraw should be manually requested through the
+#     window.new_image_received.emit()
+# Signal
+class ImageDisplayWindow(QtWidgets.QMainWindow):
+    new_image_received = QtCore.pyqtSignal()
+
+    def __init__(self, image_queue, command_queue, parent=None):
+        """
+        this window reads numpy arrays from image_queue containing images to display.
+        Commands are sent from 'command_queue' to the different interface threads (the ft232
+        reader thread and image decoder thread) in response to user actions.
+        """
+        super().__init__(parent)
+
+        self.image_queue = image_queue
+
+        # Make space for image display
+        self.label = QtWidgets.QLabel(self)
+        self.setCentralWidget(self.label)
+
+        # Trigger an update image whenever the 'new_image_received' signal is fired.
+        self.new_image_received.connect(self.update_image)
+
+        # Add menus for image capture
+        self._add_menu()
+
+        # Add a status bar for showing frame rate and image stats
+        self.status = QtWidgets.QStatusBar()
+        monospace_font = QtGui.QFontDatabase.systemFont(QtGui.QFontDatabase.FixedFont)
+        self.status.setFont(monospace_font)
+        self.setStatusBar(self.status)
+
+    def update_image(self):
+        while True:
+            try:
+                image = self.image_queue.get_nowait()
+            except queue.Empty:
+                return
+            height, width = image.shape
+            qimg = QtGui.QImage(image.data, width, height, width, QtGui.QImage.Format_Grayscale8)
+            scaled_pixmap = QtGui.QPixmap.fromImage(qimg)
+            self.label.setPixmap(scaled_pixmap)
+
+    def _add_menu(self):
+        menubar = self.menuBar()
+        file_menu = menubar.addMenu("File")
+        capture_action = QtWidgets.QAction("Capture", self)
+        capture_action.triggered.connect(self.open_capture_dialog)
+        file_menu.addAction(capture_action)
+
+    def open_capture_dialog(self):
+        dialog = CaptureDialog(self)
+        if dialog.exec_() == QtWidgets.QDialog.Accepted:
+            values = dialog.get_values()
+            print("\nCapture request:", values)
+            command_queue.put(values)
+
+    def update_status(self, text):
+        self.status.showMessage(text)
 
 if __name__ == '__main__':
-    raw_binary_queue = queue.Queue()
-
     descstr = "Capture and stream video coming from our FPGA dev board over the high-speed FT232H connection."
     parser = argparse.ArgumentParser(description=descstr)
     parser.add_argument("--width", type=int, default=640)
@@ -259,15 +224,27 @@ if __name__ == '__main__':
     parser.add_argument("--ftdi_sn_prefix", type=str, default="fsplit")
     args = parser.parse_args()
 
+    # Initialize objects shared between threads
+    raw_binary_queue = queue.Queue()
+    image_queue = queue.Queue()
+    command_queue = queue.Queue()
+    app = QtWidgets.QApplication([])
+    app.setQuitOnLastWindowClosed(True)
+    window = ImageDisplayWindow(image_queue, command_queue)
+
     ft232h_reader_thread = threading.Thread(target=ft232h_read_thread,
                                             args=(raw_binary_queue,),
-                                            kwargs={"sn_prefix": args.ftdi_sn_prefix.encode('utf-8')})
-    display_thread = threading.Thread(target=display_thread,
-                                      args=(raw_binary_queue,),
-                                      kwargs={"width": args.width, "height": args.height, "scale": args.scale})
+                                            kwargs={"sn_prefix": args.ftdi_sn_prefix.encode('utf-8')},
+                                            daemon=True)
+    image_decoder_thread = threading.Thread(target=image_decoder_thread_func,
+                                            args=(raw_binary_queue, image_queue, command_queue, window),
+                                            kwargs={"width": args.width, "height": args.height},
+                                            daemon=True)
 
     # Start both threads
     ft232h_reader_thread.start()
-    display_thread.start()
+    image_decoder_thread.start()
 
-    display_thread.join()
+    # Run the Qt display in the main thread.
+    window.show()
+    app.exec_()
