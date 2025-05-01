@@ -200,7 +200,9 @@ module top (
                 .trigger_i({i2c_transmitter_ready, camera_vsync_i2c_domain, i2c_shutter_trig}),
                 .trigger_o({cameras_xsleep[gi], i2c_inits_done[gi]})
             );
-            defparam i2c_txctl.INIT_FILE = "hm0360_initializer_program.hex";
+            if (gi == 0) defparam i2c_txctl.INIT_FILE = "hm0360_initializer_program_0.hex";
+            if (gi == 1) defparam i2c_txctl.INIT_FILE = "hm0360_initializer_program_1.hex";
+
 
             i2c_transmitter i2c_tx (
                 .clock(ftdi_clk_12m), .reset(sys_reset),
@@ -400,6 +402,7 @@ module top (
         .clk_in(clk_pll), .reset_in(sys_reset),
         .fifo_data_in(ft245_fifo_write_data), .fifo_data_valid_in(ft245_fifo_write_data_valid),
         .remaining_space_out(ft232_fifo_space_left),
+        .fifo_data_out(), .fifo_data_valid_out(),
         .ft245_async_d_inout(ft245_async_d),
         .ft245_async_nrxf_in(ft245_async_nrxf), .ft245_async_ntxe_in(ft245_async_ntxe),
         .ft245_async_nrd_out(ft245_async_nrd), .ft245_async_nwr_out(ft245_async_nwr)

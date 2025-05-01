@@ -287,7 +287,7 @@
 // set digital gain (0x020e[1:0], 0x020f[7:2]) and analog gain (0x0205)
 00_020e_01
 00_020f_00
-00_0205_10
+00_0205_00
 
 // set integration time in lines (H and L respectively)
 00_0202_00

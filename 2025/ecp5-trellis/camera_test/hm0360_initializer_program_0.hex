@@ -92,7 +92,7 @@
 00_0381_00  // V_SUBSAMPLE
 00_0382_00  // BINNING_MODE
 00_3030_00  // WIN_MODE
-00_0101_00  // IMG_ORIENTATION
+00_0101_01  // IMG_ORIENTATION. HFlip for image sensor 0 only.
 00_0104_01  // COMMAND_UPDATE
 
 /// SYNC function config.
@@ -287,7 +287,7 @@
 // set digital gain (0x020e[1:0], 0x020f[7:2]) and analog gain (0x0205)
 00_020e_01
 00_020f_00
-00_0205_10
+00_0205_00
 
 // set integration time in lines (H and L respectively)
 00_0202_00

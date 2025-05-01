@@ -22,7 +22,7 @@ from serialcam_ft232h_utils import *
 # This thread reads from the ft232 and directly sends raw binary chunks to a thread that
 # combines them into frames
 # To keep things fast, this thread doesn't do any processing on the data at all.
-def ft232h_read_thread(raw_binary_queue, sn_prefix=b'fsplit'):
+def ft232h_read_thread(raw_binary_queue, write_command_queue=None, sn_prefix=b'fsplit'):
     # Find the ftdi device to open
     try:
         devlist = ft.listDevices()
@@ -54,8 +54,20 @@ def ft232h_read_thread(raw_binary_queue, sn_prefix=b'fsplit'):
     last_printed_time = time.time()
     STATS_PRINT_RATE = 0.5
     while True:
+        # Try to read from the ft232; send the resulting data to the reader thread
+        print("read")
         chunk = ftdev.read(1 * 1024 * 1024)
         raw_binary_queue.put(chunk)
+
+        # Check to see if there is any data to send down
+        if (write_command_queue is not None):
+            pass
+            #try:
+                #txdata = write_command_queue.get()
+                #print(f"sending {txdata} to FPGA")
+                #ftdev.write(txdata)
+                #except queue.Empty as e:
+                #pass
 
         # update data reading stats
         stats.register_bytes_read(len(chunk))
@@ -153,6 +165,86 @@ class CaptureDialog(QtWidgets.QDialog):
             "subdirectory": self.do_subdirectory_checkbox.isChecked()
         }
 
+#
+#
+class ViewOptionsDialog(QtWidgets.QDialog):
+    def __init__(self, current_scale=2, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Viewer Options")
+        layout = QtWidgets.QFormLayout(self)
+
+        self.scale_edit = QtWidgets.QLineEdit(str(current_scale))
+        layout.addRow("View scale factor:", self.scale_edit)
+
+        btns = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Cancel)
+        btns.accepted.connect(self.accept)
+        btns.rejected.connect(self.reject)
+        layout.addRow(btns)
+
+    def get_values(self):
+        try:
+            scale = float(self.scale_edit.text())
+        except ValueError:
+            scale = None
+        return {
+            "scale": scale
+        }
+
+class ViewOptionsDialog(QtWidgets.QDialog):
+    def __init__(self, current_scale=2, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Viewer Options")
+        layout = QtWidgets.QFormLayout(self)
+
+        self.scale_edit = QtWidgets.QLineEdit(str(current_scale))
+        layout.addRow("View scale factor:", self.scale_edit)
+
+        btns = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Cancel)
+        btns.accepted.connect(self.accept)
+        btns.rejected.connect(self.reject)
+        layout.addRow(btns)
+
+    def get_values(self):
+        try:
+            scale = float(self.scale_edit.text())
+        except ValueError:
+            scale = None
+        return { "scale": scale }
+
+class CommandWriteDialog(QtWidgets.QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Command Write")
+        layout = QtWidgets.QFormLayout(self)
+
+        self.command_address = QtWidgets.QLineEdit()
+        layout.addRow("Command address (hex):", self.command_address)
+
+        self.command_data = QtWidgets.QLineEdit()
+        layout.addRow("Command data (hex):", self.command_data)
+
+        btns = QtWidgets.QDialogButtonBox()
+        write_btn = btns.addButton("Write", QtWidgets.QDialogButtonBox.AcceptRole)
+        cancel_btn = btns.addButton(QtWidgets.QDialogButtonBox.Cancel)
+
+        btns.accepted.connect(self.accept)
+        btns.rejected.connect(self.reject)
+        layout.addRow(btns)
+
+    def get_values(self):
+        try:
+            addr_bytes = int(self.command_address.text(), 16).to_bytes(2, 'little')
+            data_bytes = int(self.command_data.text(), 16).to_bytes(4, 'little')
+        except ValueError:
+            QtWidgets.QMessageBox.warning(self, "Invalid Input",
+                                          "addr must be 2 bytes of hex and data must be 4 bytes of hex")
+            return None
+
+        return {
+            "address_bytes": addr_bytes,
+            "data_bytes": data_bytes
+        }
+
 # This class displays recieved data in a qt window.
 # Images are passed in through the 'image_queue'; whenever something pushes to the image queue, a
 # redraw should be manually requested through the
@@ -160,8 +252,9 @@ class CaptureDialog(QtWidgets.QDialog):
 # Signal
 class ImageDisplayWindow(QtWidgets.QMainWindow):
     new_image_received = QtCore.pyqtSignal()
+    image_scale: float = 1.0
 
-    def __init__(self, image_queue, command_queue, parent=None):
+    def __init__(self, image_queue, command_queue, write_command_queue, parent=None):
         """
         this window reads numpy arrays from image_queue containing images to display.
         Commands are sent from 'command_queue' to the different interface threads (the ft232
@@ -172,8 +265,8 @@ class ImageDisplayWindow(QtWidgets.QMainWindow):
         self.image_queue = image_queue
 
         # Make space for image display
-        self.label = QtWidgets.QLabel(self)
-        self.setCentralWidget(self.label)
+        self.image_display = QtWidgets.QLabel(self)
+        self.setCentralWidget(self.image_display)
 
         # Trigger an update image whenever the 'new_image_received' signal is fired.
         self.new_image_received.connect(self.update_image)
@@ -195,15 +288,26 @@ class ImageDisplayWindow(QtWidgets.QMainWindow):
                 return
             height, width = image.shape
             qimg = QtGui.QImage(image.data, width, height, width, QtGui.QImage.Format_Grayscale8)
-            scaled_pixmap = QtGui.QPixmap.fromImage(qimg)
-            self.label.setPixmap(scaled_pixmap)
+            scaled_pixmap = QtGui.QPixmap.fromImage(qimg).scaled(
+                int(width * self.image_scale),
+                int(height * self.image_scale),
+                QtCore.Qt.KeepAspectRatio)
+            self.image_display.setPixmap(scaled_pixmap)
+            self.adjustSize()
 
     def _add_menu(self):
+        # File menu
         menubar = self.menuBar()
         file_menu = menubar.addMenu("File")
         capture_action = QtWidgets.QAction("Capture", self)
         capture_action.triggered.connect(self.open_capture_dialog)
         file_menu.addAction(capture_action)
+
+        # View menu
+        view_menu = menubar.addMenu("View")
+        view_options_action = QtWidgets.QAction("View Options", self)
+        view_options_action.triggered.connect(self.open_view_options_dialog)
+        view_menu.addAction(view_options_action)
 
     def open_capture_dialog(self):
         dialog = CaptureDialog(self)
@@ -212,8 +316,25 @@ class ImageDisplayWindow(QtWidgets.QMainWindow):
             print("\nCapture request:", values)
             command_queue.put(values)
 
+    def open_view_options_dialog(self):
+        dialog = ViewOptionsDialog(current_scale=self.image_scale, parent=self)
+        if dialog.exec_() == QtWidgets.QDialog.Accepted:
+            values = dialog.get_values()
+            if (values["scale"] is not None):
+                self.image_scale = values["scale"]
+
+    def open_command_dialog(self):
+        dialog = CommandWriteDialog()
+        if dialog.exec_() == QtWidgets.QDialog.Accepted:
+            values = dialog.get_values()
+            if (values is not None):
+                txbytes = values["address_bytes"] + values["data_bytes"]
+                write_command_queue.put(txbytes)
+
+
     def update_status(self, text):
         self.status.showMessage(text)
+
 
 if __name__ == '__main__':
     descstr = "Capture and stream video coming from our FPGA dev board over the high-speed FT232H connection."
@@ -228,13 +349,15 @@ if __name__ == '__main__':
     raw_binary_queue = queue.Queue()
     image_queue = queue.Queue()
     command_queue = queue.Queue()
+    write_command_queue = queue.Queue()
     app = QtWidgets.QApplication([])
     app.setQuitOnLastWindowClosed(True)
-    window = ImageDisplayWindow(image_queue, command_queue)
+    window = ImageDisplayWindow(image_queue, command_queue, write_command_queue)
 
     ft232h_reader_thread = threading.Thread(target=ft232h_read_thread,
                                             args=(raw_binary_queue,),
-                                            kwargs={"sn_prefix": args.ftdi_sn_prefix.encode('utf-8')},
+                                            kwargs={"write_command_queue": write_command_queue,
+                                                    "sn_prefix": args.ftdi_sn_prefix.encode('utf-8')},
                                             daemon=True)
     image_decoder_thread = threading.Thread(target=image_decoder_thread_func,
                                             args=(raw_binary_queue, image_queue, command_queue, window),
