@@ -14,6 +14,8 @@ import os
 import threading
 import queue
 
+import re
+
 import argparse
 
 def printhex(arr):
@@ -149,14 +151,40 @@ class RecordingManager:
         self.active = True
         self.counter = 0
 
-        if req.get("subdirectory", False):
-            self.output_dir = req["filename"]
-            os.makedirs(self.output_dir, exist_ok=True)
-        else:
-            self.output_dir = "."
+        # Seperate the subdirectory and filename
+        self.output_dir = '/'.join(req["filename"].split('/')[:-1])
+        self.base_filename = req["filename"].split('/')[-1]
+
+        if (self.output_dir == ""): self.output_dir = "."
+
+        # If we must store in a subdir and we don't have a subdir, swap names
+        if (req["subdirectory"] and (self.output_dir == "")):
+            self.output_dir = self.base_filename
+            self.base_filename = time.strftime("capture-%Y-%m-%d_%H-%M-%S", time.localtime())
+
+        # make subdir if doesn't exist
+        os.makedirs(self.output_dir, exist_ok=True)
+
+        # Check to see if our base filename is already there. If so, list all files that start with that name.
+        name_conflicts = [f for f in os.listdir(self.output_dir) if
+                          (os.path.isfile(os.path.join(self.output_dir, f)) and (f.startswith(self.base_filename)))]
+        name_idxes = []
+        for name in name_conflicts:
+            name = re.sub(r"_cam(era|)[01]", "", name)
+            name = '.'.join(name.split('.')[:-1])
+            post = re.compile("[0-9]+$").search(name)
+            if (post is not None): name_idxes.append(int(post.group(0)))
+
+        try:
+            self.base_filename = f"{self.base_filename}_{max(name_idxes)+1}"
+        except ValueError as e:
+            if (len(name_conflicts) > 0):
+                self.base_filename = f"{self.base_filename}_0"
+
+        print(f"basename = {self.base_filename} dirname = {self.output_dir}")
 
         fmt = req["format"]
-        base = os.path.join(self.output_dir, req["filename"])
+        base = os.path.join(self.output_dir, self.base_filename)
 
         if fmt == "binary":
             if req["seperate_cameras"]:
@@ -181,7 +209,7 @@ class RecordingManager:
         cam0, cam1 = frame
         fmt = self.req["format"]
         separate = self.req["seperate_cameras"]
-        base = os.path.join(self.output_dir, self.req["filename"])
+        base = os.path.join(self.output_dir, self.base_filename)
         idx = self.counter
 
         if fmt == "binary":
@@ -201,8 +229,8 @@ class RecordingManager:
         elif fmt in ("pbm", "png"):
             ext = "." + fmt
             if separate:
-                imageio.imwrite(f"{base}_camera0_{idx}{ext}", cam0)
-                imageio.imwrite(f"{base}_camera1_{idx}{ext}", cam1)
+                imageio.imwrite(f"{base}_camera0{ext}", cam0)
+                imageio.imwrite(f"{base}_camera1{ext}", cam1)
             else:
                 imageio.imwrite(f"{base}_{idx}{ext}", np.hstack((cam0, cam1)))
 
@@ -214,7 +242,7 @@ class RecordingManager:
 
     def _finalize(self):
         fmt = self.req["format"]
-        base = os.path.join(self.output_dir, self.req["filename"])
+        base = os.path.join(self.output_dir, self.base_filename)
 
         if fmt == "binary":
             if self.binary_file0:

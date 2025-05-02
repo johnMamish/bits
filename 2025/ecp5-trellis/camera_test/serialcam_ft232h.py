@@ -55,7 +55,6 @@ def ft232h_read_thread(raw_binary_queue, write_command_queue=None, sn_prefix=b'f
     STATS_PRINT_RATE = 0.5
     while True:
         # Try to read from the ft232; send the resulting data to the reader thread
-        print("read")
         chunk = ftdev.read(1 * 1024 * 1024)
         raw_binary_queue.put(chunk)
 
@@ -126,24 +125,31 @@ def image_decoder_thread_func(raw_binary_queue, image_output_queue, request_inpu
 
 # QDialog for "capture frames"
 class CaptureDialog(QtWidgets.QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, settings=None, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Capture Settings")
+
+        now = time.localtime()
+        default_filename = time.strftime("capture-%Y-%m-%d_%H-%M-%S", now)
+        if (settings is None):
+            settings = {"frames": 1, "format": "png", "filename": default_filename, "seperate_cameras": True, "subdirectory": False}
 
         layout = QtWidgets.QFormLayout(self)
 
         self.frames_spin = QtWidgets.QSpinBox()
-        self.frames_spin.setValue(1)
+        self.frames_spin.setValue(settings["frames"])
 
         self.format_combo = QtWidgets.QComboBox()
-        self.format_combo.addItems(["binary", "numpy", "pbm", "png"])
+        self.format_combo.addItems(["png", "binary", "numpy", "pbm"])
+        index = self.format_combo.findText(settings["format"], QtCore.Qt.MatchFixedString)
+        if index >= 0: self.format_combo.setCurrentIndex(index)
 
-        now = time.localtime()
-        default_filename = time.strftime("capture-%Y-%m-%d_%H-%M-%S", now)
-        self.filename_edit = QtWidgets.QLineEdit(default_filename)
+        self.filename_edit = QtWidgets.QLineEdit(settings["filename"])
 
         self.seperate_cams_checkbox = QtWidgets.QCheckBox()
+        self.seperate_cams_checkbox.setChecked(settings["seperate_cameras"])
         self.do_subdirectory_checkbox = QtWidgets.QCheckBox()
+        self.do_subdirectory_checkbox.setChecked(settings["subdirectory"])
 
         layout.addRow("Number of frames:", self.frames_spin)
         layout.addRow("Capture format:", self.format_combo)
@@ -158,36 +164,12 @@ class CaptureDialog(QtWidgets.QDialog):
 
     def get_values(self):
         return {
-            "frames": self.frames_spin.value(),
+            #"frames": self.frames_spin.value(),
+            "frames": 1,
             "format": self.format_combo.currentText(),
             "filename": self.filename_edit.text(),
             "seperate_cameras": self.seperate_cams_checkbox.isChecked(),
             "subdirectory": self.do_subdirectory_checkbox.isChecked()
-        }
-
-#
-#
-class ViewOptionsDialog(QtWidgets.QDialog):
-    def __init__(self, current_scale=2, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle("Viewer Options")
-        layout = QtWidgets.QFormLayout(self)
-
-        self.scale_edit = QtWidgets.QLineEdit(str(current_scale))
-        layout.addRow("View scale factor:", self.scale_edit)
-
-        btns = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Cancel)
-        btns.accepted.connect(self.accept)
-        btns.rejected.connect(self.reject)
-        layout.addRow(btns)
-
-    def get_values(self):
-        try:
-            scale = float(self.scale_edit.text())
-        except ValueError:
-            scale = None
-        return {
-            "scale": scale
         }
 
 class ViewOptionsDialog(QtWidgets.QDialog):
@@ -252,6 +234,7 @@ class CommandWriteDialog(QtWidgets.QDialog):
 # Signal
 class ImageDisplayWindow(QtWidgets.QMainWindow):
     new_image_received = QtCore.pyqtSignal()
+    capture_settings: dict = None
     image_scale: float = 1.0
 
     def __init__(self, image_queue, command_queue, write_command_queue, parent=None):
@@ -298,7 +281,7 @@ class ImageDisplayWindow(QtWidgets.QMainWindow):
     def _add_menu(self):
         # File menu
         menubar = self.menuBar()
-        file_menu = menubar.addMenu("File")
+        file_menu = menubar.addMenu("&File")
         capture_action = QtWidgets.QAction("Capture", self)
         capture_action.triggered.connect(self.open_capture_dialog)
         file_menu.addAction(capture_action)
@@ -310,9 +293,10 @@ class ImageDisplayWindow(QtWidgets.QMainWindow):
         view_menu.addAction(view_options_action)
 
     def open_capture_dialog(self):
-        dialog = CaptureDialog(self)
+        dialog = CaptureDialog(settings=self.capture_settings)
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
             values = dialog.get_values()
+            self.capture_settings = values
             print("\nCapture request:", values)
             command_queue.put(values)
 
